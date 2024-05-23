@@ -1,6 +1,22 @@
-#root {
+/* #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
-  text-align: center;
+} */
+
+.auth-btn{
+  background: #fff;
+  display: inline-flex;
+  padding: 5px 12px;
+  border-radius: 7px;
+  color: #8D2A2A;
+  font-weight: 500;
+  transition: all 0.1s ease-in-out;
+  cursor: pointer;
+}
+
+.auth-btn:hover{
+  background: transparent;
+  outline: solid 1px #fff;
+  color: #fff;
 }
