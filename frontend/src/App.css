@@ -4,6 +4,7 @@
   padding: 2rem;
 } */
 
+
 .auth-btn{
   background: #fff;
   display: inline-flex;
@@ -19,4 +20,22 @@
   background: transparent;
   outline: solid 1px #fff;
   color: #fff;
+}
+
+.primary-btn{
+  color: #fff;
+  display: inline-flex;
+  padding: 5px 12px;
+  border-radius: 7px;
+  background: #8D2A2A;
+  font-weight: 500;
+  transition: all 0.1s ease-in-out;
+  cursor: pointer;
+}
+
+.primary-btn:hover{
+  background: transparent;
+  outline: solid 1px #8D2A2A;
+  color: #8D2A2A;
+
 }

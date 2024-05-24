@@ -1,3 +1,37 @@
 .home-page{
     padding: 20px 50px;
 }
+
+.introduction-contain{
+    display: flex;
+    flex-wrap: wrap-reverse;
+}
+
+.introduction-contain .introduction-content{
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 500px;
+}
+
+.introduction-contain .introduction-content .heading-one{
+    margin-bottom: 10px;
+}
+
+.introduction-contain .introduction-img{
+    flex: 1 1 300px;
+}
+
+.introduction-contain .introduction-img{
+    display: flex;
+
+}
+
+.introduction-contain .introduction-img img{
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+}
+
+.apply-link{
+    margin-top: 15px;
+}
