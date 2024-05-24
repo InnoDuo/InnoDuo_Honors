@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import "../assets/css/navbar.css";
 import uniLogoTrans from "../assets/images/uni-logo-trans.png";
 
