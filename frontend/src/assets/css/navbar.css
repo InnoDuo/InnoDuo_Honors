@@ -44,3 +44,51 @@
 .nav-menu .nav-links .nav-items:hover{
     font-weight: 500;
 }
+
+.hamburger-menu{
+    display: none;
+}
+
+@media (width < 750px) {
+    .nav-menu{
+        flex-direction: column;
+        color: #000;
+        width: 100%;
+        padding: 15px 0;
+        position:absolute;
+        right: -100%;
+        top: 70px;
+        transition: all 0.2s ease-in-out;
+        overflow: hidden;
+        display: none;
+    }
+  .nav-menu.open {
+    display: flex;
+    right:0;
+    background-color: #fff;
+    border-top: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .nav-links {
+    flex-direction: column;
+    width: 100%;
+    gap: 0;
+  }
+
+  .nav-items {
+    width: 100%;
+    text-align: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #ccc;
+  }
+ 
+  .nav-auth {
+    padding: 20px 0 5px;
+    text-align: center;
+  } 
+
+  .hamburger-menu {
+    display: block;
+  }
+}
