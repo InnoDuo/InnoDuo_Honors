@@ -21,8 +21,19 @@ const HomePage = () => {
             interdisciplinary honors seminars, two honors core classes, a
             research methods class, and a directed research-based honors
             project. Additionally, Caldwell Honors students are entitled to the
-            following: - Scholarship incentive ($1,000) - Study abroad incentive
-            grant ($1,000) - Priority registration - Housing for Honors students
+            following: 
+              <ul style={{paddingLeft: '30px'}}>
+              <li>Scholarship incentive ($1,000)</li>
+              <li>Study abroad incentive
+            grant ($1,000)</li>
+              <li>Priority registration </li>
+              <li>Housing for Honors students</li>
+            </ul>
+          </div>
+          <div className="apply-link">
+            <a className="primary-btn" target="_blank" href="https://live-caldwell.pantheonsite.io/academics/honors-program/honors-program-application/">
+              Apply Now
+            </a>
           </div>
         </div>
         <div className="introduction-img">
