@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Management - Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    input, button {
+      margin: 5px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+  <h1>Student Management</h1>
+  <p1 id="loggedUser"> Welcome, You are logged in as: </p1>
+  <button id="logoutButton">Logout</button>
+
+  <h2>Add Student</h2>
+  <form id="studentForm">
+    <input type="text" id="name" placeholder="Name" required>
+    <input type="number" id="age" placeholder="Age" required>
+    <input type="text" id="grade" placeholder="Grade" required>
+    <button type="submit">Add Student</button>
+  </form>
+
+  <h2>All Students</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Grade</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="studentTable">
+      <!-- Students will be displayed here -->
+    </tbody>
+  </table>
+
+  <script src="script.js"></script>
+</body>
+</html>
