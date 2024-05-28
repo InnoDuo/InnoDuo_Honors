@@ -19,6 +19,16 @@ a{
   text-decoration: none;
 }
 
+button{
+  border: none;
+  background: transparent;
+  color: inherit;
+  height: inherit;
+  padding: inherit;
+  font-weight: 500;
+  cursor: pointer;
+}
+
 /* 
 h1 {
   font-size: 3.2em;
