@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import "../assets/css/signin.css";
 import { PiEyeBold, PiEyeClosedBold } from "react-icons/pi";
+import useInput from "./microcomponents/useInput";
 
 const SignIn = () => {
   const [showPass, setShowPass] = useState(false);
+  const [email, bindEmail, resetEmail] = useInput("");
+  const [password, bindPassword, resetPassword] = useInput("");
 
   const showPassHandler = () => {
     console.log("hi");
@@ -19,6 +22,8 @@ const SignIn = () => {
 
   const signInHandler = (e) => {
     e.preventDefault();
+    resetEmail();
+    resetPassword();
     console.log("print");
   };
 
@@ -44,6 +49,7 @@ const SignIn = () => {
                       name="user-email"
                       id="user-email"
                       placeholder="johndoe"
+                      {...bindEmail}
                     />
                   </div>
                   <span>@caldwell.edu</span>
@@ -59,6 +65,7 @@ const SignIn = () => {
                       name="user-password"
                       id="user-password"
                       placeholder="***********"
+                      {...bindPassword}
                     />
                     <div className="display-password" onClick={showPassHandler}>
                       <PiEyeBold
@@ -80,12 +87,9 @@ const SignIn = () => {
             </div>
 
             <div className="auth-btn-holder">
-                <div className="primary-btn">
-
-              <button  type="submit">
-                Sign In
-              </button>
-                </div>
+              <div className="primary-btn">
+                <button type="submit">Sign In</button>
+              </div>
             </div>
           </form>
         </div>

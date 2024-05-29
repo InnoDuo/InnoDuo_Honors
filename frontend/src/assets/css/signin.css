@@ -1,4 +1,4 @@
-.signin-page{
+.signin-page, .signup-page{
     /* background-color: red; */
     display: flex;
     justify-content: center;
@@ -6,7 +6,7 @@
     height: 88vh;
 }
 
-.signin-container{
+.signin-container, .signup-container{
     border: solid 2px #8D2A2A;
     padding: 20px 15px;
     border-radius: 15px;
@@ -16,7 +16,7 @@
     align-items: center;
 }
 
-.signin-content{
+.signin-content, .signup-content{
     display: flex;
     justify-content: center;
     align-items: center;
