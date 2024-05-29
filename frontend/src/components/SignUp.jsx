@@ -4,6 +4,8 @@ import { PiEyeBold, PiEyeClosedBold } from "react-icons/pi";
 
 const SignUp = () => {
   const [showPass, setShowPass] = useState(false);
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
   const showPassHandler = () => {
     console.log("hi");
@@ -19,8 +21,19 @@ const SignUp = () => {
 
   const signInHandler = (e) => {
     e.preventDefault();
-    console.log("print");
+    // document.getElementById('signin-form').reset()
+    console.log("print", email, password);
+    setEmail('')
+    setPassword('')
   };
+
+  const changeEmailHandler = (e)=>{
+    setEmail(e.target.value)
+  }
+
+  const changePasswordHandler = (e)=>{
+    setPassword(e.target.value)
+  }
 
   return (
     <div className="signin-page">
@@ -32,6 +45,7 @@ const SignUp = () => {
             action=""
             method="post"
             className="auth-form"
+            id="signin-form"
             onSubmit={signInHandler}
           >
             <div className="form-fields">
@@ -44,6 +58,8 @@ const SignUp = () => {
                       name="user-email"
                       id="user-email"
                       placeholder="johndoe"
+                      value={email}
+                      onChange={changeEmailHandler()}
                     />
                   </div>
                   <span>@caldwell.edu</span>
@@ -59,6 +75,8 @@ const SignUp = () => {
                       name="user-password"
                       id="user-password"
                       placeholder="***********"
+                      value={password}
+                      onChange={changePasswordHandler()}
                     />
                     <div className="display-password" onClick={showPassHandler}>
                       <PiEyeBold
