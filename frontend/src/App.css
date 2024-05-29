@@ -103,6 +103,6 @@
   cursor: pointer;
 }
 
-.pass-display{
+.pass-display, .confirm-pass-display{
   display: none;
 }
