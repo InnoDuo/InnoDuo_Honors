@@ -1,12 +1,25 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import "../assets/css/homepage.css";
 import honorsFrontImg from "../assets/images/Honors-students-visit-the-UN.jpg";
 
+
 const HomePage = () => {
+  const [students, setStudents] = useState([]);
+
+  useEffect(() => {
+    fetch('http://localhost:3000/totalStudents')
+    .then(response => response.json()).then(data=>{
+      setStudents(data.totalStudents);
+    })
+    .catch(error => {
+      console.error('Error fetching students:', error);
+    });}, []
+    );
+
   return (
     <div className="home-page">
       <HomeIntroduction />
-      <HomeHonorsProject />
+      <HomeHonorsProject students={students}/>
       <HomeProgramCriteria />
     </div>
   );
@@ -55,7 +68,7 @@ const HomeIntroduction = () => {
   );
 };
 
-export const HomeHonorsProject = () => {
+export const HomeHonorsProject = ({students}) => {
   return (
     <div className="hon-project-content home-content">
       <div className="heading-two">
@@ -72,6 +85,15 @@ export const HomeHonorsProject = () => {
         choice. The topic must then be approved by the Honors Program Committee,
         a committee of interdisciplinary faculty, led by Dr. Harney-Mahajan and
         Dr. Sigurjonsson.
+      </div>
+      <br />
+      <div style={{backgroundColor: 'lightgray', padding: '10px', borderRadius: '5px'}}>
+        <p><b>Test for Anuj Here ↓</b></p>
+        <h2 style={{'color':'red'}}>
+          
+          There are currently {students} students in the Honors Program.
+        </h2>
+        <p style={{fontSize:'10px'}}><i>Add more in the database to see the changes in the number.</i></p>
       </div>
     </div>
   );
