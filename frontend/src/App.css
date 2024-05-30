@@ -43,3 +43,66 @@
   color: #8D2A2A;
   text-decoration: underline;
 }
+
+.form-title{
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.form-title::after{
+  content: '';
+  position: absolute;
+  right:0;
+  bottom: 0;
+  height: 5px;
+  width: 45px;
+  background-color: #8D2A2A;
+}
+
+.input-field{
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 7px;
+  width: 300px;
+}
+
+.input-field input{
+  padding: 3px 8px;
+  width: 100%;
+  height: 25px;
+  border: none;
+  background: transparent;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.input-field input:focus .input-field-wrap{
+  border: solid 2px #8D2A2A
+}
+
+.input-field input:focus{
+  border: none;
+  outline: none;
+}
+
+.input-field-wrap{
+  border: solid 1px #000;
+  border-radius: 5px;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  padding: 0 10px 0 0;
+}
+
+.auth-btn-holder{
+  margin-top: 7px;
+}
+
+.pass-icon{
+  cursor: pointer;
+}
+
+.pass-display, .confirm-pass-display{
+  display: none;
+}

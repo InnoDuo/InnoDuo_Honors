@@ -13,7 +13,9 @@ const Navbar = () => {
   return (
     <div className="navbar">
       <div className="brand-logo">
+        <a href="/">
         <img src={uniLogoTrans} alt="uni-logo" />
+        </a>
       </div>
       <div className={`nav-menu ${menuOpen ? "open" : ""}`}>
         <div className="nav-links">
@@ -23,7 +25,7 @@ const Navbar = () => {
           <div className="nav-items">Profile</div>
         </div>
         <div className="nav-auth">
-          <div className={`sign-in-btn auth-btn ${menuOpen? "primary-btn" : ""}`}>Sign In</div>
+          <a href='/signin' className={`sign-in-btn auth-btn ${menuOpen? "primary-btn" : ""}`}>Sign In</a>
         </div>
       </div>
         <div className="hamburger-menu" onClick={handleMenuToggle}>

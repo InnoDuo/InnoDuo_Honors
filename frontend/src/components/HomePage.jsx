@@ -76,7 +76,7 @@ export const HomeHonorsProject = ({students}) => {
       </div>
       <div className="hon-project-desc">
         The{" "}
-        <a href="" target="_blank" class="inline-link">
+        <a href="https://www.caldwell.edu/academics/honors-program/honors-project-guidelines/" target="_blank" class="inline-link">
           honors project
         </a>{" "}
         is a three-credit independent study, HP 405, that may be either a
