@@ -5,8 +5,10 @@ const MongoDBStore = require('connect-mongodb-session')(session);
 const bcrypt = require('bcrypt');
 const app = express();
 const port = 3000;
+const cors = require('cors');
 
 const uri = "mongodb+srv://nathantayele:XNCZOuzODnTPfZ1z@cluster0.0lutihh.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+
 const client = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
@@ -21,6 +23,7 @@ const store = new MongoDBStore({
 });
 
 app.use(express.json());
+app.use(cors());
 app.use(express.static('public'));
 
 app.use(session({
@@ -47,6 +50,16 @@ async function run() {
       }
       res.status(401).send('Unauthorized');
     };
+
+    // Total no of students for home page
+    app.get('/totalStudents', async (req, res) => {
+      try {
+        const totalStudents = await studentsCollection.countDocuments();
+        res.send({ totalStudents });
+      } catch (error) {
+        res.status(500).send(error.message);
+      }
+    });
 
     // User registration
     app.post('/register', async (req, res) => {
