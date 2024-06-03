@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "../assets/css/signin.css";
 import { PiEyeBold, PiEyeClosedBold } from "react-icons/pi";
 import useInput from "./microcomponents/useInput";
+import { NavLink } from "react-router-dom";
 
 const SignIn = () => {
   const [showPass, setShowPass] = useState(false);
@@ -20,7 +21,7 @@ const SignIn = () => {
     }
   };
 
-  const signInHandler = (e) => {
+  const signInHandler = async (e) => {
     e.preventDefault();
     resetEmail();
     resetPassword();
@@ -98,9 +99,9 @@ const SignIn = () => {
         <div className="other-options">
           <div className="register-link">Do not have an account? </div>
           <span>
-            <a href="/signup">
+            <NavLink to="/signup">
               <b>Signup</b>
-            </a>
+            </NavLink>
           </span>
         </div>
       </div>

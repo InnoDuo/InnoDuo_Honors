@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import {NavLink} from "react-router-dom"
 import "../assets/css/navbar.css";
 import uniLogoTrans from "../assets/images/uni-logo-trans.png";
 
@@ -13,22 +14,29 @@ const Navbar = () => {
   return (
     <div className="navbar">
       <div className="brand-logo">
-        <a href="/">
-        <img src={uniLogoTrans} alt="uni-logo" />
-        </a>
+        <NavLink to="/">
+          <img src={uniLogoTrans} alt="uni-logo" />
+        </NavLink>
       </div>
       <div className={`nav-menu ${menuOpen ? "open" : ""}`}>
         <div className="nav-links">
           <div className="nav-items">Courses</div>
-          <div className="nav-items">Students</div>
+          <div className="nav-items">
+            <NavLink to="/students">Students</NavLink>
+          </div>
           <div className="nav-items">Faculty</div>
           <div className="nav-items">Profile</div>
         </div>
         <div className="nav-auth">
-          <a href='/signin' className={`sign-in-btn auth-btn ${menuOpen? "primary-btn" : ""}`}>Sign In</a>
+          <NavLink
+            to="/signin"
+            className={`sign-in-btn auth-btn ${menuOpen ? "primary-btn" : ""}`}
+          >
+            Sign In
+          </NavLink>
         </div>
       </div>
-        <div className="hamburger-menu" onClick={handleMenuToggle}>
+      <div className="hamburger-menu" onClick={handleMenuToggle}>
         &#9776;
       </div>
     </div>
