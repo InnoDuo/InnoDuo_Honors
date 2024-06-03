@@ -5,7 +5,7 @@ import HomePage from './components/HomePage'
 import Navbar from './components/Navbar'
 import SignIn from './components/SignIn'
 import SignUp from './components/SignUp';
-import Students from './Students';
+import Students from './components/Students';
 import PageNotFound from './components/PageNotFound';
 
 function App() {
