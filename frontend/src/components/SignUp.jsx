@@ -4,6 +4,7 @@ import useInput from "./microcomponents/useInput";
 import { PiEyeBold, PiEyeClosedBold } from "react-icons/pi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { NavLink } from "react-router-dom";
 
 const SignUp = () => {
   const [showPass, setShowPass] = useState(false);
@@ -183,7 +184,7 @@ const SignUp = () => {
 
             <div className="auth-btn-holder">
               <div className="primary-btn">
-                <button type="submit">Sign In</button>
+                <button type="submit">Sign Up</button>
               </div>
             </div>
           </form>
@@ -191,9 +192,9 @@ const SignUp = () => {
         <div className="other-options">
           <div className="register-link">Already have an account? </div>
           <span>
-            <a href="/signin">
+            <NavLink to="/signin">
               <b>Login</b>
-            </a>
+            </NavLink>
           </span>
         </div>
       </div>
