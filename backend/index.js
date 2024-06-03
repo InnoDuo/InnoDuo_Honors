@@ -7,7 +7,8 @@ const app = express();
 const port = 3000;
 const cors = require('cors');
 
-const uri = "mongodb+srv://nathantayele:XNCZOuzODnTPfZ1z@cluster0.0lutihh.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const uri = "mongodb+srv://nathantayele:XNCZOuzODnTPfZ1z@cluster0.0lutihh.mongodb.net/student-management?retryWrites=true&w=majority&appName=Cluster0";
+
 
 const client = new MongoClient(uri, {
   serverApi: {
