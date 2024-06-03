@@ -16,6 +16,10 @@
     align-items: center;
 }
 
+.field-restrict{
+    padding: 0px;
+}
+
 .signin-content, .signup-content{
     display: flex;
     justify-content: center;
