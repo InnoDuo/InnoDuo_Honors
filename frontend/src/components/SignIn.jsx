@@ -50,6 +50,7 @@ const SignIn = () => {
                       id="user-email"
                       placeholder="johndoe"
                       {...bindEmail}
+                      required
                     />
                   </div>
                   <span>@caldwell.edu</span>
@@ -66,6 +67,7 @@ const SignIn = () => {
                       id="user-password"
                       placeholder="***********"
                       {...bindPassword}
+                      required
                     />
                     <div className="display-password" onClick={showPassHandler}>
                       <PiEyeBold
