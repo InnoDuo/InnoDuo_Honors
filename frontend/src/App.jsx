@@ -5,6 +5,7 @@ import HomePage from './components/HomePage'
 import Navbar from './components/Navbar'
 import SignIn from './components/SignIn'
 import SignUp from './components/SignUp';
+import Students from './Students';
 import PageNotFound from './components/PageNotFound';
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Route path='/' element={<HomePage /> } />
         <Route path='/signin' element={<SignIn /> } />
         <Route path='/signup' element={<SignUp /> } />
+        <Route path='/students' element={<Students /> } />
         <Route path='*' element={<PageNotFound /> } />
       </ Routes>
       {/* <HomePage /> */}
