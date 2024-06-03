@@ -6,8 +6,12 @@ const bcrypt = require('bcrypt');
 const app = express();
 const port = 3000;
 const cors = require('cors');
+<<<<<<< HEAD
 
 const uri = "mongodb+srv://nathantayele:XNCZOuzODnTPfZ1z@cluster0.0lutihh.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+=======
+const uri = "mongodb+srv://nathantayele:XNCZOuzODnTPfZ1z@cluster0.0lutihh.mongodb.net/student-management?retryWrites=true&w=majority&appName=Cluster0";
+>>>>>>> c7142617d7425b2517f4d7e35493e5a6ef116b1d
 
 const client = new MongoClient(uri, {
   serverApi: {

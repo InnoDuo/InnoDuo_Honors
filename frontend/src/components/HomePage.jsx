@@ -1,13 +1,14 @@
 import React, {useState, useEffect} from "react";
 import "../assets/css/homepage.css";
 import honorsFrontImg from "../assets/images/Honors-students-visit-the-UN.jpg";
+const baseUrl = 'https://innoduo-honors.onrender.com/';
 
 
 const HomePage = () => {
   const [students, setStudents] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:3000/totalStudents')
+    fetch(baseUrl + 'totalStudents')
     .then(response => response.json()).then(data=>{
       setStudents(data.totalStudents);
     })
