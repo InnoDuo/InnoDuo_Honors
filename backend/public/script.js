@@ -1,4 +1,4 @@
-const apiUrl = 'https://innoduo-honors.onrender.com/';
+const apiUrl = 'https://innoduo-honors.onrender.com';
 
 fetch('/username')
       .then(response => response.json())
