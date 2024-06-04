@@ -1,4 +1,4 @@
-const apiUrl = 'https://innoduo-honors.onrender.com/';
+const apiUrl = 'https://innoduo-honors.onrender.com';
 
 document.getElementById('registerForm').addEventListener('submit', async (event) => {
   event.preventDefault();
