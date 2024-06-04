@@ -4,6 +4,11 @@
   padding: 2rem;
 } */
 
+.page-container{
+  padding: 20px 50px;
+
+}
+
 
 .auth-btn{
   background: #fff;
@@ -66,7 +71,7 @@
   width: 310px;
 }
 
-.input-field input{
+.input-field input, input{
   padding: 3px 0px 3px 8px;
   width: 100%;
   height: 25px;
@@ -81,7 +86,7 @@
   border: solid 2px #8D2A2A
 }
 
-.input-field input:focus{
+input:focus{
   border: none;
   outline: none;
 }
