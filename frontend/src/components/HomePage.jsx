@@ -18,7 +18,7 @@ const HomePage = () => {
     );
 
   return (
-    <div className="home-page">
+    <div className="home-page page-container">
       <HomeIntroduction />
       <HomeHonorsProject students={students}/>
       <HomeProgramCriteria />
