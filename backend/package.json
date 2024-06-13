@@ -5,11 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm run shell",
-    "serve": "firebase emulators:start --only functions",
-    "shell": "firebase functions:shell",
-    "deploy": "firebase deploy --only functions",
-    "logs": "firebase functions:log"
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
@@ -21,13 +17,7 @@
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "express-session": "^1.18.0",
-    "firebase": "^10.12.2",
-    "firebase-admin": "^12.1.1",
-    "firebase-functions": "^5.0.1",
     "mongodb": "^6.7.0",
     "mongoose": "^8.4.1"
-  },
-  "engines": {
-    "node": ">=12.0.0"
   }
 }
