@@ -2,9 +2,13 @@ import React, { useState } from "react";
 import "../assets/css/signin.css";
 import { PiEyeBold, PiEyeClosedBold } from "react-icons/pi";
 import useInput from "./microcomponents/useInput";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+const baseUrl = "https://innoduo-honors.onrender.com/";
 
 const SignIn = () => {
+
+    const history = useNavigate()
+
   const [showPass, setShowPass] = useState(false);
   const [email, bindEmail, resetEmail] = useInput("");
   const [password, bindPassword, resetPassword] = useInput("");
@@ -26,6 +30,23 @@ const SignIn = () => {
     resetEmail();
     resetPassword();
     console.log("print");
+
+    try {
+      await axios.post(baseUrl),
+        {
+          email,
+          password,
+        }.then(
+          res =>{
+            if(res.data){
+              console.log(data = "Logged in successfully")
+              history("/signup")
+            }
+          }
+        )
+    } catch (e) {
+      console.log("error", e);
+    }
   };
 
   return (
