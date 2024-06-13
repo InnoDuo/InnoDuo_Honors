@@ -5,10 +5,9 @@ const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const bcrypt = require('bcrypt');
 const app = express();
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 3000;
 const cors = require('cors');
 const uri = process.env.ENV_URI;
-const functions = require('firebase-functions');
 
 const client = new MongoClient(uri, {
   serverApi: {
@@ -170,4 +169,3 @@ async function run() {
 }
 
 run().catch(console.dir);
-exports.api = functions.https.onRequest(app);
