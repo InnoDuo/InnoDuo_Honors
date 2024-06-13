@@ -1,12 +1,13 @@
+require('dotenv').config({ path: "./.env" });
 const express = require('express');
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const bcrypt = require('bcrypt');
 const app = express();
-const port = 3000;
+const PORT = process.env.PORT || 3000;
 const cors = require('cors');
-const uri = ENV_URI;
+const uri = process.env.ENV_URI;
 
 const client = new MongoClient(uri, {
   serverApi: {
@@ -158,8 +159,8 @@ async function run() {
     });
 
     // Start the server
-    app.listen(port, () => {
-      console.log(`Server running on http://localhost:${port}`);
+    app.listen(PORT, () => {
+      console.log(`Server running on http://localhost:${PORT}`);
     });
 
   } catch (error) {
