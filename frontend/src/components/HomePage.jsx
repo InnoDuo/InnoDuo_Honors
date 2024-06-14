@@ -1,11 +1,21 @@
 import React, {useState, useEffect} from "react";
 import "../assets/css/homepage.css";
 import honorsFrontImg from "../assets/images/Honors-students-visit-the-UN.jpg";
+import AlertBanner from './AlertBanner';
 const baseUrl = 'https://innoduo-honors.onrender.com/';
 
 
 const HomePage = () => {
   const [students, setStudents] = useState([]);
+  const [alert, setAlert] = useState({ message: `This site is not officially deployed yet. This is a test preview for Developers.`, type: 'error' });
+
+  const showAlert = (message, type) => {
+    setAlert({ message, type });
+  };
+
+  const closeAlert = () => {
+    setAlert({ message: '', type: '' });
+  };
 
   useEffect(() => {
     fetch(baseUrl + 'totalStudents')
@@ -19,6 +29,7 @@ const HomePage = () => {
 
   return (
     <div className="home-page page-container">
+      <AlertBanner message={alert.message} type={alert.type} onClose={closeAlert} />
       <HomeIntroduction />
       <HomeHonorsProject students={students}/>
       <HomeProgramCriteria />
