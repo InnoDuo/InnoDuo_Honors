@@ -7,6 +7,7 @@ import SignIn from './components/SignIn'
 import SignUp from './components/SignUp';
 import Students from './components/Students';
 import PageNotFound from './components/PageNotFound';
+import StudentProfile from './components/StudentProfile';
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
         <Route path='/signin' element={<SignIn /> } />
         <Route path='/signup' element={<SignUp /> } />
         <Route path='/students' element={<Students /> } />
+        <Route path='/profile' element={<StudentProfile />} />
         <Route path='*' element={<PageNotFound /> } />
       </ Routes>
       {/* <HomePage /> */}
