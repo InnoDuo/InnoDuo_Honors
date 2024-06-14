@@ -1,5 +1,5 @@
-// const apiUrl = 'https://innoduo-honors.onrender.com';
-const apiUrl = 'http://localhost:3000';
+const apiUrl = 'https://innoduo-honors.onrender.com';
+// const apiUrl = 'http://localhost:3000';
 
 document.getElementById('registerForm').addEventListener('submit', async (event) => {
   event.preventDefault();

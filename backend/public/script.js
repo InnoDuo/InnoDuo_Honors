@@ -1,5 +1,5 @@
-// const apiUrl = 'https://innoduo-honors.onrender.com';
-const apiUrl = 'http://localhost:3000';
+const apiUrl = 'https://innoduo-honors.onrender.com';
+// const apiUrl = 'http://localhost:3000';
 
 fetch('/username')
       .then(response => response.json())
