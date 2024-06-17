@@ -1,6 +1,6 @@
 // src/AlertBanner.jsx
 import React from 'react';
-import '../assets/css/alertbanner.css'; // We'll create this file next for styling
+import '../../assets/css/alertbanner.css'; // We'll create this file next for styling
 
 const AlertBanner = ({ message, type, onClose }) => {
   if (!message) return null; // Don't render anything if there's no message
