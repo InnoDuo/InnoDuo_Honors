@@ -1,0 +1,51 @@
+.student-info-container{
+    height: 85dvh;
+}
+
+.student-info-container .student-name{
+    margin-bottom: 12px;
+}
+
+
+.student-info-content{
+    /* background: red; */
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    
+}
+
+.student-info-fields{
+    display: flex;
+    /* background-color: green; */
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+    /* gap: 20px; */
+}
+
+.student-info-field{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-bottom: 15px;;
+    margin-right: 25px;
+}
+
+.student-info-field label{
+    width: 130px;
+}
+
+.student-info-field .input-field-wrap{
+    width: 300px;
+}
+
+.student-info-field select{
+    /* background: red; */
+    padding: 5px
+}
+
+.student-info-update button{
+    font-size: inherit;
+}
