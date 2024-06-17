@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import "../assets/css/homepage.css";
 import honorsFrontImg from "../assets/images/Honors-students-visit-the-UN.jpg";
-import AlertBanner from './AlertBanner';
+import AlertBanner from './microcomponents/AlertBanner';
 const baseUrl = 'https://innoduo-honors.onrender.com/';
 
 

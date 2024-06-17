@@ -1,5 +1,6 @@
 import React from "react";
 import "../assets/css/studentprofile.css";
+import StudentProfileCatalog from "./microcomponents/StudentProfileCatalog";
 const StudentProfile = () => {
   return (
     <div className="page-container">
@@ -216,6 +217,9 @@ const StudentProfile = () => {
             </div>
           </form>
         </div>
+      </div>
+      <div className="student-catalog-container">
+        <StudentProfileCatalog />
       </div>
     </div>
   );
