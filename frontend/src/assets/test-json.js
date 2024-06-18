@@ -7,19 +7,34 @@ const cat6 = "Service Events";
 
 const stuCatalog = [
   {
-    stuID: 445623,
     "cat1": {
-        catName: 'Honors Seminar',
-      item1: {
-        itemName: "FS187-007 Freshman Seminar",
-        itemStatus: "completed",
-        itemReq: "required",
+      catName: 'Honors Seminar',
+      class1: {
+        className: "FS187-007 Freshman Seminar",
+        semester: {
+          FA24: {
+            s001: [422134, 234425, 124532, 235235],
+            s002: [234234, 234234, 234234, 234234]
+          },
+          SP25: {
+            s001: [234234, 234234, 234234, 234234],
+            s002: [234234, 234234, 234234, 234234]
+          }
+        }
       },
-      item2: {
-        itemName: "FS187-002 Freshman Seminar",
-        itemStatus: "not started",
-        itemReq: "not required", 
-      },
+      class2: {
+        className: "HS201-001 Honors Seminar",
+        semester: {
+          FA24: {
+            s001: [234234, 234234, 234234, 234234],
+            s002: [234234, 234234, 234234, 234234]
+          },
+          SP25: {
+            s001: [234234, 234234, 234234, 234234],
+            s002: [234234, 234234, 234234, 234234]
+          }
+        }
+      }
     },
   },
 ];
