@@ -46,7 +46,7 @@ const SignUp = () => {
     let idCheck = parseInt(id) > 100000 && parseInt(id) < 999999 ? true : false;
     let passCheck = password == confirmPassword ? true : false;
     let passValidate = strongRegex.test(password);
-    strongPassMsg = `- Use at least 8 characters. <br /> 
+    let strongPassMsg = `- Use at least 8 characters. <br /> 
     - Use a mix of letters (uppercase and lowercase), numbers, and symbols.
     - Don't use your name, username, or account name. 
     - Avoid predictable passwords such as "password", "12345" or "caldwell".`;
