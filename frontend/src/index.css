@@ -11,6 +11,7 @@
 
 *::selection{
   color: #8D2A2A;
+  background: rgba(62, 56, 56, 0.2);
 }
 
 body {

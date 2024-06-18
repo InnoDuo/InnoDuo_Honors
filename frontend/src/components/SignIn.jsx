@@ -4,7 +4,9 @@ import { PiEyeBold, PiEyeClosedBold } from "react-icons/pi";
 import useInput from "./microcomponents/useInput";
 import { NavLink, useNavigate } from "react-router-dom";
 import axios from "axios"
-const baseUrl = "https://innoduo-honors.onrender.com/login";
+import { ToastContainer, toast } from "react-toastify";
+// const baseUrl = "https://innoduo-honors.onrender.com"; // production
+const baseUrl = "http://localhost:3000"; // dev tests
 
 const SignIn = () => {
 
@@ -30,7 +32,24 @@ const SignIn = () => {
     e.preventDefault();
     resetEmail();
     resetPassword();
-    console.log("print");
+    fetch(baseUrl + '/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.message === 'Logged in successfully') {
+        console.log('Logged in successfully');
+        // navigate to students
+        history('/Students')
+      } else {
+        // showError(data.message);
+        toast.error(data.message);
+      }
+    })
 
 
     // try {
@@ -123,6 +142,7 @@ const SignIn = () => {
           </span>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };
