@@ -76,16 +76,17 @@ async function run() {
     // User login
     app.post('/login', async (req, res) => {
       try {
-        const { username, password } = req.body;
-        const user = await usersCollection.findOne({ username });
-        if (!user) return res.status(404).send('User not found');
+        const { email, password } = req.body;
+        console.log(email, password);
+        const user = await usersCollection.findOne({ username:email });
+        if (!user) return res.status(404).send({message:"User not found"});
 
         const validPassword = await bcrypt.compare(password, user.password);
-        if (!validPassword) return res.status(403).send('Invalid password');
+        if (!validPassword) return res.status(403).send({message:'Invalid password'});
 
         req.session.userId = user._id;
-        req.session.username = user.username;
-        res.send('Logged in successfully');
+        req.session.email = user.email;
+        res.send({message: 'Logged in successfully'});
       } catch (error) {
         res.status(500).send(error.message);
       }
