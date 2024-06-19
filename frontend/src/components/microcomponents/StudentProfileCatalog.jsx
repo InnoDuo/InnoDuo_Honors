@@ -12,9 +12,9 @@ const StudentProfileCatalog = () => {
 
         {
             stuCatalog.map((cat)=>(
-                <div className="catalog-content" key={cat.stuID}>
-                <label className="catagory-title">{cat.cat1.catName }{ cat.stuID}</label>
-                <div className="catagory-lists">{cat.cat1.item1.itemName} - {cat.cat1.item1.itemStatus}</div>
+                <div className="catalog-content" key={cat.cat1.catName}>
+                <label className="catagory-title">{cat.cat1.class1.className }</label>
+                <div className="catagory-lists">{cat.cat1.class1.semester.FA24.s001} </div>
             </div>
             ))
         }
