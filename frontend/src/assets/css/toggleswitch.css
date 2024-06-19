@@ -1,0 +1,56 @@
+.toggle-switch{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.toggle-btn{
+    background: #fff;
+    width: 50px;
+    height: 26px;
+    border-radius: 40px;
+    cursor: pointer;
+    position: relative;
+}
+
+.toggle-btn::before{
+    content: '';
+    position: absolute;
+    background-color: #8D2A2A;
+    height: 20px;
+    width: 20px;
+    border-radius: 50px;
+    margin: 3px ;
+    transition: all 0.2s ease-in-out;
+}
+
+input:checked + .toggle-btn{
+    background: #fff;;
+}
+
+input:checked + .toggle-btn::before{
+    transform: translateX(24px);
+    border: none;
+    border-right: 10px;;
+}
+
+input{
+    display: none;
+}
+
+
+@media (width < 750px) {
+
+    .toggle-btn{
+        background: #8D2A2A;
+    }
+
+    .toggle-btn::before{
+        background-color: #fff;
+    }
+
+    input:checked + .toggle-btn{
+        background: #8D2A2A;;
+    }
+
+}

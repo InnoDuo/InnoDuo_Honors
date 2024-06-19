@@ -3,6 +3,7 @@ import { useState } from "react";
 import {NavLink} from "react-router-dom"
 import "../assets/css/navbar.css";
 import uniLogoTrans from "../assets/images/uni-logo-trans.png";
+import ToggleSwitch from "./microcomponents/ToggleSwitch";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -30,6 +31,9 @@ const Navbar = () => {
                Profile
               </NavLink>
             </div>
+        </div>
+        <div className="theme-container">
+          <ToggleSwitch label='theme'/>
         </div>
         <div className="nav-auth">
           <NavLink
