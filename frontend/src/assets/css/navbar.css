@@ -49,6 +49,10 @@
     display: none;
 }
 
+.theme-container{
+  margin-right: 10px;
+}
+
 @media (width < 750px) {
     .nav-menu{
         flex-direction: column;
@@ -84,9 +88,13 @@
   }
  
   .nav-auth {
-    padding: 20px 0 5px;
+    padding: 15px 0 5px;
     text-align: center;
   } 
+
+  .theme-container{
+    margin-top: 10px;
+  }
 
   .hamburger-menu {
     display: block;
