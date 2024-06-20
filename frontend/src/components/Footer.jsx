@@ -1,9 +1,14 @@
-import React from "react";
+import {React, useContext} from "react";
 import "../assets/css/footer.css";
+import { homeThemeStyle } from "../App";
+import { ThemeContext } from "../context/theme";
+
 
 const Footer = () => {
+  const { defaultTheme } = useContext(ThemeContext);
+
   return (
-    <div className="footer">
+    <div className="footer" style={defaultTheme === 'dark' ? homeThemeStyle : {}}>
       Developed By{" "}
       <a href="http://github.com/anuj-khadka" class="inline-link">
         @anuj-khadka
