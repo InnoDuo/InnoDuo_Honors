@@ -14,7 +14,7 @@ import {React, useState, useEffect} from 'react';
 
 function App() {
   const [defaultTheme, setDefaultTheme] = useState('light')
-
+  
   const darkTheme = ()=>{
     setDefaultTheme('dark')
   }
@@ -55,5 +55,15 @@ export const homeThemeStyle = {
   backgroundColor: '#272727',
   color: '#f1f1f1',
 }
+
+export const inpWrapThemeStyle = {
+  border: 'solid 1px #fff',
+}
+
+export const inpFieldThemeStyle = {
+  color: '#f1f1f1',
+}
+
+
 
 export default App
