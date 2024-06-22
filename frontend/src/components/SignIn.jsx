@@ -1,20 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import "../assets/css/signin.css";
 import { PiEyeBold, PiEyeClosedBold } from "react-icons/pi";
 import useInput from "./microcomponents/useInput";
 import { NavLink, useNavigate } from "react-router-dom";
-import axios from "axios"
+import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-// const baseUrl = "https://innoduo-honors.onrender.com"; // production
-const baseUrl = "http://localhost:3000"; // dev tests
+const baseUrl = "https://innoduo-honors.onrender.com"; // production
+// const baseUrl = "http://localhost:3000"; // dev tests
+
+import { ThemeContext } from "../context/theme";
+import { homeThemeStyle, inpFieldThemeStyle, inpWrapThemeStyle} from "../App";
 
 const SignIn = () => {
-
-  const history = useNavigate()
+  const history = useNavigate();
 
   const [showPass, setShowPass] = useState(false);
   const [email, bindEmail, resetEmail] = useInput("");
   const [password, bindPassword, resetPassword] = useInput("");
+
+  const { defaultTheme } = useContext(ThemeContext);
+
+
+  const wrapCondition = defaultTheme === "dark" ? inpWrapThemeStyle : {}
+  const fieldCondition = defaultTheme === "dark" ? inpFieldThemeStyle : {}
 
   const showPassHandler = () => {
     console.log("hi");
@@ -32,22 +40,24 @@ const SignIn = () => {
     e.preventDefault();
     resetEmail();
     resetPassword();
-    fetch(baseUrl + '/login', {
-      method: 'POST',
+    fetch(baseUrl + "/login", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({ email, password }),
     })
-    .then(response => response.json())
-    .then(data => {
-      if (data.message === 'Logged in successfully') {
-        history('/Students')
-      } else {
-        toast.error(data.message);
-      }
-    })
-
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.message === "Logged in successfully") {
+          console.log("Logged in successfully");
+          // navigate to students
+          history("/Students");
+        } else {
+          // showError(data.message);
+          toast.error(data.message);
+        }
+      });
 
     // try {
     //   const response = await axios.post(baseUrl);
@@ -57,13 +67,16 @@ const SignIn = () => {
     //     console.log(response.data);
     //   }
     // } catch (error) {
-    //   console.log('An error occurred. Please try again.'); 
+    //   console.log('An error occurred. Please try again.');
     //   console.error('Error:', error);
     // }
   };
 
   return (
-    <div className="signin-page">
+    <div
+      className="signin-page"
+      style={defaultTheme === "dark" ? homeThemeStyle : {}}
+    >
       <div className="signin-container">
         <div className="signin-content">
           <h2 className="form-title">Sign In</h2>
@@ -78,7 +91,11 @@ const SignIn = () => {
               <div className="user-email-info input-field">
                 <label htmlFor="user-email">Email</label>
                 <div className="field-restrict">
-                  <div id="email-input-field" className="input-field-wrap">
+                  <div
+                    id="email-input-field"
+                    className="input-field-wrap"
+                    style={wrapCondition}
+                  >
                     <input
                       type="text"
                       name="user-email"
@@ -86,6 +103,7 @@ const SignIn = () => {
                       placeholder="johndoe"
                       {...bindEmail}
                       required
+                      style={fieldCondition}
                     />
                   </div>
                   <span>@caldwell.edu</span>
@@ -95,7 +113,10 @@ const SignIn = () => {
               <div className="user-password-info input-field">
                 <label htmlFor="user-password">Password</label>
                 <div className="field-restrict">
-                  <div className="input-field-wrap">
+                  <div
+                    className="input-field-wrap"
+                    style={wrapCondition}
+                  >
                     <input
                       type="password"
                       name="user-password"
@@ -103,6 +124,7 @@ const SignIn = () => {
                       placeholder="***********"
                       {...bindPassword}
                       required
+                      style={fieldCondition}
                     />
                     <div className="display-password" onClick={showPassHandler}>
                       <PiEyeBold

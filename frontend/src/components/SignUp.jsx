@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import "../assets/css/signin.css";
 import useInput from "./microcomponents/useInput";
 import { PiEyeBold, PiEyeClosedBold } from "react-icons/pi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { NavLink, useNavigate } from "react-router-dom";
+
+
+import { ThemeContext } from "../context/theme";
+import { homeThemeStyle, inpFieldThemeStyle, inpWrapThemeStyle} from "../App";
 
 const SignUp = () => {
   const baseUrl = "http://localhost:3000"; // dev tests
@@ -20,6 +24,13 @@ const SignUp = () => {
   const strongRegex = new RegExp(
     "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
   );
+
+  
+  const { defaultTheme } = useContext(ThemeContext);
+
+
+  const wrapCondition = defaultTheme === "dark" ? inpWrapThemeStyle : {}
+  const fieldCondition = defaultTheme === "dark" ? inpFieldThemeStyle : {}
 
   const showPassHandler = () => {
     console.log("hi");
@@ -94,7 +105,7 @@ const SignUp = () => {
     }
   };
   return (
-    <div className="signup-page">
+    <div className="signup-page" style={defaultTheme === "dark" ? homeThemeStyle : {}}>
       <div className="signup-container">
         <div className="signup-content">
           <h2 className="form-title">Sign Up</h2>
@@ -110,8 +121,9 @@ const SignUp = () => {
               <div className="user-email-info input-field">
                 <label htmlFor="user-email">Email</label>
                 <div className="field-restrict">
-                  <div id="email-input-field" className="input-field-wrap">
+                  <div id="email-input-field" className="input-field-wrap" style={wrapCondition}>
                     <input
+                    style={fieldCondition}
                       type="text"
                       name="user-email"
                       id="user-email"
@@ -127,8 +139,9 @@ const SignUp = () => {
               <div className="user-id-info input-field">
                 <label htmlFor="user-id">Student ID</label>
                 <div className="field-restrict">
-                  <div id="id-input-field" className="input-field-wrap">
+                  <div id="id-input-field" className="input-field-wrap" style={wrapCondition}>
                     <input
+                    style={fieldCondition}
                       type="number"
                       name="user-id"
                       id="user-id"
@@ -143,8 +156,9 @@ const SignUp = () => {
               <div className="user-password-info input-field">
                 <label htmlFor="user-password">Password</label>
                 <div className="field-restrict">
-                  <div className="input-field-wrap">
+                  <div className="input-field-wrap" style={wrapCondition}>
                     <input
+                    style={fieldCondition}
                       type="password"
                       name="user-password"
                       id="user-password"
@@ -173,8 +187,9 @@ const SignUp = () => {
               <div className="user-confirm-password-info input-field">
                 <label htmlFor="user-password">Confirm Password</label>
                 <div className="field-restrict">
-                  <div className="input-field-wrap">
+                  <div className="input-field-wrap" style={wrapCondition}>
                     <input
+                    style={fieldCondition}
                       type="password"
                       name="user-password"
                       id="user-confirm-password"

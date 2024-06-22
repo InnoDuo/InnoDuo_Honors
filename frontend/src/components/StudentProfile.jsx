@@ -1,7 +1,16 @@
 import React from "react";
 import "../assets/css/studentprofile.css";
 import StudentProfileCatalog from "./microcomponents/StudentProfileCatalog";
+import useInput from "./microcomponents/useInput";
 const StudentProfile = () => {
+
+  const[id, bindId, resetID]= useInput("")
+  const[email, bindEmail, resetEmail]= useInput("")
+  const[advisor, bindAdvisor, resetAdvisor]= useInput("")
+  const[classification, bindClassification, resetClassification]= useInput("")
+  const[major, bindMajor, resetMajor]= useInput("")
+  const[phoneNo, bindPhoneNo, resetPhoneNo]= useInput("")
+
   return (
     <div className="page-container">
       <div className="student-info-container">
@@ -14,18 +23,18 @@ const StudentProfile = () => {
               <div className="student-info-field">
                 <label htmlFor="student-id"> Student ID:</label>
                 <div className="input-field-wrap">
-                  <input type="number" name="student-id" id="student-id" />
+                  <input type="number" name="student-id" id="student-id" {...bindId} />
                 </div>
               </div>
               <div className="student-info-field">
                 <label htmlFor="student-email">Email:</label>
                 <div className="input-field-wrap">
-                  <input type="email" name="student-email" id="student-email" />
+                  <input type="email" name="student-email" id="student-email" {...bindEmail} />
                 </div>
               </div>
               <div className="student-info-field">
                 <label htmlFor="student-major">Major:</label>
-                  <select className="input-field-wrap" type="text" name="student-major" id="student-major">
+                  <select className="input-field-wrap" type="text" name="student-major" id="student-major" {...bindMajor}>
                     <option value="not-selected" selected></option>
                     <option value="Combined B.S. in Psychology / M.A. in Applied Behavior
                     Analysis">Combined B.S. in Psychology / M.A. in Applied Behavior
@@ -183,6 +192,7 @@ const StudentProfile = () => {
                   className="input-field-wrap"
                   name="student-classification"
                   id="student-classification"
+                  {...bindClassification}
                 >
                   <option value="not-selected" selected></option>
                   <option value="freshmen">Freshmen</option>
@@ -208,6 +218,7 @@ const StudentProfile = () => {
                     type="text"
                     name="student-advisor"
                     id="student-advisor"
+                    {...bindAdvisor}
                   />
                 </div>
               </div>

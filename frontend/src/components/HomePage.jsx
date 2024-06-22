@@ -1,11 +1,15 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import "../assets/css/homepage.css";
 import honorsFrontImg from "../assets/images/Honors-students-visit-the-UN.jpg";
 import AlertBanner from './microcomponents/AlertBanner';
+import { ThemeContext } from "../context/theme";
+import { homeThemeStyle } from "../App";
 const baseUrl = 'https://innoduo-honors.onrender.com/';
 
 
+
 const HomePage = () => {
+  const { defaultTheme } = useContext(ThemeContext);
   const [students, setStudents] = useState([]);
   const [alert, setAlert] = useState({ message: `This site is not officially deployed yet. This is a test preview for Developers.`, type: 'error' });
 
@@ -28,7 +32,7 @@ const HomePage = () => {
     );
 
   return (
-    <div className="home-page page-container">
+    <div className="home-page page-container" style={defaultTheme === 'dark' ? homeThemeStyle : {}}>
       <AlertBanner message={alert.message} type={alert.type} onClose={closeAlert} />
       <HomeIntroduction />
       <HomeHonorsProject students={students}/>
