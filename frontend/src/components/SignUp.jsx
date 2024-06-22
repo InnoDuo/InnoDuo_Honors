@@ -4,13 +4,16 @@ import useInput from "./microcomponents/useInput";
 import { PiEyeBold, PiEyeClosedBold } from "react-icons/pi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 
 import { ThemeContext } from "../context/theme";
 import { homeThemeStyle, inpFieldThemeStyle, inpWrapThemeStyle} from "../App";
 
 const SignUp = () => {
+  const baseUrl = "http://localhost:3000"; // dev tests
+  // const baseUrl = "https://innoduo-honors.onrender.com"; // prod
+  const history = useNavigate();
   const [showPass, setShowPass] = useState(false);
   const [showConfirmPass, setShowConfirmPass] = useState(false);
   const [email, bindEmail, resetEmail] = useInput("");
@@ -62,11 +65,30 @@ const SignUp = () => {
     - Don't use your name, username, or account name. 
     - Avoid predictable passwords such as "password", "12345" or "caldwell".`;
     if (idCheck && passCheck && email && passValidate) {
-      console.log("print", email, password);
       resetEmail();
       resetId();
       resetPassword();
       resetConfirmPassword();
+      fetch(baseUrl + '/register', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({email, id, password }),
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.message === 'User registered successfully') {
+          history('/Profile');
+        } else {
+          toast.error(data.error);
+        }
+      }).catch(
+        error => {
+          console.log("error", error);
+          toast.error("An error: " + error + " -- occurred. Please try again.");
+        }
+      )
     } else if (!idCheck) {
       console.log("id");
       toast.error(
