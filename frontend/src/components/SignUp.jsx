@@ -8,7 +8,6 @@ import { NavLink } from "react-router-dom";
 
 
 import { ThemeContext } from "../context/theme";
-import { homeThemeStyle, inpFieldThemeStyle, inpWrapThemeStyle} from "../App";
 
 const SignUp = () => {
   const [showPass, setShowPass] = useState(false);
@@ -25,9 +24,7 @@ const SignUp = () => {
   
   const { defaultTheme } = useContext(ThemeContext);
 
-
-  const wrapCondition = defaultTheme === "dark" ? inpWrapThemeStyle : {}
-  const fieldCondition = defaultTheme === "dark" ? inpFieldThemeStyle : {}
+{}
 
   const showPassHandler = () => {
     console.log("hi");
@@ -83,7 +80,7 @@ const SignUp = () => {
     }
   };
   return (
-    <div className="signup-page" style={defaultTheme === "dark" ? homeThemeStyle : {}}>
+    <div className={`signup-page ${defaultTheme === 'dark' ? 'dark-container' : ''}`}>
       <div className="signup-container">
         <div className="signup-content">
           <h2 className="form-title">Sign Up</h2>
@@ -99,9 +96,8 @@ const SignUp = () => {
               <div className="user-email-info input-field">
                 <label htmlFor="user-email">Email</label>
                 <div className="field-restrict">
-                  <div id="email-input-field" className="input-field-wrap" style={wrapCondition}>
+                  <div id="email-input-field" className="input-field-wrap" >
                     <input
-                    style={fieldCondition}
                       type="text"
                       name="user-email"
                       id="user-email"
@@ -117,9 +113,8 @@ const SignUp = () => {
               <div className="user-id-info input-field">
                 <label htmlFor="user-id">Student ID</label>
                 <div className="field-restrict">
-                  <div id="id-input-field" className="input-field-wrap" style={wrapCondition}>
+                  <div id="id-input-field" className="input-field-wrap" >
                     <input
-                    style={fieldCondition}
                       type="number"
                       name="user-id"
                       id="user-id"
@@ -134,9 +129,8 @@ const SignUp = () => {
               <div className="user-password-info input-field">
                 <label htmlFor="user-password">Password</label>
                 <div className="field-restrict">
-                  <div className="input-field-wrap" style={wrapCondition}>
+                  <div className="input-field-wrap" >
                     <input
-                    style={fieldCondition}
                       type="password"
                       name="user-password"
                       id="user-password"
@@ -165,9 +159,8 @@ const SignUp = () => {
               <div className="user-confirm-password-info input-field">
                 <label htmlFor="user-password">Confirm Password</label>
                 <div className="field-restrict">
-                  <div className="input-field-wrap" style={wrapCondition}>
+                  <div className="input-field-wrap" >
                     <input
-                    style={fieldCondition}
                       type="password"
                       name="user-password"
                       id="user-confirm-password"
