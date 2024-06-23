@@ -34,7 +34,7 @@ input:checked + .toggle-btn::before{
     border-right: 10px;;
 }
 
-input{
+.toggle-switch input{
     display: none;
 }
 

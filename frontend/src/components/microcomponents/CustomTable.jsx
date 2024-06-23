@@ -1,9 +1,13 @@
-import React from "react";
+import {React, useContext} from "react";
 import '../../assets/css/customtable.css'
+import { ThemeContext } from "../../context/theme";
+import { homeThemeStyle } from "../../App";
 
 const CustomTable = ({ colNo, cols }) => {
+  const { defaultTheme } = useContext(ThemeContext);
+
   return (
-    <div className="table-container">
+    <div className={`table-container ${defaultTheme === 'dark' ? 'dark-container' : ''}`}>
       <div className="table-content">
         <table className="cust-table">
           <thead className="cust-thead">
@@ -15,9 +19,9 @@ const CustomTable = ({ colNo, cols }) => {
             </tr>
 
             </thead>
-          <tbody className="cust-tbody">
+          <tbody className="cust-tbody" >
             {[...Array(colNo)].map((_, index) => (
-              <tr key={index}>
+              <tr key={index} >
                 {/* {cols.map((_, colIndex) => (
                   <td key={colIndex}>Nice</td>
                 ))} */}

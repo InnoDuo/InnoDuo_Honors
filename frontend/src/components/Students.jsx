@@ -1,11 +1,15 @@
-import React from "react";
+import {React, useContext} from "react";
 import CustomTable from "./microcomponents/CustomTable";
 import '../assets/css/students.css'
 import SearchBar from "./microcomponents/SearchBar";
+import { ThemeContext } from "../context/theme";
+import { homeThemeStyle } from "../App";
+
 
 const Students = () => {
+  const { defaultTheme } = useContext(ThemeContext);
   return (
-    <div className="students-container page-container">
+    <div className="students-container page-container" style={defaultTheme === 'dark' ? homeThemeStyle : {}}>
       <h2>Honors Students List</h2>
       <SearchBar />
       <CustomTable
