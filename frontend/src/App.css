@@ -4,6 +4,41 @@
   padding: 2rem;
 } */
 
+
+/* Dark Mode  */
+
+.dark-container{
+  background: #272727;
+  color: #f1f1f1;
+}
+
+.dark-container select {
+  background: #272727;
+}
+
+.dark-container input{
+  color: #f1f1f1
+
+}
+
+.dark-container .input-field-wrap{
+  border: solid 1px #ffffff
+
+}
+
+.dark-container .cust-tbody, .dark-container *{
+  color: #f1f1f1;
+}
+
+.dark-container .cust-tbody tr:hover{
+  background: #202020d8;
+}
+
+
+
+
+/* Light Mode  */
+
 .page-container{
   padding: 20px 50px;
 }
@@ -110,3 +145,8 @@ input:focus{
 .pass-display, .confirm-pass-display{
   display: none;
 }
+
+
+
+
+

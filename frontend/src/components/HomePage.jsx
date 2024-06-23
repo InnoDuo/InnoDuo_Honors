@@ -3,7 +3,6 @@ import "../assets/css/homepage.css";
 import honorsFrontImg from "../assets/images/Honors-students-visit-the-UN.jpg";
 import AlertBanner from './microcomponents/AlertBanner';
 import { ThemeContext } from "../context/theme";
-import { homeThemeStyle } from "../App";
 const baseUrl = 'https://innoduo-honors.onrender.com/';
 
 
@@ -32,7 +31,7 @@ const HomePage = () => {
     );
 
   return (
-    <div className="home-page page-container" style={defaultTheme === 'dark' ? homeThemeStyle : {}}>
+    <div className={`home-page page-container ${defaultTheme === 'dark' ? 'dark-container' : ''}`}>
       <AlertBanner message={alert.message} type={alert.type} onClose={closeAlert} />
       <HomeIntroduction />
       <HomeHonorsProject students={students}/>

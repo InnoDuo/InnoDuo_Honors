@@ -1,8 +1,12 @@
-import React from "react";
+import {React, useContext} from "react";
 import "../assets/css/studentprofile.css";
 import StudentProfileCatalog from "./microcomponents/StudentProfileCatalog";
 import useInput from "./microcomponents/useInput";
+import { ThemeContext } from "../context/theme";
+
 const StudentProfile = () => {
+
+  const { defaultTheme } = useContext(ThemeContext);
 
   const[id, bindId, resetID]= useInput("")
   const[email, bindEmail, resetEmail]= useInput("")
@@ -12,7 +16,7 @@ const StudentProfile = () => {
   const[phoneNo, bindPhoneNo, resetPhoneNo]= useInput("")
 
   return (
-    <div className="page-container">
+    <div className={`page-container ${defaultTheme === 'dark' ? 'dark-container' : ''}`}>
       <div className="student-info-container">
         <div className="student-name">
           <h2>Student Name</h2>
@@ -23,13 +27,13 @@ const StudentProfile = () => {
               <div className="student-info-field">
                 <label htmlFor="student-id"> Student ID:</label>
                 <div className="input-field-wrap">
-                  <input type="number" name="student-id" id="student-id" {...bindId} />
+                  <input type="number" name="student-id" id="student-id" {...bindId} placeholder="123456"/>
                 </div>
               </div>
               <div className="student-info-field">
                 <label htmlFor="student-email">Email:</label>
                 <div className="input-field-wrap">
-                  <input type="email" name="student-email" id="student-email" {...bindEmail} />
+                  <input type="email" name="student-email" id="student-email" {...bindEmail} placeholder="John Doe"/>
                 </div>
               </div>
               <div className="student-info-field">
@@ -205,9 +209,10 @@ const StudentProfile = () => {
                 <label htmlFor="student-contact">Mobile Number:</label>
                 <div className="input-field-wrap">
                   <input
-                    type="text"
+                    type="number"
                     name="student-contact"
                     id="student-contact"
+                    {...bindPhoneNo}
                   />
                 </div>
               </div>

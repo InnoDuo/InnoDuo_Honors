@@ -1,9 +1,13 @@
-import React from "react";
+import React, {useContext} from "react";
 import "../assets/css/pagenotfound.css";
+import { ThemeContext } from "../context/theme";
+
 
 const PageNotFound = () => {
+  const { defaultTheme } = useContext(ThemeContext);
+
   return (
-    <div className="container-404">
+    <div className={`container-404 ${defaultTheme === 'dark' ? 'dark-container' : ''}`}>
       <div className="content-404">
         <div className="posture-404">
           <div className="big-404">404</div>

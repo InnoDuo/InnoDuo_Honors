@@ -9,7 +9,6 @@ const baseUrl = "https://innoduo-honors.onrender.com"; // production
 // const baseUrl = "http://localhost:3000"; // dev tests
 
 import { ThemeContext } from "../context/theme";
-import { homeThemeStyle, inpFieldThemeStyle, inpWrapThemeStyle} from "../App";
 
 const SignIn = () => {
   const history = useNavigate();
@@ -19,10 +18,6 @@ const SignIn = () => {
   const [password, bindPassword, resetPassword] = useInput("");
 
   const { defaultTheme } = useContext(ThemeContext);
-
-
-  const wrapCondition = defaultTheme === "dark" ? inpWrapThemeStyle : {}
-  const fieldCondition = defaultTheme === "dark" ? inpFieldThemeStyle : {}
 
   const showPassHandler = () => {
     console.log("hi");
@@ -74,8 +69,7 @@ const SignIn = () => {
 
   return (
     <div
-      className="signin-page"
-      style={defaultTheme === "dark" ? homeThemeStyle : {}}
+      className={`signin-page ${defaultTheme === 'dark' ? 'dark-container' : ''}`}
     >
       <div className="signin-container">
         <div className="signin-content">
@@ -94,7 +88,7 @@ const SignIn = () => {
                   <div
                     id="email-input-field"
                     className="input-field-wrap"
-                    style={wrapCondition}
+                    // style={wrapCondition}
                   >
                     <input
                       type="text"
@@ -103,7 +97,7 @@ const SignIn = () => {
                       placeholder="johndoe"
                       {...bindEmail}
                       required
-                      style={fieldCondition}
+                      // style={fieldCondition}
                     />
                   </div>
                   <span>@caldwell.edu</span>
@@ -115,7 +109,7 @@ const SignIn = () => {
                 <div className="field-restrict">
                   <div
                     className="input-field-wrap"
-                    style={wrapCondition}
+                    // style={wrapCondition}
                   >
                     <input
                       type="password"
@@ -124,7 +118,7 @@ const SignIn = () => {
                       placeholder="***********"
                       {...bindPassword}
                       required
-                      style={fieldCondition}
+                      // style={fieldCondition}
                     />
                     <div className="display-password" onClick={showPassHandler}>
                       <PiEyeBold
