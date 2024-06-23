@@ -64,11 +64,16 @@ async function run() {
     // User registration
     app.post('/register', async (req, res) => {
       try {
-        const { username, password } = req.body;
+        const { email, id, password } = req.body;
         const hashedPassword = await bcrypt.hash(password, 10);
-        const result = await usersCollection.insertOne({ username, password: hashedPassword });
-        res.status(201).send(result);
+        const result = await usersCollection.insertOne({ username:email, studentId:id, password: hashedPassword });
+        if (result.insertedCount === 0){ 
+          return res.status(400).send({message: 'User registration failed'});
+        } else {
+          return res.status(201).send({message: 'User registered successfully'});
+        }
       } catch (error) {
+        console.log(error);
         res.status(500).send(error.message);
       }
     });
