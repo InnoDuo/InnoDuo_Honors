@@ -10,6 +10,7 @@ import PageNotFound from './components/PageNotFound';
 import StudentProfile from './components/StudentProfile';
 import { ThemeProvider } from './context/theme';
 import {React, useState, useEffect} from 'react';
+import {AuthProvider} from './context/authContext';
 
 
 function App() {
@@ -30,23 +31,24 @@ function App() {
 
   return (
     <ThemeProvider value={{defaultTheme, darkTheme, lightTheme}}>
+      <AuthProvider>
+      <Router>
+        <Navbar />
 
-    <Router>
-      <Navbar />
+        {/* Adding Routes here  */}
+        <Routes>
+          <Route path='/' element={<HomePage/> } />
+          <Route path='/signin' element={<SignIn /> } />
+          <Route path='/signup' element={<SignUp /> } />
+          <Route path='/students' element={<Students /> } />
+          <Route path='/profile' element={<StudentProfile />} />
+          <Route path='*' element={<PageNotFound /> } />
+        </ Routes>
+        {/* <HomePage /> */}
 
-      {/* Adding Routes here  */}
-      <Routes>
-        <Route path='/' element={<HomePage/> } />
-        <Route path='/signin' element={<SignIn /> } />
-        <Route path='/signup' element={<SignUp /> } />
-        <Route path='/students' element={<Students /> } />
-        <Route path='/profile' element={<StudentProfile />} />
-        <Route path='*' element={<PageNotFound /> } />
-      </ Routes>
-      {/* <HomePage /> */}
-
-      <Footer />
-    </Router>
+        <Footer />
+      </Router>
+      </AuthProvider>
     </ThemeProvider>
   )
 }

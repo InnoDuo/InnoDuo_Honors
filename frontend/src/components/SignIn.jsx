@@ -3,12 +3,12 @@ import "../assets/css/signin.css";
 import { PiEyeBold, PiEyeClosedBold } from "react-icons/pi";
 import useInput from "./microcomponents/useInput";
 import { NavLink, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-const baseUrl = "https://innoduo-honors.onrender.com"; // production
-// const baseUrl = "http://localhost:3000"; // dev tests
+// const baseUrl = "https://innoduo-honors.onrender.com"; // production
+const baseUrl = "http://localhost:3000"; // dev tests
 
 import { ThemeContext } from "../context/theme";
+import useAuth from "../context/authContext";
 
 const SignIn = () => {
   const history = useNavigate();
@@ -18,9 +18,9 @@ const SignIn = () => {
   const [password, bindPassword, resetPassword] = useInput("");
 
   const { defaultTheme } = useContext(ThemeContext);
-
+  const {loggedIn, login} = useAuth();
+  
   const showPassHandler = () => {
-    console.log("hi");
     let userPass = document.getElementById("user-password");
     if (!showPass) {
       userPass.type = "text";
@@ -46,25 +46,16 @@ const SignIn = () => {
       .then((data) => {
         if (data.message === "Logged in successfully") {
           console.log("Logged in successfully");
+          () => login(data.user);
           // navigate to students
+          console.log("logged in: ", loggedIn, "user: ", data.user);
           history("/Students");
+          console.log(loggedIn);
         } else {
           // showError(data.message);
           toast.error(data.message);
         }
       });
-
-    // try {
-    //   const response = await axios.post(baseUrl);
-    //   if (response.data === 'Logged in successfully') {
-    //     console.log('Logged in successfully');
-    //   } else {
-    //     console.log(response.data);
-    //   }
-    // } catch (error) {
-    //   console.log('An error occurred. Please try again.');
-    //   console.error('Error:', error);
-    // }
   };
 
   return (

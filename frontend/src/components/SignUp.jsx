@@ -6,7 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { NavLink, useNavigate } from "react-router-dom";
 
-
+import { authContext } from "../context/authContext";
 import { ThemeContext } from "../context/theme";
 
 const SignUp = () => {
@@ -26,11 +26,11 @@ const SignUp = () => {
 
   
   const { defaultTheme } = useContext(ThemeContext);
+  const [loggedIn, login, logout ] = useContext(authContext);
 
 {}
 
   const showPassHandler = () => {
-    console.log("hi");
     let userPass = document.getElementById("user-password");
     if (!showPass) {
       userPass.type = "text";
@@ -41,7 +41,6 @@ const SignUp = () => {
     }
   };
   const showConfirmPassHandler = () => {
-    console.log("hi conf");
     let userConfirmPass = document.getElementById("user-confirm-password");
     if (!showConfirmPass) {
       userConfirmPass.type = "text";
@@ -76,28 +75,26 @@ const SignUp = () => {
       .then(res => res.json())
       .then(data => {
         if (data.message === 'User registered successfully') {
+          () => login(data.user);
+          console.log("Logged in user: ", data.user);
           history('/Profile');
         } else {
           toast.error(data.error);
         }
       }).catch(
         error => {
-          console.log("error", error);
-          toast.error("An error: " + error + " -- occurred. Please try again.");
+          toast.error("An error: \n" + error + "\n has occurred. Please try again.");
         }
       )
     } else if (!idCheck) {
-      console.log("id");
       toast.error(
         "Student ID is a 6 digit number uniquely given to each students. Unable to validate email and id may lead in false data entry."
       );
     } else if (!passCheck) {
-      console.log("pass");
       toast.error(
         "The password doesn't match with confirm password. Try again!"
       );
     } else if (!passValidate) {
-      console.log("val poass");
       toast.error(strongPassMsg);
     }
   };
