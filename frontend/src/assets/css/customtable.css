@@ -49,7 +49,6 @@ tr > th:not(:last-child), td:not(:last-child){
     cursor: pointer;
 }
 
-
 #action-items{
     display: flex;
     justify-content: center;
