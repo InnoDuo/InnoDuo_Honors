@@ -24,16 +24,16 @@ const StudentProfile = () => {
         <div className="student-info-content">
           <form action="" className="student-info-form">
             <div className="student-info-fields">
-              <div className="student-info-field">
+              <div className="student-info-field disabled-input">
                 <label htmlFor="student-id"> Student ID:</label>
                 <div className="input-field-wrap">
-                  <input type="number" name="student-id" id="student-id" {...bindId} placeholder="123456"/>
+                  <input type="number" name="student-id" id="student-id"  {...bindId} placeholder="123456" disabled/>
                 </div>
               </div>
-              <div className="student-info-field">
+              <div className="student-info-field disabled-input">
                 <label htmlFor="student-email">Email:</label>
                 <div className="input-field-wrap">
-                  <input type="email" name="student-email" id="student-email" {...bindEmail} placeholder="John Doe"/>
+                  <input type="email" name="student-email" id="student-email" {...bindEmail} placeholder="John Doe" disabled/>
                 </div>
               </div>
               <div className="student-info-field">

@@ -1,18 +1,21 @@
-import React from "react";
+import React, {useContext} from "react";
 import "../../assets/css/customsearch.css";
 import useInput from "./useInput";
 import { MdAddCircleOutline } from "react-icons/md";
 import { HiFilter } from "react-icons/hi";
 import { IoSearch } from "react-icons/io5";
+import { ThemeContext } from "../../context/theme";
 
 
 const SearchBar = () => {
+  const { defaultTheme } = useContext(ThemeContext);
+
     const [search, bindSearch, resetSearch] = useInput('')
   return (
-    <div className="search-and-filter-bar">
+    <div className={`search-and-filter-bar ${defaultTheme === 'dark' ? 'dark-container' : ''}`}>
       <div className="search-bar-container">
         <form className="search-bar-wrap">
-          <form className="search-bar">
+          <div className="search-bar">
             <input
               type="text"
               name="filter-field"
@@ -20,7 +23,7 @@ const SearchBar = () => {
               placeholder="Student Name"
               {...bindSearch}
             />
-          </form>
+          </div>
           <div className="search-icon">
             <IoSearch size={22}/>
           </div>

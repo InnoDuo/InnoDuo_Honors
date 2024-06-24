@@ -34,8 +34,30 @@
   background: #202020d8;
 }
 
+.dark-container .cust-table{
+  outline: solid 1px #f1f1f14d;
+}
 
+.dark-container .cust-thead{
+  border-bottom: solid 1px #f1f1f14d !important;
+}
 
+.dark-container  tr th:not(:last-child), td:not(:last-child){
+  border-right: solid 1px #f1f1f14d !important;
+}
+
+.dark-container .search-bar input{
+  color: #f1f1f1
+}
+
+.dark-container .search-bar-container{
+  border: solid 1px #f1f1f1;
+}
+
+.dark-container .filter-btns-container > .auth-btn{
+  background: transparent;
+  color: #8D2A2A;
+}
 
 /* Light Mode  */
 
@@ -146,7 +168,8 @@ input:focus{
   display: none;
 }
 
-
-
+.disabled-input{
+  opacity: 0.5;
+}
 
 
