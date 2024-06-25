@@ -1,7 +1,7 @@
 import {React, useContext} from "react";
 import "../assets/css/studentprofile.css";
 import StudentProfileCatalog from "./microcomponents/StudentProfileCatalog";
-import useInput from "./microcomponents/useInput";
+import useInput from "./microcomponents/customhooks/useInput";
 import { ThemeContext } from "../context/theme";
 
 const StudentProfile = () => {
