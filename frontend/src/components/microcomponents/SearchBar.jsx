@@ -1,6 +1,6 @@
 import React, {useContext} from "react";
 import "../../assets/css/customsearch.css";
-import useInput from "./useInput";
+import useInput from "./customhooks/useInput";
 import { MdAddCircleOutline } from "react-icons/md";
 import { HiFilter } from "react-icons/hi";
 import { IoSearch } from "react-icons/io5";

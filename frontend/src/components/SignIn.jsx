@@ -1,14 +1,14 @@
 import React, { useState, useContext } from "react";
 import "../assets/css/signin.css";
 import { PiEyeBold, PiEyeClosedBold } from "react-icons/pi";
-import useInput from "./microcomponents/useInput";
+import useInput from "./microcomponents/customhooks/useInput";
 import { NavLink, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 // const baseUrl = "https://innoduo-honors.onrender.com"; // production
 const baseUrl = "http://localhost:3000"; // dev tests
 
 import { ThemeContext } from "../context/theme";
-import useAuth from "../context/authContext";
+import useAuth, { authContext } from "../context/authContext";
 
 const SignIn = () => {
   const history = useNavigate();
@@ -18,7 +18,8 @@ const SignIn = () => {
   const [password, bindPassword, resetPassword] = useInput("");
 
   const { defaultTheme } = useContext(ThemeContext);
-  const {loggedIn, login} = useAuth();
+  const {loggedIn} = useContext(authContext)
+  const {  login, logout} = useAuth();
   
   const showPassHandler = () => {
     let userPass = document.getElementById("user-password");
@@ -46,13 +47,17 @@ const SignIn = () => {
       .then((data) => {
         if (data.message === "Logged in successfully") {
           console.log("Logged in successfully");
-          () => login(data.user);
+          // setTimeout(login(), 5000)
+          login()
+          setTimeout(() => {
+            console.log("logged in: ", loggedIn, "user: ");
+            // history("/Students");
+            console.log(loggedIn);
+          }, 5000);
           // navigate to students
-          console.log("logged in: ", loggedIn, "user: ", data.user);
-          history("/Students");
-          console.log(loggedIn);
         } else {
           // showError(data.message);
+          logout()
           toast.error(data.message);
         }
       });
@@ -146,6 +151,9 @@ const SignIn = () => {
           </span>
         </div>
       </div>
+      <button onClick={() => {
+        console.log(loggedIn);
+      }}>Hey</button>
       <ToastContainer />
     </div>
   );
