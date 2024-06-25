@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "../assets/css/signin.css";
 import { PiEyeBold, PiEyeClosedBold } from "react-icons/pi";
 import useInput from "./microcomponents/customhooks/useInput";
@@ -18,9 +18,10 @@ const SignIn = () => {
   const [password, bindPassword, resetPassword] = useInput("");
 
   const { defaultTheme } = useContext(ThemeContext);
-  const {loggedIn} = useContext(authContext)
-  const {  login, logout} = useAuth();
-  
+
+  const { loggedIn, login, logout } = useAuth();
+
+
   const showPassHandler = () => {
     let userPass = document.getElementById("user-password");
     if (!showPass) {
@@ -36,36 +37,45 @@ const SignIn = () => {
     e.preventDefault();
     resetEmail();
     resetPassword();
-    fetch(baseUrl + "/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.message === "Logged in successfully") {
-          console.log("Logged in successfully");
-          // setTimeout(login(), 5000)
-          login()
-          setTimeout(() => {
-            console.log("logged in: ", loggedIn, "user: ");
-            // history("/Students");
-            console.log(loggedIn);
-          }, 5000);
-          // navigate to students
-        } else {
-          // showError(data.message);
-          logout()
-          toast.error(data.message);
-        }
+
+    try {
+      const response = await fetch(baseUrl + "/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
       });
+      const data = await response.json();
+      if (data.message === "Logged in successfully") {
+        login();
+        console.log("Logged in successfully");
+        console.log("logged in: ", loggedIn, "user: ");
+        history('/students')
+        console.log("logged in: ", loggedIn, "user: ");
+      } else {
+        logout();
+        toast.error(data.message);
+      }
+    } catch (error) {
+      console.error("Error during sign in:", error);
+      logout();
+      toast.error("An error occurred during sign in.");
+    }
+
   };
+
+  useEffect(() => {
+    console.log("loggedIn updated:", loggedIn);
+    // Additional actions based on loggedIn state
+  }, [loggedIn]); // Dependency array ensures this effect runs when loggedIn changes
+
 
   return (
     <div
-      className={`signin-page ${defaultTheme === 'dark' ? 'dark-container' : ''}`}
+      className={`signin-page ${
+        defaultTheme === "dark" ? "dark-container" : ""
+      }`}
     >
       <div className="signin-container">
         <div className="signin-content">
@@ -137,7 +147,8 @@ const SignIn = () => {
 
             <div className="auth-btn-holder">
               <div className="primary-btn">
-                <button type="submit">Sign In</button>
+              
+                  <button type="submit">Sign In</button>
               </div>
             </div>
           </form>
@@ -151,9 +162,13 @@ const SignIn = () => {
           </span>
         </div>
       </div>
-      <button onClick={() => {
-        console.log(loggedIn);
-      }}>Hey</button>
+      <button
+        onClick={() => {
+          console.log(loggedIn);
+        }}
+      >
+        Hey
+      </button>
       <ToastContainer />
     </div>
   );
