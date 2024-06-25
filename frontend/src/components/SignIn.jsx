@@ -67,8 +67,7 @@ const SignIn = () => {
 
   useEffect(() => {
     console.log("loggedIn updated:", loggedIn);
-    // Additional actions based on loggedIn state
-  }, [loggedIn]); // Dependency array ensures this effect runs when loggedIn changes
+  }, [loggedIn]);
 
 
   return (
