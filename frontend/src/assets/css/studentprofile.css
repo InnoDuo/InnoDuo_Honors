@@ -49,3 +49,22 @@
 .student-info-update button{
     font-size: inherit;
 }
+
+
+
+
+
+.user-name{
+    margin-bottom: 10px;
+}
+
+.catalog-layout{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.catalog-box{
+    padding: 20px;
+    border: solid 1px #000000;
+}
