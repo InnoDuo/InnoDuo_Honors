@@ -1,12 +1,14 @@
 import {React, useContext} from "react";
 import "../assets/css/studentprofile.css";
 import StudentProfileCatalog from "./microcomponents/StudentProfileCatalog";
-import useInput from "./microcomponents/useInput";
+import useInput from "./microcomponents/customhooks/useInput";
 import { ThemeContext } from "../context/theme";
+import { authContext } from "../context/authContext";
 
 const StudentProfile = () => {
 
   const { defaultTheme } = useContext(ThemeContext);
+  const { user } = useContext(authContext);
 
   const[id, bindId, resetID]= useInput("")
   const[email, bindEmail, resetEmail]= useInput("")
@@ -27,18 +29,18 @@ const StudentProfile = () => {
               <div className="student-info-field disabled-input">
                 <label htmlFor="student-id"> Student ID:</label>
                 <div className="input-field-wrap">
-                  <input type="number" name="student-id" id="student-id"  {...bindId} placeholder="123456" disabled/>
+                  <input type="number" name="student-id" id="student-id" {...bindId} placeholder={user ? user.studentId : "NONE" } disabled/>
                 </div>
               </div>
               <div className="student-info-field disabled-input">
                 <label htmlFor="student-email">Email:</label>
                 <div className="input-field-wrap">
-                  <input type="email" name="student-email" id="student-email" {...bindEmail} placeholder="John Doe" disabled/>
+                  <input type="email" name="student-email" id="student-email" {...bindEmail} placeholder={user ? user.username+'@caldwell.edu' : "NONE"} disabled/>
                 </div>
               </div>
               <div className="student-info-field">
                 <label htmlFor="student-major">Major:</label>
-                  <select className="input-field-wrap" type="text" name="student-major" id="student-major" {...bindMajor}>
+                  <select className="input-field-wrap" type="text" name="student-major" id="student-major" {...bindMajor} placeholder={"Comp"}>
                     <option value="not-selected" selected></option>
                     <option value="Combined B.S. in Psychology / M.A. in Applied Behavior
                     Analysis">Combined B.S. in Psychology / M.A. in Applied Behavior

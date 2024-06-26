@@ -1,18 +1,18 @@
 // src/AlertBanner.jsx
-import React from 'react';
+import React, {useContext} from 'react';
 import '../../assets/css/alertbanner.css'; // We'll create this file next for styling
+import { ThemeContext } from '../../context/theme';
 
 const AlertBanner = ({ message, type, onClose }) => {
   if (!message) return null; // Don't render anything if there's no message
+  const { defaultTheme } = useContext(ThemeContext);
 
-  const getAlertClass = (type) => {
-    switch (type) {
-      case 'success':
-        return 'alert-success';
-      case 'error':
+  const getAlertClass = () => {
+    switch (defaultTheme) {
+      case 'light':
         return 'alert-error';
-      case 'warning':
-        return 'alert-warning';
+      case 'dark':
+        return 'alert-info';
       default:
         return 'alert-info';
     }

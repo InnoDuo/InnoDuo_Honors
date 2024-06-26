@@ -1,14 +1,14 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "../assets/css/signin.css";
 import { PiEyeBold, PiEyeClosedBold } from "react-icons/pi";
-import useInput from "./microcomponents/useInput";
+import useInput from "./microcomponents/customhooks/useInput";
 import { NavLink, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 // const baseUrl = "https://innoduo-honors.onrender.com"; // production
 const baseUrl = "http://localhost:3000"; // dev tests
 
 import { ThemeContext } from "../context/theme";
-import useAuth from "../context/authContext";
+import useAuth, { authContext } from "../context/authContext";
 
 const SignIn = () => {
   const history = useNavigate();
@@ -18,8 +18,8 @@ const SignIn = () => {
   const [password, bindPassword, resetPassword] = useInput("");
 
   const { defaultTheme } = useContext(ThemeContext);
-  const {loggedIn, login} = useAuth();
-  
+  const { login } = useAuth();
+
   const showPassHandler = () => {
     let userPass = document.getElementById("user-password");
     if (!showPass) {
@@ -35,32 +35,34 @@ const SignIn = () => {
     e.preventDefault();
     resetEmail();
     resetPassword();
-    fetch(baseUrl + "/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.message === "Logged in successfully") {
-          console.log("Logged in successfully");
-          () => login(data.user);
-          // navigate to students
-          console.log("logged in: ", loggedIn, "user: ", data.user);
-          history("/Students");
-          console.log(loggedIn);
-        } else {
-          // showError(data.message);
-          toast.error(data.message);
-        }
+
+    try {
+      const response = await fetch(baseUrl + "/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
       });
+      const data = await response.json();
+      if (data.message === "Logged in successfully") {
+        login(data.user);
+        history("/students");
+      } else {
+        logout();
+        toast.error(data.message);
+      }
+    } catch (error) {
+      logout();
+      toast.error("An error occurred during sign in.");
+    }
   };
 
   return (
     <div
-      className={`signin-page ${defaultTheme === 'dark' ? 'dark-container' : ''}`}
+      className={`signin-page ${
+        defaultTheme === "dark" ? "dark-container" : ""
+      }`}
     >
       <div className="signin-container">
         <div className="signin-content">
@@ -91,7 +93,7 @@ const SignIn = () => {
                       // style={fieldCondition}
                     />
                   </div>
-                  <span>@caldwell.edu</span>
+                  <span> @ caldwell.edu</span>
                 </div>
               </div>
 
