@@ -1,13 +1,16 @@
 import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "../assets/css/signin.css";
 import { PiEyeBold, PiEyeClosedBold } from "react-icons/pi";
 import useInput from "./microcomponents/customhooks/useInput";
+import useInput from "./microcomponents/customhooks/useInput";
 import { NavLink, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-// const baseUrl = "https://innoduo-honors.onrender.com"; // production
-const baseUrl = "http://localhost:3000"; // dev tests
+const baseUrl = "https://innoduo-honors.onrender.com"; // production
+//const baseUrl = "http://localhost:3000"; // dev tests
 
 import { ThemeContext } from "../context/theme";
+import useAuth, { authContext } from "../context/authContext";
 import useAuth, { authContext } from "../context/authContext";
 
 const SignIn = () => {
@@ -18,9 +21,7 @@ const SignIn = () => {
   const [password, bindPassword, resetPassword] = useInput("");
 
   const { defaultTheme } = useContext(ThemeContext);
-
-  const { loggedIn, login, logout } = useAuth();
-
+  const { login } = useAuth();
 
   const showPassHandler = () => {
     let userPass = document.getElementById("user-password");
@@ -48,30 +49,23 @@ const SignIn = () => {
       });
       const data = await response.json();
       if (data.message === "Logged in successfully") {
-        login();
-        console.log("Logged in successfully");
-        console.log("logged in: ", loggedIn, "user: ");
-        history('/students')
-        console.log("logged in: ", loggedIn, "user: ");
+        login(data.user);
+        history("/students");
       } else {
         logout();
         toast.error(data.message);
       }
     } catch (error) {
-      console.error("Error during sign in:", error);
       logout();
       toast.error("An error occurred during sign in.");
     }
-
   };
-
-  useEffect(() => {
-    console.log("loggedIn updated:", loggedIn);
-  }, [loggedIn]);
-
 
   return (
     <div
+      className={`signin-page ${
+        defaultTheme === "dark" ? "dark-container" : ""
+      }`}
       className={`signin-page ${
         defaultTheme === "dark" ? "dark-container" : ""
       }`}
@@ -105,7 +99,7 @@ const SignIn = () => {
                       // style={fieldCondition}
                     />
                   </div>
-                  <span>@caldwell.edu</span>
+                  <span> @ caldwell.edu</span>
                 </div>
               </div>
 

@@ -6,7 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { NavLink, useNavigate } from "react-router-dom";
 
-import { authContext } from "../context/authContext";
+import useAuth, { authContext } from "../context/authContext";
 import { ThemeContext } from "../context/theme";
 
 const SignUp = () => {
@@ -24,11 +24,9 @@ const SignUp = () => {
     "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
   );
 
-  
   const { defaultTheme } = useContext(ThemeContext);
-  const [loggedIn, login, logout ] = useContext(authContext);
+  const { login } = useAuth();
 
-{}
 
   const showPassHandler = () => {
     let userPass = document.getElementById("user-password");
@@ -75,7 +73,7 @@ const SignUp = () => {
       .then(res => res.json())
       .then(data => {
         if (data.message === 'User registered successfully') {
-          () => login(data.user);
+          login(data.user);
           console.log("Logged in user: ", data.user);
           history('/Profile');
         } else {
@@ -125,7 +123,7 @@ const SignUp = () => {
                       required
                     />
                   </div>
-                  <span>@caldwell.edu</span>
+                  <span> @ caldwell.edu</span>
                 </div>
               </div>
 
