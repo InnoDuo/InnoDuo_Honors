@@ -35,7 +35,7 @@ const HomePage = () => {
   return (
     <div className={`home-page page-container ${defaultTheme === 'dark' ? 'dark-container' : ''}`}>
       <AlertBanner message={alert.message} type={alert.type} onClose={closeAlert} />
-      <ModalBox title="New Message" message="this is a new message to all the students for the upcoming registration."/>
+      {/* <ModalBox title="New Message" message="this is a new message to all the students for the upcoming registration."/> */}
       {loggedIn && <HomeIntroduction />}
       <HomeHonorsProject students={students}/>
       <HomeProgramCriteria />
