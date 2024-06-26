@@ -1,13 +1,16 @@
 import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "../assets/css/signin.css";
 import { PiEyeBold, PiEyeClosedBold } from "react-icons/pi";
 import useInput from "./microcomponents/customhooks/useInput";
+import useInput from "./microcomponents/customhooks/useInput";
 import { NavLink, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-// const baseUrl = "https://innoduo-honors.onrender.com"; // production
-const baseUrl = "http://localhost:3000"; // dev tests
+const baseUrl = "https://innoduo-honors.onrender.com"; // production
+//const baseUrl = "http://localhost:3000"; // dev tests
 
 import { ThemeContext } from "../context/theme";
+import useAuth, { authContext } from "../context/authContext";
 import useAuth, { authContext } from "../context/authContext";
 
 const SignIn = () => {
@@ -60,6 +63,9 @@ const SignIn = () => {
 
   return (
     <div
+      className={`signin-page ${
+        defaultTheme === "dark" ? "dark-container" : ""
+      }`}
       className={`signin-page ${
         defaultTheme === "dark" ? "dark-container" : ""
       }`}
@@ -134,7 +140,8 @@ const SignIn = () => {
 
             <div className="auth-btn-holder">
               <div className="primary-btn">
-                <button type="submit">Sign In</button>
+              
+                  <button type="submit">Sign In</button>
               </div>
             </div>
           </form>
@@ -148,6 +155,13 @@ const SignIn = () => {
           </span>
         </div>
       </div>
+      <button
+        onClick={() => {
+          console.log(loggedIn);
+        }}
+      >
+        Hey
+      </button>
       <ToastContainer />
     </div>
   );
