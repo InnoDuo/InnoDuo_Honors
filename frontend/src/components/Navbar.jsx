@@ -24,7 +24,7 @@ const Navbar = () => {
       </div>
       <div className={`nav-menu ${menuOpen ? "open" : ""}`}>
         <div className="nav-links">
-          {loggedIn === 'true' && (
+          {loggedIn === "true" && (
             <>
               <div className="nav-items">Courses</div>
               <div className="nav-items">
@@ -41,23 +41,29 @@ const Navbar = () => {
           <ToggleSwitch label="theme" />
         </div>
         <div className="nav-auth">
-          <NavLink
-            to="/signin"
-            className={`sign-in-btn auth-btn ${menuOpen ? "primary-btn" : ""}`}
-          >
-            Sign In
-          </NavLink>
-
-          <NavLink
-            to="/"
-            onClick={() => {
-              logout();
-              toast.success("You have been logged out!");
-            }}
-            className={`sign-in-btn auth-btn ${menuOpen ? "primary-btn" : ""}`}
-          >
-            Log out
-          </NavLink>
+          {loggedIn === "false" ? (
+            <NavLink
+              to="/signin"
+              className={`sign-in-btn auth-btn ${
+                menuOpen ? "primary-btn" : ""
+              }`}
+            >
+              Sign In
+            </NavLink>
+          ) : (
+            <NavLink
+              to="/"
+              onClick={() => {
+                logout();
+                toast.success("You have been logged out!");
+              }}
+              className={`sign-in-btn auth-btn ${
+                menuOpen ? "primary-btn" : ""
+              }`}
+            >
+              Log out
+            </NavLink>
+          )}
         </div>
       </div>
       <div className="hamburger-menu" onClick={handleMenuToggle}>

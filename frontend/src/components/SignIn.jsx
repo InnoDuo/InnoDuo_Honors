@@ -47,7 +47,7 @@ const SignIn = () => {
       const data = await response.json();
       if (data.message === "Logged in successfully") {
         login(data.user);
-        history("/students");
+        history("/");
       } else {
         logout();
         toast.error(data.message);
@@ -149,13 +149,6 @@ const SignIn = () => {
           </span>
         </div>
       </div>
-      <button
-        onClick={() => {
-          console.log(loggedIn);
-        }}
-      >
-        Hey
-      </button>
       <ToastContainer />
     </div>
   );
