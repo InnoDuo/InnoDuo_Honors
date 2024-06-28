@@ -1,0 +1,102 @@
+[
+  {
+    "_id": { "$oid": "667e06c9da6a2dfdd2ebbb1a" },
+    "firstName": "John",
+    "lastName": "Doe",
+    "studentId": "400123",
+    "major": "Computer Science",
+    "advisor": "Jane Smith",
+    "gradYear": "2025",
+    "status": ["yes", "inprogress", "no", "yes", "no", "inprogress"]
+  },
+  {
+    "_id": { "$oid": "667e06fada6a2dfdd2ebbb1b" },
+    "firstName": "Alice",
+    "lastName": "Johnson",
+    "studentId": "400124",
+    "major": "Biology",
+    "advisor": "Michael Brown",
+    "gradYear": "2024",
+    "status": ["inprogress", "yes", "no", "yes", "no", "yes"]
+  },
+  {
+    "_id": { "$oid": "667e070eda6a2dfdd2ebbb1c" },
+    "firstName": "Robert",
+    "lastName": "Wilson",
+    "studentId": "400125",
+    "major": "Mathematics",
+    "advisor": "Laura Davis",
+    "gradYear": "2023",
+    "status": ["no", "inprogress", "yes", "no", "yes", "inprogress"]
+  },
+  {
+    "_id": { "$oid": "667e0719da6a2dfdd2ebbb1d" },
+    "firstName": "Jessica",
+    "lastName": "Miller",
+    "studentId": "400126",
+    "major": "Physics",
+    "advisor": "James Wilson",
+    "gradYear": "2022",
+    "status": ["yes", "yes", "no", "inprogress", "yes", "no"]
+  },
+  {
+    "_id": { "$oid": "667e0729da6a2dfdd2ebbb1e" },
+    "firstName": "Michael",
+    "lastName": "Taylor",
+    "studentId": "400127",
+    "major": "Chemistry",
+    "advisor": "Patricia Martinez",
+    "gradYear": "2026",
+    "status": ["inprogress", "no", "yes", "no", "inprogress", "yes"]
+  },
+  {
+    "_id": { "$oid": "667e0738da6a2dfdd2ebbb1f" },
+    "firstName": "Emily",
+    "lastName": "Anderson",
+    "studentId": "400128",
+    "major": "Engineering",
+    "advisor": "Christopher Hernandez",
+    "gradYear": "2025",
+    "status": ["no", "yes", "inprogress", "yes", "no", "inprogress"]
+  },
+  {
+    "_id": { "$oid": "667e0744da6a2dfdd2ebbb20" },
+    "firstName": "David",
+    "lastName": "Moore",
+    "studentId": "400129",
+    "major": "Economics",
+    "advisor": "Sarah Clark",
+    "gradYear": "2024",
+    "status": ["yes", "no", "yes", "inprogress", "no", "yes"]
+  },
+  {
+    "_id": { "$oid": "667e074eda6a2dfdd2ebbb21" },
+    "firstName": "Sophia",
+    "lastName": "Thomas",
+    "studentId": "400130",
+    "major": "Psychology",
+    "advisor": "Daniel Lewis",
+    "gradYear": "2023",
+    "status": ["inprogress", "yes", "no", "yes", "inprogress", "no"]
+  },
+  {
+    "_id": { "$oid": "667e0758da6a2dfdd2ebbb22" },
+    "firstName": "James",
+    "lastName": "Jackson",
+    "studentId": "400131",
+    "major": "Art History",
+    "advisor": "Elizabeth Walker",
+    "gradYear": "2022",
+    "status": ["no", "inprogress", "yes", "no", "yes", "inprogress"]
+  },
+  {
+    "_id": { "$oid": "667e0763da6a2dfdd2ebbb23" },
+    "firstName": "Olivia",
+    "lastName": "White",
+    "studentId": "400132",
+    "major": "English",
+    "advisor": "Matthew Hall",
+    "gradYear": "2026",
+    "status": ["yes", "no", "inprogress", "yes", "no", "yes"]
+  }
+]

@@ -5,13 +5,13 @@ import { PiEyeBold, PiEyeClosedBold } from "react-icons/pi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { NavLink, useNavigate } from "react-router-dom";
-
 import useAuth, { authContext } from "../context/authContext";
 import { ThemeContext } from "../context/theme";
 
 const SignUp = () => {
   const baseUrl = "http://localhost:3000"; // dev tests
   // const baseUrl = "https://innoduo-honors.onrender.com"; // prod
+
   const history = useNavigate();
   const [showPass, setShowPass] = useState(false);
   const [showConfirmPass, setShowConfirmPass] = useState(false);

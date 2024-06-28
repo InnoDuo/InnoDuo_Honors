@@ -12,6 +12,7 @@ import { ThemeProvider } from "./context/theme";
 import { React, useState, useEffect } from "react";
 import { AuthProvider } from "./context/authContext";
 import { ToastContainer, toast} from "react-toastify";
+import SampleTable from "./components/SampleTable";
 
 function App() {
   const [defaultTheme, setDefaultTheme] = useState("light");
@@ -21,11 +22,13 @@ function App() {
   const login = (user) => {
     setLoggedIn("true");
     setUser(user);
+    localStorage.setItem('authToken', user.authToken);
   };
 
   const logout = () => {
     setLoggedIn("false");
     setUser(null);
+    localStorage.removeItem('authToken');
   };
 
   const darkTheme = () => {
@@ -57,6 +60,7 @@ function App() {
             <Route path="/signup" element={<SignUp />} />
             <Route path="/students" element={<Students />} />
             <Route path="/profile" element={<StudentProfile />} />
+            <Route path="/sampleTable" element={<SampleTable />} />
             <Route path="*" element={<PageNotFound />} />
           </Routes>
           {/* <HomePage /> */}
