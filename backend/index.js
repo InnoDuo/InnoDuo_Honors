@@ -4,6 +4,7 @@ const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const bcrypt = require('bcrypt');
+const crypto = require('crypto');
 const app = express();
 const PORT = process.env.PORT || 3000;
 const cors = require('cors');
@@ -45,7 +46,9 @@ async function run() {
 
     // Middleware to check if user is authenticated
     const isAuthenticated = (req, res, next) => {
-      if (req.session.userId) {
+      const authToken = req.headers.authToken;
+      const user = usersCollection.findOne({ authToken });
+      if (user && user.authToken === authToken) {
         return next();
       }
       res.status(401).send('Unauthorized');
@@ -66,7 +69,9 @@ async function run() {
       try {
         const { email, id, password } = req.body;
         const hashedPassword = await bcrypt.hash(password, 10);
-        const result = await usersCollection.insertOne({ username:email, studentId:id, password: hashedPassword });
+        const authToken = crypto.randomBytes(64).toString('hex');
+
+        const result = await usersCollection.insertOne({ username:email, studentId:id, password: hashedPassword, authToken });
         if (result.insertedCount === 0){ 
           return res.status(400).send({message: 'User registration failed'});
         } else {
@@ -90,11 +95,12 @@ async function run() {
         const validPassword = await bcrypt.compare(password, user.password);
         if (!validPassword) return res.status(403).send({message:'Invalid password'});
 
-        req.session.userId = user._id;
-        req.session.email = user.email;
+        const authToken = crypto.randomBytes(64).toString('hex');
+        await usersCollection.updateOne({ username:email }, { $set: { authToken} });
         // filtering out the password from the user object
         usertobesent = user;
         delete usertobesent.password;
+
         res.send({message: 'Logged in successfully', user: usertobesent});
       } catch (error) {
         res.status(500).send(error.message);
