@@ -24,7 +24,7 @@ const Navbar = () => {
       </div>
       <div className={`nav-menu ${menuOpen ? "open" : ""}`}>
         <div className="nav-links">
-          {loggedIn === "true" && (
+          {loggedIn === true && (
             <>
               <div className="nav-items">Courses</div>
               <div className="nav-items">
@@ -41,7 +41,7 @@ const Navbar = () => {
           <ToggleSwitch label="theme" />
         </div>
         <div className="nav-auth">
-          {loggedIn === "false" ? (
+          {loggedIn === false ? (
             <NavLink
               to="/signin"
               className={`sign-in-btn auth-btn ${
