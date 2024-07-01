@@ -24,7 +24,7 @@ const SearchBar = () => {
               {...bindSearch}
             />
           </div>
-          <div className="search-icon">
+          <div className="search-icon" type="submit">
             <IoSearch size={22}/>
           </div>
         </form>
