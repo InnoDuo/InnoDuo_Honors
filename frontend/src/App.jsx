@@ -17,12 +17,12 @@ import SampleTable from "./components/SampleTable";
 function App() {
   const [defaultTheme, setDefaultTheme] = useState("light");
   const [loggedIn, setLoggedIn] = useState(false);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState();
 
   const login = (user) => {
     setLoggedIn(true);
     setUser(user);
-    localStorage.setItem("authToken", "30m2133"+user.authToken);
+    localStorage.setItem("authToken", user.authToken);
   };
 
   const logout = () => {
@@ -43,16 +43,15 @@ function App() {
     document.querySelector("html").classList.add(defaultTheme);
   }, [defaultTheme]);
 
-  // useEffect(() => {
-  //   // toast.info("Welcome to the Page!");
-  // }, [loggedIn]);
 
   useEffect(() => {
     const authToken = localStorage.getItem("authToken");
     if (authToken) {
       setLoggedIn(true);
+      setUser(user)
     }
   }, []);
+
 
   return (
     <ThemeProvider value={{ defaultTheme, darkTheme, lightTheme }}>

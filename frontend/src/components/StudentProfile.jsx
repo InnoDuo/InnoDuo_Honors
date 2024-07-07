@@ -1,4 +1,4 @@
-import {React, useContext} from "react";
+import {React, useContext, useState, useEffect} from "react";
 import "../assets/css/studentprofile.css";
 import StudentProfileCatalog from "./microcomponents/StudentProfileCatalog";
 import useInput from "./microcomponents/customhooks/useInput";
@@ -9,13 +9,17 @@ const StudentProfile = () => {
 
   const { defaultTheme } = useContext(ThemeContext);
   const { user } = useContext(authContext);
+  useEffect(() => {
+    
+  }, [user])
 
-  const[id, bindId, resetID]= useInput("")
-  const[email, bindEmail, resetEmail]= useInput("")
-  const[advisor, bindAdvisor, resetAdvisor]= useInput("")
-  const[classification, bindClassification, resetClassification]= useInput("")
-  const[major, bindMajor, resetMajor]= useInput("")
-  const[phoneNo, bindPhoneNo, resetPhoneNo]= useInput("")
+  console.log(user)
+  const [id, bindId, resetId] = useInput(user.studentId);
+  const [email, bindEmail, resetEmail] = useInput(user.username+'@caldwell.edu');
+  const [advisor, bindAdvisor, resetAdvisor] = useInput('');
+  const [classification, bindClassification, resetClassification] = useInput('');
+  const [major, bindMajor, resetMajor] = useInput('');
+  const [phoneNo, bindPhoneNo, resetPhoneNo] = useInput('');
 
   return (
     <div className={`page-container ${defaultTheme === 'dark' ? 'dark-container' : ''}`}>
@@ -29,18 +33,18 @@ const StudentProfile = () => {
               <div className="student-info-field disabled-input">
                 <label htmlFor="student-id"> Student ID:</label>
                 <div className="input-field-wrap">
-                  <input type="number" name="student-id" id="student-id" {...bindId} placeholder={user ? user.studentId : "NONE" } disabled/>
+                  <input type="number" name="student-id" id="student-id" {...bindId} disabled/>
                 </div>
               </div>
               <div className="student-info-field disabled-input">
                 <label htmlFor="student-email">Email:</label>
                 <div className="input-field-wrap">
-                  <input type="email" name="student-email" id="student-email" {...bindEmail} placeholder={user ? user.username+'@caldwell.edu' : "NONE"} disabled/>
+                  <input type="email" name="student-email" id="student-email" {...bindEmail} disabled/>
                 </div>
               </div>
               <div className="student-info-field">
                 <label htmlFor="student-major">Major:</label>
-                  <select className="input-field-wrap" type="text" name="student-major" id="student-major" {...bindMajor} placeholder={"Comp"}>
+                  <select className="input-field-wrap" type="text" name="student-major" id="student-major" {...bindMajor} >
                     <option value="not-selected" selected></option>
                     <option value="Combined B.S. in Psychology / M.A. in Applied Behavior
                     Analysis">Combined B.S. in Psychology / M.A. in Applied Behavior
