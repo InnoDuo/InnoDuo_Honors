@@ -11,24 +11,24 @@ import StudentProfile from "./components/StudentProfile";
 import { ThemeProvider } from "./context/theme";
 import { React, useState, useEffect } from "react";
 import { AuthProvider } from "./context/authContext";
-import { ToastContainer, toast} from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import SampleTable from "./components/SampleTable";
 
 function App() {
   const [defaultTheme, setDefaultTheme] = useState("light");
-  const [loggedIn, setLoggedIn] = useState("false");
+  const [loggedIn, setLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
 
   const login = (user) => {
-    setLoggedIn("true");
+    setLoggedIn(true);
     setUser(user);
-    localStorage.setItem('authToken', user.authToken);
+    localStorage.setItem("authToken", "30m2133"+user.authToken);
   };
 
   const logout = () => {
-    setLoggedIn("false");
+    setLoggedIn(false);
     setUser(null);
-    localStorage.removeItem('authToken');
+    localStorage.removeItem("authToken");
   };
 
   const darkTheme = () => {
@@ -43,9 +43,16 @@ function App() {
     document.querySelector("html").classList.add(defaultTheme);
   }, [defaultTheme]);
 
+  // useEffect(() => {
+  //   // toast.info("Welcome to the Page!");
+  // }, [loggedIn]);
+
   useEffect(() => {
-    // toast.info("Welcome to the Page!");
-  }, [loggedIn]);
+    const authToken = localStorage.getItem("authToken");
+    if (authToken) {
+      setLoggedIn(true);
+    }
+  }, []);
 
   return (
     <ThemeProvider value={{ defaultTheme, darkTheme, lightTheme }}>
@@ -74,14 +81,6 @@ function App() {
 
 export const homeThemeStyle = {
   backgroundColor: "#272727",
-  color: "#f1f1f1",
-};
-
-export const inpWrapThemeStyle = {
-  border: "solid 1px #fff",
-};
-
-export const inpFieldThemeStyle = {
   color: "#f1f1f1",
 };
 

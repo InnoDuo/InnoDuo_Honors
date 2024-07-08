@@ -43,6 +43,7 @@ async function run() {
     const database = client.db('student-management');
     const usersCollection = database.collection('users');
     const studentsCollection = database.collection('students');
+    const catalogCollection = database.collection('catalog');
 
     // Middleware to check if user is authenticated
     const isAuthenticated = (req, res, next) => {
@@ -131,6 +132,16 @@ async function run() {
         const students = await studentsCollection.find().toArray();
         res.send(students);
       } catch (error) {
+        res.status(500).send(error.message);
+      }
+    });
+
+    app.get('/catalog', isAuthenticated, async (req, res) => {
+      try {
+        const catalog = await catalogCollection;
+        res.send(catalog);
+      } catch (error) {
+        console.log("error", error)
         res.status(500).send(error.message);
       }
     });

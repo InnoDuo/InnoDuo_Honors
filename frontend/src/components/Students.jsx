@@ -37,12 +37,12 @@ const Students = () => {
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [loggedIn]);
 
   return (
     <div className="students-container page-container" style={defaultTheme === 'dark' ? homeThemeStyle : {}}>
       <h2>Honors Students List</h2>
-      <p>Logged in: {loggedIn}</p>
+      <p>Logged in: {loggedIn? 'true':'false'}</p>
       <SearchBar />
       <StudentsTable
         cols={[

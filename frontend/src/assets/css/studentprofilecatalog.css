@@ -1,0 +1,40 @@
+.catalog-layout {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .catalog-category {
+    flex: 1;
+    margin: 10px;
+  }
+  
+  .category-section {
+    border: 1px solid #ccc;
+    padding: 10px;
+  }
+  
+  .classes-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  
+  .class-box {
+    border: 1px solid #ddd;
+    margin: 5px;
+    padding: 5px;
+    width: 200px; /* Adjust based on your preference */
+  }
+  
+  .semester-box {
+    margin-top: 10px;
+  }
+  
+  .semester-title {
+    font-weight: bold;
+  }
+  
+  .class-lists {
+    margin-top: 5px;
+  }
+  
