@@ -43,14 +43,11 @@ function App() {
     document.querySelector("html").classList.add(defaultTheme);
   }, [defaultTheme]);
 
-  // useEffect(() => {
-  //   // toast.info("Welcome to the Page!");
-  // }, [loggedIn]);
-
   useEffect(() => {
     const authToken = localStorage.getItem("authToken");
     if (authToken) {
       setLoggedIn(true);
+      setUser(user)
     }
   }, []);
 
