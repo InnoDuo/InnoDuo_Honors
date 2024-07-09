@@ -8,7 +8,7 @@ const StudentProfileCatalog = () => {
       <div className="catalog-contents">
 
         {
-            console.log(stuCatalog)
+            // console.log(stuCatalog)
         }
 
 <table>
