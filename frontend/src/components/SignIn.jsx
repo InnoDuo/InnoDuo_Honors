@@ -18,7 +18,7 @@ const SignIn = () => {
   const [password, bindPassword, resetPassword] = useInput("");
 
   const { defaultTheme } = useContext(ThemeContext);
-  const { login } = useAuth();
+  const { login, logout } = useAuth();
 
   const showPassHandler = () => {
     let userPass = document.getElementById("user-password");

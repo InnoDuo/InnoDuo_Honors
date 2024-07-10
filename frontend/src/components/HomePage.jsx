@@ -37,11 +37,41 @@ const HomePage = () => {
       <AlertBanner message={alert.message} type={alert.type} onClose={closeAlert} />
       {/* <ModalBox title="New Message" message="this is a new message to all the students for the upcoming registration."/> */}
       {loggedIn && <HomeIntroduction />}
-      <HomeHonorsProject students={students}/>
+      <HomeHonorsProject />
+      <HonorsNumbers students={students}/>
       <HomeProgramCriteria />
     </div>
   );
 };
+
+const HonorsNumbers = ({students}) => {
+  return (
+    <>
+    <div style={{backgroundColor: 'black', padding: '10px', borderRadius: '5px'}}>
+        <h1 className="flex justify-center" style={{color:"white"}}><b>Join the Honors Program</b></h1>
+        <div className="flex items-center gap-4 justify-center">
+        <h2 style={{'color':'red'}}>
+
+        <div className="flex items-center gap-4">
+              <UsersIcon className="w-8 h-8" />
+              <span className="text-2xl font-bold">{students}</span>
+              <span>Honors Students</span>
+            </div>
+        </h2>
+        <h2 style={{'color':'red'}}>
+
+        <div className="flex items-center gap-4">
+        <PencilIcon className="w-8 h-8" />
+              <span className="text-2xl font-bold">0</span>
+              <span>Honors Classes</span>
+            </div>
+        </h2>
+        </div>
+      </div>
+      <br />
+      </>
+  );
+}
 
 const HomeIntroduction = () => {
   return (
@@ -86,7 +116,7 @@ const HomeIntroduction = () => {
   );
 };
 
-export const HomeHonorsProject = ({students}) => {
+export const HomeHonorsProject = () => {
   return (
     <div className="hon-project-content home-content">
       <div className="heading-two">
@@ -103,15 +133,6 @@ export const HomeHonorsProject = ({students}) => {
         choice. The topic must then be approved by the Honors Program Committee,
         a committee of interdisciplinary faculty, led by Dr. Harney-Mahajan and
         Dr. Sigurjonsson.
-      </div>
-      <br />
-      <div style={{backgroundColor: 'lightgray', padding: '10px', borderRadius: '5px'}}>
-        <p><b>Test for Anuj Here ↓</b></p>
-        <h2 style={{'color':'red'}}>
-          
-          There are currently {students} students in the Honors Program.
-        </h2>
-        <p style={{fontSize:'10px'}}><i>Add more in the database to see the changes in the number.</i></p>
       </div>
     </div>
   );
@@ -144,3 +165,46 @@ const HomeProgramCriteria = () => {
 };
 
 export default HomePage;
+
+
+function UsersIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+      <circle cx="9" cy="7" r="4" />
+      <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+    </svg>
+  )
+}
+
+function PencilIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
+      <path d="m15 5 4 4" />
+    </svg>
+  )
+}

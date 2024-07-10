@@ -42,7 +42,6 @@ async function run() {
 
     const database = client.db('student-management');
     const usersCollection = database.collection('users');
-    const studentsCollection = database.collection('students');
     const catalogCollection = database.collection('catalog');
 
     // Middleware to check if user is authenticated
@@ -58,7 +57,7 @@ async function run() {
     // Total no of students for home page
     app.get('/totalStudents', async (req, res) => {
       try {
-        const totalStudents = await studentsCollection.countDocuments();
+        const totalStudents = await usersCollection.countDocuments();
         res.send({ totalStudents });
       } catch (error) {
         res.status(500).send(error.message);
@@ -92,7 +91,7 @@ async function run() {
         const { email, password } = req.body;
         const user = await usersCollection.findOne({ username:email });
         if (!user) return res.status(404).send({message:"User not found"});
-
+        
         const validPassword = await bcrypt.compare(password, user.password);
         if (!validPassword) return res.status(403).send({message:'Invalid password'});
 
@@ -120,7 +119,7 @@ async function run() {
     app.post('/students', isAuthenticated, async (req, res) => {
       try {
         const student = req.body;
-        const result = await studentsCollection.insertOne(student);
+        const result = await usersCollection.insertOne(student);
         res.status(201).send(result);
       } catch (error) {
         res.status(500).send(error.message);
@@ -129,7 +128,7 @@ async function run() {
 
     app.get('/students', isAuthenticated, async (req, res) => {
       try {
-        const students = await studentsCollection.find().toArray();
+        const students = await usersCollection.find().toArray();
         res.send(students);
       } catch (error) {
         res.status(500).send(error.message);
@@ -148,7 +147,7 @@ async function run() {
 
     app.get('/students/:id', isAuthenticated, async (req, res) => {
       try {
-        const student = await studentsCollection.findOne({ _id: new ObjectId(req.params.id) });
+        const student = await usersCollection.findOne({ _id: new ObjectId(req.params.id) });
         if (!student) return res.status(404).send('Student not found');
         res.send(student);
       } catch (error) {
@@ -156,11 +155,11 @@ async function run() {
       }
     });
 
-    app.put('/students/:id', isAuthenticated, async (req, res) => {
+    app.put('/students/:studentId', isAuthenticated, async (req, res) => {
       try {
         const updatedStudent = req.body;
-        const result = await studentsCollection.updateOne(
-          { _id: new ObjectId(req.params.id) },
+        const result = await usersCollection.updateOne(
+          { studentId: (req.params.studentId) },
           { $set: updatedStudent }
         );
         if (result.matchedCount === 0) return res.status(404).send('Student not found');
@@ -172,7 +171,7 @@ async function run() {
 
     app.delete('/students/:id', isAuthenticated, async (req, res) => {
       try {
-        const result = await studentsCollection.deleteOne({ _id: new ObjectId(req.params.id) });
+        const result = await usersCollection.deleteOne({ _id: new ObjectId(req.params.id) });
         if (result.deletedCount === 0) return res.status(404).send('Student not found');
         res.send(result);
       } catch (error) {
