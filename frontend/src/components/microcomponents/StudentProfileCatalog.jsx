@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import stuCatalog from "../../assets/test-json";
 import "../../assets/css/studentprofilecatalog.css";
 
@@ -6,156 +6,179 @@ const apiURL = "http://localhost:3000";
 // const apiURL = "https://innoduo-honors.onrender.com";
 
 const StudentProfileCatalog = () => {
-    const [courseCatalog, setcourseCatalog] = useState([]);
-    const authToken = localStorage.getItem("authToken");
+  const [studentClasses, setStudentClasses] = useState([]);
+  const authToken = localStorage.getItem("authToken");
 
-    useEffect(() => {
-        fetch(`${apiURL}/catalog`,
-        {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                authToken: `${authToken}`
-            },
-        }).then((response) => response.json())
-        .then((data) => {
-            // setcourseCatalog(data);
-            console.log(data);
-        }).catch((error) => {
-            console.error("Error fetching data:", error);
-        });
-    }, [])
-            
-    // TASK 2: Use AuthContext to get StudentID 
-    // const studentId = 789898;
+  useEffect(() => {
+    fetch(`${apiURL}/catalog`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        authToken: `${authToken}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setStudentClasses(data.classes);
+        // console.log(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, []);
+
+  const requiredClasses = {
+    CRACAD: 1,
+    Cores: 2,
+    Events: 2,
+    Freshman: 1,
+    Research: 1,
+    Seminars: 2,
+  };
+
+  const categoryDisplayNames = {
+    CRACAD: "CRACAD Presentation",
+    Cores: "Honors Core Classes",
+    Events: "Service Events",
+    Freshman: "Freshman Seminar",
+    Research: "Research Methodology",
+    Seminars: "Honors Seminars",
+  };
+
+  const isStudentInClass = (semesters) => {
+    const takenSemesters = [];
+    for (const semester in semesters) {
+      for (const section in semesters[semester]) {
+        const sectionData = semesters[semester][section];
+        if (sectionData.students.includes(studentId.toString())) {
+          takenSemesters.push({
+            semester,
+            section,
+            status: sectionData.status,
+          });
+        }
+      }
+    }
+    return takenSemesters;
+  };
+
+  const renderClass = (classes) => {
+    const studentClasses = classes
+      .map((cls) => {
+        const takenSemesters = isStudentInClass(cls.semesters);
+        if (takenSemesters.length > 0) {
+          return (
+            <div key={cls.className}>
+              
+                
+                {takenSemesters.map((ts, index) => (
+                  <span><span
+                      style={{
+                        display: "inline-block",
+                        width: "10px",
+                        height: "10px",
+                        borderRadius: "50%",
+                        backgroundColor: ts.status ? "green" : "orange",
+                        marginRight: "6px",
+                      }}
+                      ></span>{cls.className}{" "}<span key={index}>
+                    ({ts.semester}, {ts.section})
+                    </span>
+                    <br></br>
+                  </span>
+                ))}
+              
+            </div>
+          );
+        }
+        return null;
+      })
+      .filter(Boolean);
+
+    if (studentClasses.length === 0) {
+      return <span>None</span>;
+    }
+    return studentClasses;
+  };
+
+  const getClassCount = (classes) => {
+    return classes.reduce(
+      (count, cls) =>
+        count + (isStudentInClass(cls.semesters).length > 0 ? 1 : 0),
+      0
+    );
+  };
+
+  const renderCategory = (category, classes) => {
+    const classCount = getClassCount(classes);
+    const requiredCount = requiredClasses[category];
+    const isCompleted = requiredCount - classCount;
+    var isCompletedColor = "red";
+    if (isCompleted <= 0){isCompletedColor = "green";}
+    else if (classCount == 0){isCompletedColor = "red";}
+    else if (isCompleted >= 1){isCompletedColor = "orange";}
+
+    const circleStyle = {
+      display: "inline-block",
+      width: "20px",
+      height: "20px",
+      borderRadius: "50%",
+      backgroundColor: isCompletedColor,
+      marginLeft: "10px",
+      verticalAlign: "middle",
+    };
+
+    const categoryNameStyle = {
+      flex: "1",
+      textAlign: "left",
+      paddingLeft: "20px",
+    };
+
+    const circleContainerStyle = {
+      flex: "0 0 40px",
+      textAlign: "center",
+    };
+
+    const classContainerStyle = {
+      flex: "2",
+      textAlign: "left",
+      marginLeft: "20px",
+    };
+
+    return (
+      <div
+        key={category}
+        className="category-section"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-evenly",
+          padding: "10px 0",
+        }}
+      >
+        <h4 style={categoryNameStyle}>{categoryDisplayNames[category]}</h4>
+        <div style={circleContainerStyle}>
+          <div style={circleStyle}></div>
+        </div>
+        <div style={classContainerStyle}>{renderClass(classes)}</div>
+      </div>
+    );
+  };
+  // TASK 2: Use AuthContext to get StudentID
+  const studentId = "40001";
 
   return (
     <div className="catalog-container">
-      <h3 className="user-name">Exact Student Name Catalog</h3>
-      <div className="catalog-contents">
-        {/* {console.log(stuCatalog)} */}
-        <table>
-          <tbody>
-
-          <div className="catalog-layout catalog-box">
-  {courseCatalog.map((category, index) => (
-    <div className="catalog-category" key={index}>
-      {Object.keys(category).map((catKey) => (
-        <div key={catKey} className="category-section">
-          <div className="category-name">{category[catKey].catName}</div>
-          <div className="classes-container">
-            {Object.keys(category[catKey]).map((classKey) => {
-              if (classKey === 'catName') return null; // Skip the catName key
-              const classInfo = category[catKey][classKey];
-              const semesters = classInfo.semester;
-
-              let isStudentInClass = false;
-              Object.keys(semesters).forEach((semKey) => {
-                Object.keys(semesters[semKey]).forEach((subSemKey) => {
-                  if (semesters[semKey][subSemKey].includes(studentId)) {
-                    isStudentInClass = true;
-                  }
-                });
-              });
-
-              if (!isStudentInClass) return null; // Skip classes the student is not in
-
-              return (
-                <div className="class-box" key={`${category[catKey].catName}-${classKey}`}>
-                  <label className="class-title">{classInfo.className}</label>
-                </div>
-              );
-            })}
-          </div>
+      <div className="catalog-box">
+        <h3 className="user-name">Student Course Catalog</h3>
+        <div className="catalog-contents">
+          {Object.keys(studentClasses).map((category) =>
+            renderCategory(category, studentClasses[category])
+          )}
         </div>
-      ))}
-    </div>
-  ))}
-</div>
-
-          </tbody>
-        </table>
-        {/* <div className="catalog-content">
-                <label className="catagory-title">Honors Seminar</label>
-                <div className="catagory-lists"></div>
-            </div>
-            <div className="catalog-content">
-                <label className="catagory-title">Honors Core Classes</label>
-                <div className="catagory-lists"></div>
-            </div>
-            <div className="catalog-content">
-                <label className="catagory-title">Freshman Seminar</label>
-                <div className="catagory-lists"></div>
-            </div>
-            <div className="catalog-content">
-                <label className="catagory-title">Research Methodology</label>
-                <div className="catagory-lists"></div>
-            </div>
-            <div className="catalog-content">
-                <label className="catagory-title">Honors Project</label>
-                <div className="catagory-lists"></div>
-            </div>
-            <div className="catalog-content">
-                <label className="catagory-title">CRACAD Presentation</label>
-                <div className="catagory-lists"></div>
-            </div>
-            <div className="catalog-content">
-                <label className="catagory-title">Service Events</label>
-                <div className="catagory-lists"></div>
-            </div> */}
       </div>
     </div>
   );
 };
 
 export default StudentProfileCatalog;
-
-            {/* <div className="catalog-layout catalog-box">
-              {stuCatalog.map((category, index) => (
-                <div className="catalog-category" key={index}>
-                  {Object.keys(category).map((catKey) => (
-                    <div key={catKey} className="category-section">
-                      <div className="category-name">
-                        {category[catKey].catName} - boo
-                      </div>
-                      <div className="classes-container">
-                        {Object.keys(category[catKey]).map((classKey) => {
-                          if (classKey === "catName") return null; // Skip the catName key
-                          return (
-                            <div
-                              className="class-box"
-                              key={`${category[catKey].catName}-${classKey}`}
-                            >
-                              <label className="class-title">
-                                {category[catKey][classKey].className}
-                              </label>
-                              {Object.keys(
-                                category[catKey][classKey].semester
-                              ).map((semKey) => (
-                                <div key={semKey} className="semester-box">
-                                  <div className="semester-title">{semKey}</div>
-                                  {Object.keys(
-                                    category[catKey][classKey].semester[semKey]
-                                  ).map((subSemKey) => {
-                                    return (
-                                      <div
-                                        key={subSemKey}
-                                        className="class-lists"
-                                      >
-                                        {category[catKey][classKey].semester[
-                                          semKey
-                                        ][subSemKey].join(", ")}
-                                      </div>
-                                    );
-                                  })}
-                                </div>
-                              ))}
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ))}
-            </div> */}

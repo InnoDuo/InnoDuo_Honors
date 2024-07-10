@@ -9,18 +9,14 @@ const StudentProfile = () => {
 
   const { defaultTheme } = useContext(ThemeContext);
   // const { user } = useContext(authContext);
-
   const [user, setUser] = useState({});
 
-  // useEffect(() => {
+  useEffect(() => {
   const storedUser = localStorage.getItem("user");
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
-  // }, []);
-  console.log("suererer", user)
-
-  console.log("usususu", user  )
+  }, []);
   
   const [id, bindId, resetId] = useInput(user.studentId);
   const [email, bindEmail, resetEmail] = useInput(user.username,'@caldwell.edu');
@@ -28,16 +24,10 @@ const StudentProfile = () => {
   const [classification, bindClassification, resetClassification] = useInput('');
   const [major, bindMajor, resetMajor] = useInput('');
   const [phoneNo, bindPhoneNo, resetPhoneNo] = useInput('');
-
-  useEffect(() => {
-    
-  
-    
-  }, [user])
   
 
   if (!user) {
-    return <div>Loading...</div>;
+    return (<div>Loading...</div>);
   }
 
   const profileSubmitHandler = async (e)=>{
