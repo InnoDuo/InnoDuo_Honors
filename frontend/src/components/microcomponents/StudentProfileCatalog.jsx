@@ -34,7 +34,6 @@ const StudentProfileCatalog = () => {
       <h3 className="user-name">Exact Student Name Catalog</h3>
       <div className="catalog-contents">
         {/* {console.log(stuCatalog)} */}
-
         <table>
           <tbody>
 

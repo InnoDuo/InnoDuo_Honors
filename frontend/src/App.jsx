@@ -22,13 +22,14 @@ function App() {
   const login = (user) => {
     setLoggedIn(true);
     setUser(user);
-    localStorage.setItem("authToken", "30m2133"+user.authToken);
+    localStorage.setItem("authToken", user.authToken);
+    localStorage.setItem("user", JSON.stringify(user));
   };
 
   const logout = () => {
     setLoggedIn(false);
-    setUser(null);
     localStorage.removeItem("authToken");
+    localStorage.removeItem("user");
   };
 
   const darkTheme = () => {
@@ -45,9 +46,10 @@ function App() {
 
   useEffect(() => {
     const authToken = localStorage.getItem("authToken");
-    if (authToken) {
+    const storedUser = localStorage.getItem("user");
+    if (authToken && storedUser) {
       setLoggedIn(true);
-      setUser(user)
+      setUser(JSON.parse(storedUser));
     }
   }, []);
 

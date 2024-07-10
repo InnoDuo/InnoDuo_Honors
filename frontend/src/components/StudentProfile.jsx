@@ -8,18 +8,48 @@ import { authContext } from "../context/authContext";
 const StudentProfile = () => {
 
   const { defaultTheme } = useContext(ThemeContext);
-  const { user } = useContext(authContext);
-  useEffect(() => {
-    
-  }, [user])
+  // const { user } = useContext(authContext);
 
-  console.log(user);
+  const [user, setUser] = useState({});
+
+  // useEffect(() => {
+  const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  // }, []);
+  console.log("suererer", user)
+
+  console.log("usususu", user  )
+  
   const [id, bindId, resetId] = useInput(user.studentId);
-  const [email, bindEmail, resetEmail] = useInput(user.username+'@caldwell.edu');
+  const [email, bindEmail, resetEmail] = useInput(user.username,'@caldwell.edu');
   const [advisor, bindAdvisor, resetAdvisor] = useInput('');
   const [classification, bindClassification, resetClassification] = useInput('');
   const [major, bindMajor, resetMajor] = useInput('');
   const [phoneNo, bindPhoneNo, resetPhoneNo] = useInput('');
+
+  useEffect(() => {
+    
+  
+    
+  }, [user])
+  
+
+  if (!user) {
+    return <div>Loading...</div>;
+  }
+
+  const profileSubmitHandler = async (e)=>{
+    e.preventDefault();
+    resetId();
+    resetEmail();
+    resetAdvisor();
+    resetClassification();
+    resetMajor();
+    resetPhoneNo();
+
+  }
 
   return (
     <div className={`page-container ${defaultTheme === 'dark' ? 'dark-container' : ''}`}>
@@ -28,12 +58,12 @@ const StudentProfile = () => {
           <h2>Student Name</h2>
         </div>
         <div className="student-info-content">
-          <form action="" className="student-info-form">
+          <form action="" className="student-info-form" onSubmit={profileSubmitHandler}>
             <div className="student-info-fields">
               <div className="student-info-field disabled-input">
                 <label htmlFor="student-id"> Student ID:</label>
                 <div className="input-field-wrap">
-                  <input type="number" name="student-id" id="student-id" {...bindId} disabled/>
+                  <input type="number" name="student-id" id="student-id" {...bindId} disabled />
                 </div>
               </div>
               <div className="student-info-field disabled-input">
