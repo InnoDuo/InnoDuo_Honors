@@ -21,7 +21,7 @@ const StudentProfile = () => {
   console.log("suererer", user)
 
   console.log("usususu", user  )
-
+  
   const [id, bindId, resetId] = useInput(user.studentId);
   const [email, bindEmail, resetEmail] = useInput(user.username,'@caldwell.edu');
   const [advisor, bindAdvisor, resetAdvisor] = useInput('');
