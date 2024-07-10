@@ -6,7 +6,8 @@ import { ThemeContext } from "../context/theme";
 import { authContext } from "../context/authContext";
 import ModalBox from "./microcomponents/ModalBox";
 
-const baseUrl = 'https://innoduo-honors.onrender.com/';
+// const baseUrl = 'https://innoduo-honors.onrender.com/';
+const baseUrl = 'http://localhost:3000/';
 
 const HomePage = () => {
   const { defaultTheme } = useContext(ThemeContext);
