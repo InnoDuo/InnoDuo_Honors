@@ -91,14 +91,17 @@ async function run() {
         const { email, password } = req.body;
         const user = await usersCollection.findOne({ username:email });
         if (!user) return res.status(404).send({message:"User not found"});
+        console.log("user", user)
         
         const validPassword = await bcrypt.compare(password, user.password);
         if (!validPassword) return res.status(403).send({message:'Invalid password'});
 
+        
         const authToken = crypto.randomBytes(64).toString('hex');
         await usersCollection.updateOne({ username:email }, { $set: { authToken} });
         // filtering out the password from the user object
         usertobesent = user;
+        usertobesent.authToken = authToken;
         delete usertobesent.password;
 
         res.send({message: 'Logged in successfully', user: usertobesent});
@@ -137,8 +140,8 @@ async function run() {
 
     app.get('/catalog', isAuthenticated, async (req, res) => {
       try {
-        const catalog = await catalogCollection;
-        res.send(catalog);
+        const catalog = await catalogCollection.find().toArray();
+        res.send(catalog[0]);
       } catch (error) {
         console.log("error", error)
         res.status(500).send(error.message);
