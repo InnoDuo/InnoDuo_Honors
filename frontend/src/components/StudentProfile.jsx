@@ -17,7 +17,6 @@ const StudentProfile = () => {
       setUser(JSON.parse(storedUser));
     }
   }, []);
-<<<<<<< HEAD
 
   useEffect(() => {
     if (user) {
@@ -38,16 +37,6 @@ const StudentProfile = () => {
   const [classification, bindClassification, resetClassification] = useInput(user.classification);
   const [major, bindMajor, resetMajor] = useInput(user.major);
   const [phoneNo, bindPhoneNo, resetPhoneNo] = useInput(user.phoneNo);
-=======
-  
-  const [id, bindId, resetId] = useInput(user.studentId);
-  const [email, bindEmail, resetEmail] = useInput(user.username,'@caldwell.edu');
-  const [advisor, bindAdvisor, resetAdvisor] = useInput('');
-  const [classification, bindClassification, resetClassification] = useInput('');
-  const [major, bindMajor, resetMajor] = useInput('');
-  const [phoneNo, bindPhoneNo, resetPhoneNo] = useInput('');
-  
->>>>>>> 18b58407604d6dcbfd903c17f5cc05fb612c8855
 
   if (!user) {
     return (<div>Loading...</div>);
