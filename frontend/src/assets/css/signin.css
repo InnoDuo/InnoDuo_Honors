@@ -36,6 +36,7 @@
 
 #email-input-field{
     display: inline-flex;
+    width: 60%;
 }
 
 .other-options{

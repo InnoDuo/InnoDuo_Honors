@@ -4,8 +4,8 @@ import { PiEyeBold, PiEyeClosedBold } from "react-icons/pi";
 import useInput from "./microcomponents/customhooks/useInput";
 import { NavLink, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-// const baseUrl = "https://innoduo-honors.onrender.com"; // production
-const baseUrl = "http://localhost:3000"; // dev tests
+const baseUrl = "https://innoduo-honors.onrender.com"; // production
+// const baseUrl = "http://localhost:3000"; // dev tests
 
 import { ThemeContext } from "../context/theme";
 import useAuth, { authContext } from "../context/authContext";
