@@ -17,7 +17,7 @@ import SampleTable from "./components/SampleTable";
 function App() {
   const [defaultTheme, setDefaultTheme] = useState("light");
   const [loggedIn, setLoggedIn] = useState(false);
-  const [user, setUser] = useState();
+  const [user, setUser] = useState(null);
 
   const login = (user) => {
     setLoggedIn(true);
@@ -44,7 +44,6 @@ function App() {
     document.querySelector("html").classList.add(defaultTheme);
   }, [defaultTheme]);
 
-
   useEffect(() => {
     const authToken = localStorage.getItem("authToken");
     const storedUser = localStorage.getItem("user");
@@ -53,7 +52,6 @@ function App() {
       setUser(JSON.parse(storedUser));
     }
   }, []);
-
 
   return (
     <ThemeProvider value={{ defaultTheme, darkTheme, lightTheme }}>
