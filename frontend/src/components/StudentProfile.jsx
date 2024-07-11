@@ -12,13 +12,13 @@ const StudentProfile = () => {
 
   const [user, setUser] = useState({});
 
-  // useEffect(() => {
+  useEffect(() => {
   const storedUser = localStorage.getItem("user");
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
-  // }, []);
-  console.log("suererer", user)
+  }, []);
+  console.log("suererer", user.studentId)
 
   console.log("usususu", user  )
 
@@ -28,13 +28,6 @@ const StudentProfile = () => {
   const [classification, bindClassification, resetClassification] = useInput('');
   const [major, bindMajor, resetMajor] = useInput('');
   const [phoneNo, bindPhoneNo, resetPhoneNo] = useInput('');
-
-  useEffect(() => {
-    
-  
-    
-  }, [user])
-  
 
   if (!user) {
     return <div>Loading...</div>;
@@ -63,13 +56,13 @@ const StudentProfile = () => {
               <div className="student-info-field disabled-input">
                 <label htmlFor="student-id"> Student ID:</label>
                 <div className="input-field-wrap">
-                  <input type="number" name="student-id" id="student-id" {...bindId} disabled />
+                  <input type="number" name="student-id" id="student-id" {...bindId} disabled value={user?`${user.studentId}`: ``}/>
                 </div>
               </div>
               <div className="student-info-field disabled-input">
                 <label htmlFor="student-email">Email:</label>
                 <div className="input-field-wrap">
-                  <input type="email" name="student-email" id="student-email" {...bindEmail} disabled/>
+                  <input type="email" name="student-email" id="student-email" {...bindEmail} disabled value={user?`${user.username}@caldwell.edu`: ``}/>
                 </div>
               </div>
               <div className="student-info-field">
@@ -233,6 +226,7 @@ const StudentProfile = () => {
                   name="student-classification"
                   id="student-classification"
                   {...bindClassification}
+                  
                 >
                   <option value="not-selected" selected></option>
                   <option value="freshmen">Freshmen</option>
