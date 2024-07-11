@@ -29,7 +29,6 @@ const StudentProfile = () => {
       resetPhoneNo(user.phoneNo);
     }
   }, [user]);
-  console.log("suererer", user.studentId)
 
   console.log("usususu", user  )
   
