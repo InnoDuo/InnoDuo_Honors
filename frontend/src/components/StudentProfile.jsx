@@ -17,14 +17,26 @@ const StudentProfile = () => {
       setUser(JSON.parse(storedUser));
     }
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      resetId(user.studentId);
+      resetEmail(user.username);
+      resetAdvisor(user.advisor);
+      resetClassification(user.gradYear);
+      resetMajor(user.major);
+      resetPhoneNo(user.phoneNo);
+    }
+  }, [user]);
+
+  console.log("usususu", user  )
   
   const [id, bindId, resetId] = useInput(user.studentId);
   const [email, bindEmail, resetEmail] = useInput(user.username,'@caldwell.edu');
-  const [advisor, bindAdvisor, resetAdvisor] = useInput('');
-  const [classification, bindClassification, resetClassification] = useInput('');
-  const [major, bindMajor, resetMajor] = useInput('');
-  const [phoneNo, bindPhoneNo, resetPhoneNo] = useInput('');
-  
+  const [advisor, bindAdvisor, resetAdvisor] = useInput(user.advisor);
+  const [classification, bindClassification, resetClassification] = useInput(user.classification);
+  const [major, bindMajor, resetMajor] = useInput(user.major);
+  const [phoneNo, bindPhoneNo, resetPhoneNo] = useInput(user.phoneNo);
 
   if (!user) {
     return (<div>Loading...</div>);
@@ -59,7 +71,7 @@ const StudentProfile = () => {
               <div className="student-info-field disabled-input">
                 <label htmlFor="student-email">Email:</label>
                 <div className="input-field-wrap">
-                  <input type="email" name="student-email" id="student-email" {...bindEmail} disabled/>
+                  <input type="email" name="student-email" id="student-email" {...bindEmail} disabled />
                 </div>
               </div>
               <div className="student-info-field">
@@ -223,6 +235,7 @@ const StudentProfile = () => {
                   name="student-classification"
                   id="student-classification"
                   {...bindClassification}
+                  
                 >
                   <option value="not-selected" selected></option>
                   <option value="freshmen">Freshmen</option>

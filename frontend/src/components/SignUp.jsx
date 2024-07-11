@@ -15,6 +15,8 @@ const SignUp = () => {
   const history = useNavigate();
   const [showPass, setShowPass] = useState(false);
   const [showConfirmPass, setShowConfirmPass] = useState(false);
+  const [firstName, bindFirstName, resetFirstName] = useInput("");
+  const [lastName, bindLastName, resetLastName] = useInput("");
   const [email, bindEmail, resetEmail] = useInput("");
   const [id, bindId, resetId] = useInput("");
   const [password, bindPassword, resetPassword] = useInput("");
@@ -26,7 +28,6 @@ const SignUp = () => {
 
   const { defaultTheme } = useContext(ThemeContext);
   const { login } = useAuth();
-
 
   const showPassHandler = () => {
     let userPass = document.getElementById("user-password");
@@ -59,31 +60,35 @@ const SignUp = () => {
     - Don't use your name, username, or account name. 
     - Avoid predictable passwords such as "password", "12345" or "caldwell".`;
     if (idCheck && passCheck && email && passValidate) {
+      resetFirstName();
+      resetLastName();
+      resetEmail();
       resetEmail();
       resetId();
       resetPassword();
       resetConfirmPassword();
-      fetch(baseUrl + '/register', {
+      fetch(baseUrl + "/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({email, id, password }),
+        body: JSON.stringify({ firstName, lastName, email, id, password }),
       })
-      .then(res => res.json())
-      .then(data => {
-        if (data.message === 'User registered successfully') {
-          login(data.user);
-          console.log("Logged in user: ", data.user);
-          history('/Profile');
-        } else {
-          toast.error(data.error);
-        }
-      }).catch(
-        error => {
-          toast.error("An error: \n" + error + "\n has occurred. Please try again.");
-        }
-      )
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.message === "User registered successfully") {
+            login(data.user);
+            console.log("Logged in user: ", data.user);
+            history("/Profile");
+          } else {
+            toast.error(data.error);
+          }
+        })
+        .catch((error) => {
+          toast.error(
+            "An error: \n" + error + "\n has occurred. Please try again."
+          );
+        });
     } else if (!idCheck) {
       toast.error(
         "Student ID is a 6 digit number uniquely given to each students. Unable to validate email and id may lead in false data entry."
@@ -97,7 +102,11 @@ const SignUp = () => {
     }
   };
   return (
-    <div className={`signup-page ${defaultTheme === 'dark' ? 'dark-container' : ''}`}>
+    <div
+      className={`signup-page ${
+        defaultTheme === "dark" ? "dark-container" : ""
+      }`}
+    >
       <div className="signup-container">
         <div className="signup-content">
           <h2 className="form-title">Sign Up</h2>
@@ -110,10 +119,42 @@ const SignUp = () => {
             onSubmit={signUpHandler}
           >
             <div className="form-fields">
+
+              <div className="user-fname-info input-field">
+                <label htmlFor="user-fname">First Name</label>
+                <div className="field-restrict">
+                  <div od="fname-input-field" className="input-field-wrap">
+                    <input
+                      type="number"
+                      name="user-fname"
+                      id="user-fname"
+                      placeholder="John"
+                      {...bindFirstName}
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="user-lname-info input-field">
+                <label htmlFor="user-lname">Last Name</label>
+                <div className="field-restrict">
+                  <div id="lname-input-field" className="input-field-wrap">
+                    <input
+                      type="number"
+                      name="user-lname"
+                      id="user-lname"
+                      placeholder="Doe"
+                      {...bindLastName}
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+
               <div className="user-email-info input-field">
                 <label htmlFor="user-email">Email</label>
                 <div className="field-restrict">
-                  <div id="email-input-field" className="input-field-wrap" >
+                  <div id="email-input-field" className="input-field-wrap">
                     <input
                       type="text"
                       name="user-email"
@@ -130,7 +171,7 @@ const SignUp = () => {
               <div className="user-id-info input-field">
                 <label htmlFor="user-id">Student ID</label>
                 <div className="field-restrict">
-                  <div id="id-input-field" className="input-field-wrap" >
+                  <div id="id-input-field" className="input-field-wrap">
                     <input
                       type="number"
                       name="user-id"
@@ -146,7 +187,7 @@ const SignUp = () => {
               <div className="user-password-info input-field">
                 <label htmlFor="user-password">Password</label>
                 <div className="field-restrict">
-                  <div className="input-field-wrap" >
+                  <div className="input-field-wrap">
                     <input
                       type="password"
                       name="user-password"
@@ -176,7 +217,7 @@ const SignUp = () => {
               <div className="user-confirm-password-info input-field">
                 <label htmlFor="user-password">Confirm Password</label>
                 <div className="field-restrict">
-                  <div className="input-field-wrap" >
+                  <div className="input-field-wrap">
                     <input
                       type="password"
                       name="user-password"
