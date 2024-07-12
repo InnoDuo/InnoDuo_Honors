@@ -17,6 +17,7 @@
     "react-modal": "^3.16.1",
     "react-router-dom": "^6.23.1",
     "react-toastify": "^10.0.5",
+    "socket.io-client": "^4.7.5",
     "web-vitals": "^4.0.1"
   },
   "devDependencies": {
