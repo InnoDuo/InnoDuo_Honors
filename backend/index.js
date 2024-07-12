@@ -1,5 +1,8 @@
 require('dotenv').config({ path: "./.env" });
 const express = require('express');
+const socketIo = require('socket.io');
+const bodyParser = require('body-parser');
+const http = require('http');
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
@@ -8,7 +11,29 @@ const crypto = require('crypto');
 const app = express();
 const PORT = process.env.PORT || 3000;
 const cors = require('cors');
+// const studentProfile = require('./sampleProfile');
 const uri = process.env.ENV_URI;
+
+
+
+// just a sample 
+const studentProfile = {
+  _id: "668b1fb6ae08c03994df4bb9",
+  username: "anujkhadka",
+  studentId: "445623",
+  password: "$2b$10$GPT0szc.kRvm22pCHzXDL.K2/kpFk9YwaIugCRw32/z8XrOCHhmTu",
+  authToken:
+    "c132572ce0675459ec133307d39c858ff12a40139101dbceabd751dcc581a0c42e4790…",
+  major: "Computer Science",
+  gradYear: "2027",
+  advisor: "Lee Ho",
+  firstName: "Anuj",
+  lastName: "Khadka",
+  classification: "Sophomore",
+  phoneNo: "9876543201",
+};
+
+
 
 const client = new MongoClient(uri, {
   serverApi: {
@@ -23,9 +48,14 @@ const store = new MongoDBStore({
   collection: 'sessions'
 });
 
+
+const server = http.createServer(app);
+const io = socketIo(server);
+
 app.use(express.json());
 app.use(cors());
 app.use(express.static('public'));
+app.use(bodyParser.json());
 
 app.use(session({
   secret: 'your_secret_key', // Replace with your own secret
@@ -186,6 +216,23 @@ async function run() {
       const username = req.session.username || null;
       res.json({ username });
     });
+
+
+    // for real time student profile 
+    app.post('/updateProfile', (req, res) => {
+      userProfile = { ...studentProfile, ...req.body };
+      io.emit('profile updated', userProfile);
+      res.status(200).json({ message: 'profile updated successfully', userProfile });
+    });
+
+
+    io.on('connection', (socket) => {
+      console.log('user connected');
+      socket.on('disconnect', () => {
+        console.log('user disconnected');
+      });
+    });
+
 
     // Start the server
     app.listen(PORT, () => {

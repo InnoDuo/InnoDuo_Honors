@@ -17,7 +17,7 @@ import SampleTable from "./components/SampleTable";
 function App() {
   const [defaultTheme, setDefaultTheme] = useState("light");
   const [loggedIn, setLoggedIn] = useState(false);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState();
 
   const login = (user) => {
     setLoggedIn(true);
