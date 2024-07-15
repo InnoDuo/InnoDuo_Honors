@@ -26,7 +26,7 @@ const Navbar = () => {
         <div className="nav-links">
           {loggedIn === true && (
             <>
-              <div className="nav-items">Courses</div>
+              <div className="nav-items"><NavLink to="/courses">Courses</NavLink></div>
               <div className="nav-items">
                 <NavLink to="/students">Students</NavLink>
               </div>

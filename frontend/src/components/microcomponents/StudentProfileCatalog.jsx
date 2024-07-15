@@ -20,7 +20,6 @@ const StudentProfileCatalog = () => {
       .then((response) => response.json())
       .then((data) => {
         setStudentClasses(data.classes);
-        // console.log(data);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -54,7 +53,7 @@ const StudentProfileCatalog = () => {
           takenSemesters.push({
             semester,
             section,
-            status: sectionData.status,
+            isCompleted: sectionData.isCompleted,
           });
         }
       }
@@ -68,7 +67,7 @@ const StudentProfileCatalog = () => {
         const takenSemesters = isStudentInClass(cls.semesters);
         if (takenSemesters.length > 0) {
           return (
-            <div key={cls.className}>
+            <div key={cls.courseCode}>
               
                 
                 {takenSemesters.map((ts, index) => (
@@ -78,11 +77,11 @@ const StudentProfileCatalog = () => {
                         width: "10px",
                         height: "10px",
                         borderRadius: "50%",
-                        backgroundColor: ts.status ? "green" : "orange",
+                        backgroundColor: ts.isCompleted ? "green" : "orange",
                         marginRight: "6px",
                       }}
-                      ></span>{cls.className}{" "}<span key={index}>
-                    ({ts.semester}, {ts.section})
+                      ></span>{cls.courseCode}{" - "}{cls.courseName}{" "}<span key={index}>
+                    ({ts.semester}, Section: {ts.section})
                     </span>
                     <br></br>
                   </span>
