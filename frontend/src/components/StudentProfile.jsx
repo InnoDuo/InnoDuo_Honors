@@ -8,12 +8,11 @@ const baseUrl = "http://localhost:3000"; // dev tests
 // const baseUrl = "https://innoduo-honors.onrender.com"; // prod
 import io from "socket.io-client";
 
-const socket = io(baseUrl);
+// const socket = io(baseUrl);
 
 const StudentProfile = () => {
   const { defaultTheme } = useContext(ThemeContext);
-  const { user } = useContext(authContext);
-  // const [user, setUser] = useState({});
+  const [user, setUser] = useState({});
 
   // useEffect(() => {
   //   const storedUser = localStorage.getItem("user");
@@ -35,16 +34,16 @@ const StudentProfile = () => {
     }
   }, [user]);
 
-  useEffect(() => {
-    socket.on("profileUpdated", (updatedProfile) => {
-      setUser(updatedProfile);
-      localStorage.setItem("user", JSON.stringify(updatedProfile));
-    });
+  // useEffect(() => {
+  //   socket.on("profileUpdated", (updatedProfile) => {
+  //     setUser(updatedProfile);
+  //     localStorage.setItem("user", JSON.stringify(updatedProfile));
+  //   });
 
-    return () => {
-      socket.off("profileUpdated");
-    };
-  }, []);
+  //   return () => {
+  //     socket.off("profileUpdated");
+  //   };
+  // }, []);
 
   console.log("usususu", user);
 
@@ -68,14 +67,14 @@ const StudentProfile = () => {
 
   const profileSubmitHandler = async (e) => {
     e.preventDefault();
-    resetId();
-    resetFirstName();
-    resetLastName();
-    resetEmail();
-    resetAdvisor();
-    resetClassification();
-    resetMajor();
-    resetPhoneNo();
+    // resetId();
+    // resetFirstName();
+    // resetLastName();
+    // resetEmail();
+    // resetAdvisor();
+    // resetClassification();
+    // resetMajor();
+    // resetPhoneNo();
 
     const updatedProfile = {
       studentId: id,
@@ -87,6 +86,8 @@ const StudentProfile = () => {
       major,
       phoneNo,
     };
+
+    console.log(updatedProfile)
     try {
       const response = await fetch(`${baseUrl}/updateProfile`, {
         method: "POST",
