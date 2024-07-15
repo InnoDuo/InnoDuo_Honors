@@ -5,6 +5,7 @@ import SearchBar from "./microcomponents/SearchBar";
 import { ThemeContext } from "../context/theme";
 import { homeThemeStyle } from "../App";
 import { authContext } from "../context/authContext";
+import StudentsPage from "./StudentsPage";
 
 
 const Students = () => {
@@ -43,7 +44,7 @@ const Students = () => {
     <div className="students-container page-container" style={defaultTheme === 'dark' ? homeThemeStyle : {}}>
       <h2>Honors Students List</h2>
       <p>Logged in: {loggedIn? 'true':'false'}</p>
-      <SearchBar />
+      {/* <SearchBar />
       <StudentsTable
         cols={[
           "First Name",
@@ -55,7 +56,8 @@ const Students = () => {
           "Status",
         ]}
         tableData={tableData}
-      />
+      /> */}
+      <StudentsPage tableData={tableData} />
     </div>
   );
 };

@@ -7,21 +7,26 @@ import { IoSearch } from "react-icons/io5";
 import { ThemeContext } from "../../context/theme";
 
 
-const SearchBar = () => {
+const SearchBar = ({search, onSearchChange}) => {
   const { defaultTheme } = useContext(ThemeContext);
 
-    const [search, bindSearch, resetSearch] = useInput('')
+  const searchSubmitHandler = (e)=>{
+    e.preventDefault()
+  }
+
   return (
     <div className={`search-and-filter-bar ${defaultTheme === 'dark' ? 'dark-container' : ''}`}>
       <div className="search-bar-container">
-        <form className="search-bar-wrap">
+        <form className="search-bar-wrap" onSubmit={searchSubmitHandler}>
           <div className="search-bar">
             <input
               type="text"
               name="filter-field"
               id="filter-field"
               placeholder="Student Name"
-              {...bindSearch}
+              value={search}
+              onChange={onSearchChange}
+
             />
           </div>
           <div className="search-icon" type="submit">
