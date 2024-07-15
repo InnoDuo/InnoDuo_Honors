@@ -1,10 +1,17 @@
-import { React, useContext, useEffect, useState } from "react";
+import { React, useContext } from "react";
 import "../../assets/css/customtable.css";
 import { ThemeContext } from "../../context/theme";
-import { homeThemeStyle } from "../../App";
 
 const StudentsTable = ({ cols, tableData }) => {
   const { defaultTheme } = useContext(ThemeContext);
+
+  const deleteHandler = (student)=>{
+    const confirmation = confirm("Do you want to delete the student from your record? This action cannot be undone!")
+
+    if(confirmation){
+      console.log(student)
+    }
+  }
   return (
     <div
       className={`table-container ${
@@ -21,6 +28,7 @@ const StudentsTable = ({ cols, tableData }) => {
               <th key="actions">Actions</th>
             </tr>
           </thead>
+
           <tbody className="cust-tbody">
             {tableData.map((student) => (
               <tr key={student._id}>
@@ -34,7 +42,7 @@ const StudentsTable = ({ cols, tableData }) => {
                 <td key="action-items" id="action-items">
                   <p>EDIT</p>
                   <span className="action-item-divider">|</span>
-                  <p>DELETE</p>
+                  <p onClick={()=>deleteHandler(student)}>DELETE</p>
                 </td>
               </tr>
             ))}
