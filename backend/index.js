@@ -121,7 +121,6 @@ async function run() {
         const { email, password } = req.body;
         const user = await usersCollection.findOne({ username:email });
         if (!user) return res.status(404).send({message:"User not found"});
-        console.log("user", user)
         
         const validPassword = await bcrypt.compare(password, user.password);
         if (!validPassword) return res.status(403).send({message:'Invalid password'});

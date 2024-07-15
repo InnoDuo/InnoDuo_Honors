@@ -6,6 +6,7 @@ import Navbar from "./components/Navbar";
 import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
 import Students from "./components/Students";
+import Courses from "./components/Courses";
 import PageNotFound from "./components/PageNotFound";
 import StudentProfile from "./components/StudentProfile";
 import { ThemeProvider } from "./context/theme";
@@ -66,6 +67,7 @@ function App() {
             <Route path="/signup" element={<SignUp />} />
             <Route path="/students" element={<Students />} />
             <Route path="/profile" element={<StudentProfile />} />
+            <Route path="/courses" element={<Courses />} />
             <Route path="/sampleTable" element={<SampleTable />} />
             <Route path="*" element={<PageNotFound />} />
           </Routes>
