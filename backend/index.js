@@ -17,21 +17,21 @@ const uri = process.env.ENV_URI;
 
 
 // just a sample 
-const studentProfile = {
-  _id: "668b1fb6ae08c03994df4bb9",
-  username: "anujkhadka",
-  studentId: "445623",
-  password: "$2b$10$GPT0szc.kRvm22pCHzXDL.K2/kpFk9YwaIugCRw32/z8XrOCHhmTu",
-  authToken:
-    "c132572ce0675459ec133307d39c858ff12a40139101dbceabd751dcc581a0c42e4790…",
-  major: "Computer Science",
-  gradYear: "2027",
-  advisor: "Lee Ho",
-  firstName: "Anuj",
-  lastName: "Khadka",
-  classification: "Sophomore",
-  phoneNo: "9876543201",
-};
+// const studentProfile = {
+//   _id: "668b1fb6ae08c03994df4bb9",
+//   username: "anujkhadka",
+//   studentId: "445623",
+//   password: "$2b$10$GPT0szc.kRvm22pCHzXDL.K2/kpFk9YwaIugCRw32/z8XrOCHhmTu",
+//   authToken:
+//     "c132572ce0675459ec133307d39c858ff12a40139101dbceabd751dcc581a0c42e4790…",
+//   major: "Computer Science",
+//   gradYear: "2027",
+//   advisor: "Lee Ho",
+//   firstName: "Anuj",
+//   lastName: "Khadka",
+//   classification: "Sophomore",
+//   phoneNo: "9876543209",
+// };
 
 
 
@@ -220,8 +220,9 @@ async function run() {
 
     // for real time student profile 
     app.post('/updateProfile', (req, res) => {
-      userProfile = { ...studentProfile, ...req.body };
-      io.emit('profile updated', userProfile);
+      userProfile = { ...req.body };
+      // io.emit('profile updated', userProfile);
+      console.log(userProfile)
       res.status(200).json({ message: 'profile updated successfully', userProfile });
     });
 
