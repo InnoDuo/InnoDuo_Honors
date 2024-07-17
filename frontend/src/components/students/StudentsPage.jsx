@@ -1,8 +1,8 @@
 import React, { useContext, useState } from "react";
-import StudentsTable from "./microcomponents/StudentsTable";
-import SearchBar from "./microcomponents/SearchBar";
-import "../assets/css/customtable.css";
-import { ThemeContext } from "../context/theme";
+import StudentsTable from "../microcomponents/StudentsTable";
+import SearchBar from "../microcomponents/SearchBar";
+import "../../assets/css/customtable.css";
+import { ThemeContext } from "../../context/theme";
 
 const StudentsPage = ({tableData}) => {
   const { defaultTheme } = useContext(ThemeContext);
@@ -24,7 +24,7 @@ const StudentsPage = ({tableData}) => {
         defaultTheme === "dark" ? "dark-container" : ""
       }`}
     >
-      <SearchBar search={search} onSearchChange={handleSearchChange} />
+      <SearchBar search={search} onSearchChange={handleSearchChange} inpPlaceHolder={'Student Name'} priBtn={'Add'} secBtn={'Filter'}/>
       <StudentsTable
         cols={[
           "First Name",

@@ -1,10 +1,10 @@
 import React from "react";
 import { useState, useContext } from "react";
 import { NavLink } from "react-router-dom";
-import "../assets/css/navbar.css";
-import uniLogoTrans from "../assets/images/uni-logo-trans.png";
-import ToggleSwitch from "./microcomponents/ToggleSwitch";
-import useAuth, { authContext } from "../context/authContext";
+import "../../assets/css/navbar.css";
+import uniLogoTrans from "../../assets/images/uni-logo-trans.png";
+import ToggleSwitch from "../microcomponents/ToggleSwitch";
+import useAuth, { authContext } from "../../context/authContext";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
