@@ -1,8 +1,9 @@
 import React, { useContext, useState } from "react";
-import CoursesTable from "./microcomponents/CoursesTable";
-import CourseSearchBar from "./microcomponents/CourseSearchBar";
-import "../assets/css/customtable.css";
-import { ThemeContext } from "../context/theme";
+import CoursesTable from "../microcomponents/CoursesTable";
+// import CourseSearchBar from "../microcomponents/CourseSearchBar";
+import "../../assets/css/customtable.css";
+import { ThemeContext } from "../../context/theme";
+import SearchBar from "../microcomponents/SearchBar";
 
 const CoursesPage = ({ tableData }) => {
   const { defaultTheme } = useContext(ThemeContext);
@@ -20,7 +21,7 @@ const CoursesPage = ({ tableData }) => {
 
   return (
     <div className={`${defaultTheme === "dark" ? "dark-container" : ""}`}>
-      <CourseSearchBar search={search} onSearchChange={handleSearchChange} />
+      <SearchBar search={search} onSearchChange={handleSearchChange} inpPlaceHolder={'Course Code/Type'}  priBtn={'Add'} secBtn={'Filter'} />
       <CoursesTable
         cols={[
           "Course Code",

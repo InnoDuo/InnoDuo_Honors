@@ -1,8 +1,8 @@
 import { React, useContext, useEffect, useState } from "react";
-import "../assets/css/students.css";
-import { ThemeContext } from "../context/theme";
-import { homeThemeStyle } from "../App";
-import { authContext } from "../context/authContext";
+import "../../assets/css/students.css";
+import { ThemeContext } from "../../context/theme";
+import { homeThemeStyle } from "../../App";
+import { authContext } from "../../context/authContext";
 import StudentsPage from "./StudentsPage";
 
 const Students = () => {

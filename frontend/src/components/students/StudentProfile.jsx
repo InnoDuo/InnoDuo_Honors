@@ -1,9 +1,9 @@
 import { React, useContext, useState, useEffect } from "react";
-import "../assets/css/studentprofile.css";
-import StudentProfileCatalog from "./microcomponents/StudentProfileCatalog";
-import useInput from "./microcomponents/customhooks/useInput";
-import { ThemeContext } from "../context/theme";
-import { authContext } from "../context/authContext";
+import "../../assets/css/studentprofile.css";
+import StudentProfileCatalog from "../microcomponents/StudentProfileCatalog";
+import useInput from "../microcomponents/customhooks/useInput";
+import { ThemeContext } from "../../context/theme";
+import { authContext } from "../../context/authContext";
 const baseUrl = "http://localhost:3000"; // dev tests
 // const baseUrl = "https://innoduo-honors.onrender.com"; // prod
 import io from "socket.io-client";

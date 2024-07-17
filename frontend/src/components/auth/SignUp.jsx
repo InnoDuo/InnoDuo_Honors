@@ -1,12 +1,12 @@
 import React, { useState, useContext } from "react";
-import "../assets/css/signin.css";
-import useInput from "./microcomponents//customhooks/useInput";
+import "../../assets/css/signin.css";
+import useInput from "../microcomponents/customhooks/useInput";
 import { PiEyeBold, PiEyeClosedBold } from "react-icons/pi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { NavLink, useNavigate } from "react-router-dom";
-import useAuth, { authContext } from "../context/authContext";
-import { ThemeContext } from "../context/theme";
+import useAuth, { authContext } from "../../context/authContext";
+import { ThemeContext } from "../../context/theme";
 
 const SignUp = () => {
   const baseUrl = "http://localhost:3000"; // dev tests

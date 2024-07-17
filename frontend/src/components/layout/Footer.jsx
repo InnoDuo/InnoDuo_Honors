@@ -1,7 +1,7 @@
 import {React, useContext} from "react";
-import "../assets/css/footer.css";
-import { homeThemeStyle } from "../App";
-import { ThemeContext } from "../context/theme";
+import "../../assets/css/footer.css";
+import { homeThemeStyle } from "../../App";
+import { ThemeContext } from "../../context/theme";
 
 
 const Footer = () => {

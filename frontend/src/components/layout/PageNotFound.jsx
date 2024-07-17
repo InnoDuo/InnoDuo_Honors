@@ -1,6 +1,6 @@
 import React, {useContext} from "react";
-import "../assets/css/pagenotfound.css";
-import { ThemeContext } from "../context/theme";
+import "../../assets/css/pagenotfound.css";
+import { ThemeContext } from "../../context/theme";
 
 
 const PageNotFound = () => {

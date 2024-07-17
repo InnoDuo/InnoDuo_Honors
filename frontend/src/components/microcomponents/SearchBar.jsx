@@ -7,7 +7,7 @@ import { IoSearch } from "react-icons/io5";
 import { ThemeContext } from "../../context/theme";
 
 
-const SearchBar = ({search, onSearchChange}) => {
+const SearchBar = ({search, onSearchChange, inpPlaceHolder, secBtn, priBtn }) => {
   const { defaultTheme } = useContext(ThemeContext);
 
   const searchSubmitHandler = (e)=>{
@@ -23,7 +23,7 @@ const SearchBar = ({search, onSearchChange}) => {
               type="text"
               name="filter-field"
               id="filter-field"
-              placeholder="Student Name"
+              placeholder={inpPlaceHolder}
               value={search}
               onChange={onSearchChange}
 
@@ -37,11 +37,11 @@ const SearchBar = ({search, onSearchChange}) => {
       <div className="filter-btns-container">
         <a type="button" className="filter-btn auth-btn">
           <HiFilter />
-          <p>Filter</p>
+          <p>{secBtn}</p>
         </a>
         <a type="button" className="add-x-btn primary-btn">
           <MdAddCircleOutline size={20} />
-          <p>Add</p>
+          <p>{priBtn}</p>
         </a>
       </div>
     </div>

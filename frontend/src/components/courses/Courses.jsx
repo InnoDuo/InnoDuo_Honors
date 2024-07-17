@@ -1,8 +1,7 @@
 import { React, useContext, useEffect, useState } from "react";
-import "../assets/css/students.css";
-import { ThemeContext } from "../context/theme";
-import { homeThemeStyle } from "../App";
-import { authContext } from "../context/authContext";
+import "../../assets/css/students.css";
+import { ThemeContext } from "../../context/theme";
+import { authContext } from "../../context/authContext";
 import CoursesPage from "./CoursesPage";
 
 const Courses = () => {
@@ -76,8 +75,7 @@ const Courses = () => {
 
   return (
     <div
-      className="students-container page-container"
-      style={defaultTheme === "dark" ? homeThemeStyle : {}}
+      className={`students-container page-container ${defaultTheme === 'dark' ? 'dark-container' : ''}`}
     >
       <h2>Honors Courses List</h2>
       {loading ? (
