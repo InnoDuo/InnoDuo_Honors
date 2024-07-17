@@ -61,3 +61,18 @@
 .filter-btn:hover{
     background: #8D2A2A;
 }
+
+.filter-btns-container{
+    display: flex;
+    justify-content:right;
+    align-items:stretch;
+    text-align: right;
+    padding-left: 10px;
+}
+
+.sb-btn{
+    /* color: aliceblue; */
+    width: 10em;
+    text-wrap:balance;
+    
+}

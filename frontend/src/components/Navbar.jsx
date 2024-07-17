@@ -30,7 +30,6 @@ const Navbar = () => {
               <div className="nav-items">
                 <NavLink to="/students">Students</NavLink>
               </div>
-              <div className="nav-items">Faculty</div>
               <div className="nav-items">
                 <NavLink to="/profile">Profile</NavLink>
               </div>

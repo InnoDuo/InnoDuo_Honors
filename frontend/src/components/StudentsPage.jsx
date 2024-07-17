@@ -33,7 +33,6 @@ const StudentsPage = ({tableData}) => {
           "Major",
           "Advisor",
           "Graduation Year",
-          "Status",
         ]}
         tableData={filteredStudents}
       />
