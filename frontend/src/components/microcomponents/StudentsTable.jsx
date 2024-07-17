@@ -38,8 +38,9 @@ const StudentsTable = ({ cols, tableData }) => {
                 <td>{student.major}</td>
                 <td>{student.advisor}</td>
                 <td>{student.gradYear}</td>
-                <td>{(student.status || []).join(", ")}</td>
                 <td key="action-items" id="action-items">
+                <p>STATUS</p>
+                <span className="action-item-divider">|</span>
                   <p>EDIT</p>
                   <span className="action-item-divider">|</span>
                   <p onClick={()=>deleteHandler(student)}>DELETE</p>

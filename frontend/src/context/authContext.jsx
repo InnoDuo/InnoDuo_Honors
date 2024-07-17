@@ -4,7 +4,7 @@ export const authContext = createContext({
     loggedIn: false,
     login: (user) => {},
     logout: () => {},
-    // user: null
+    user: null
 });
 export const AuthProvider = authContext.Provider
 

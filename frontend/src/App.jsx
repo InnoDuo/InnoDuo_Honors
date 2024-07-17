@@ -13,7 +13,6 @@ import { ThemeProvider } from "./context/theme";
 import { React, useState, useEffect } from "react";
 import { AuthProvider } from "./context/authContext";
 import { ToastContainer, toast } from "react-toastify";
-import SampleTable from "./components/SampleTable";
 
 function App() {
   const [defaultTheme, setDefaultTheme] = useState("light");
@@ -68,7 +67,6 @@ function App() {
             <Route path="/students" element={<Students />} />
             <Route path="/profile" element={<StudentProfile />} />
             <Route path="/courses" element={<Courses />} />
-            <Route path="/sampleTable" element={<SampleTable />} />
             <Route path="*" element={<PageNotFound />} />
           </Routes>
           {/* <HomePage /> */}

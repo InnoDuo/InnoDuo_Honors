@@ -21,6 +21,7 @@ const CoursesTable = ({ cols, tableData }) => {
               <tr key={index}>
                 <td>{course.courseCode}</td>
                 <td>{course.courseName}</td>
+                <td>{course.courseCategory}</td>
                 <td>{course.instructor}</td>
                 <td>{course.studentsCount}</td>
                 

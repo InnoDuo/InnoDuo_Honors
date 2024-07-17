@@ -1,18 +1,16 @@
-import {React, useContext, useEffect, useState} from "react";
-import StudentsTable from "./microcomponents/StudentsTable";
-import '../assets/css/students.css'
-import SearchBar from "./microcomponents/SearchBar";
+import { React, useContext, useEffect, useState } from "react";
+import "../assets/css/students.css";
 import { ThemeContext } from "../context/theme";
 import { homeThemeStyle } from "../App";
 import { authContext } from "../context/authContext";
 import StudentsPage from "./StudentsPage";
-
 
 const Students = () => {
   const { defaultTheme } = useContext(ThemeContext);
   const { loggedIn } = useContext(authContext);
 
   const [tableData, setTableData] = useState([]);
+  const [ loading, setLoading ] = useState(true);
 
   const getData = async () => {
     const authToken = localStorage.getItem("authToken");
@@ -31,6 +29,7 @@ const Students = () => {
       });
       const data = await response.json();
       setTableData(data);
+      setLoading(false);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -41,9 +40,11 @@ const Students = () => {
   }, [loggedIn]);
 
   return (
-    <div className="students-container page-container" style={defaultTheme === 'dark' ? homeThemeStyle : {}}>
+    <div
+      className="students-container page-container"
+      style={defaultTheme === "dark" ? homeThemeStyle : {}}
+    >
       <h2>Honors Students List</h2>
-      <p>Logged in: {loggedIn? 'true':'false'}</p>
       {/* <SearchBar />
       <StudentsTable
         cols={[
@@ -57,7 +58,20 @@ const Students = () => {
         ]}
         tableData={tableData}
       /> */}
-      <StudentsPage tableData={tableData} />
+      {loading ? (
+        <div class="main-item">
+        <div class="static-background">
+          <div class="background-masker btn-divide-left"></div>
+        </div>
+        
+        <div class="animated-background">
+          <div class="background-masker btn-divide-left"></div>
+        </div>
+        
+      </div>
+      ) : (
+        <StudentsPage tableData={tableData} />
+      )}
     </div>
   );
 };

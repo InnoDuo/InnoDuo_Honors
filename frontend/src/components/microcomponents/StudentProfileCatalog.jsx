@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import stuCatalog from "../../assets/test-json";
+import React, { useState, useEffect, useContext } from "react";
+import { authContext } from "../../context/authContext";
 import "../../assets/css/studentprofilecatalog.css";
 
 const apiURL = "http://localhost:3000";
@@ -7,6 +7,9 @@ const apiURL = "http://localhost:3000";
 
 const StudentProfileCatalog = () => {
   const [studentClasses, setStudentClasses] = useState([]);
+  // TASK 2: Use AuthContext to get StudentID
+  const {user} = useContext(authContext);
+  const studentId = user.studentId || '00000';
   const authToken = localStorage.getItem("authToken");
 
   useEffect(() => {
@@ -53,7 +56,7 @@ const StudentProfileCatalog = () => {
           takenSemesters.push({
             semester,
             section,
-            isCompleted: sectionData.isCompleted,
+            isComplete: sectionData.isComplete,
           });
         }
       }
@@ -77,7 +80,7 @@ const StudentProfileCatalog = () => {
                         width: "10px",
                         height: "10px",
                         borderRadius: "50%",
-                        backgroundColor: ts.isCompleted ? "green" : "orange",
+                        backgroundColor: ts.isComplete ? "green" : "orange",
                         marginRight: "6px",
                       }}
                       ></span>{cls.courseCode}{" - "}{cls.courseName}{" "}<span key={index}>
@@ -163,8 +166,7 @@ const StudentProfileCatalog = () => {
       </div>
     );
   };
-  // TASK 2: Use AuthContext to get StudentID
-  const studentId = "40001";
+  
 
   return (
     <div className="catalog-container">
