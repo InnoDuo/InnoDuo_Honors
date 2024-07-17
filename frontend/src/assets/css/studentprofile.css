@@ -15,7 +15,7 @@
     
 }
 
-.student-info-fields{
+.student-info-fields, .course-info-fields{
     display: flex;
     /* background-color: green; */
     justify-content: flex-start;
@@ -24,7 +24,7 @@
     /* gap: 20px; */
 }
 
-.student-info-field{
+.student-info-field, .course-info-field{
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -33,15 +33,15 @@
     margin-right: 25px;
 }
 
-.student-info-field label{
+.student-info-field label, .course-info-field label{
     width: 130px;
 }
 
-.student-info-field .input-field-wrap{
+.student-info-field .input-field-wrap, .course-info-field .input-field-wrap{
     width: 300px;
 }
 
-.student-info-field select{
+.student-info-field select, .course-info-field select{
     /* background: red; */
     padding: 5px
 }

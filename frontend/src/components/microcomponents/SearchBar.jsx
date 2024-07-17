@@ -7,7 +7,7 @@ import { IoSearch } from "react-icons/io5";
 import { ThemeContext } from "../../context/theme";
 
 
-const SearchBar = ({search, onSearchChange, inpPlaceHolder, secBtn, priBtn }) => {
+const SearchBar = ({search, onSearchChange, inpPlaceHolder, secBtn, priBtn, onAddClick }) => {
   const { defaultTheme } = useContext(ThemeContext);
 
   const searchSubmitHandler = (e)=>{
@@ -39,7 +39,7 @@ const SearchBar = ({search, onSearchChange, inpPlaceHolder, secBtn, priBtn }) =>
           <HiFilter />
           <p>{secBtn}</p>
         </a>
-        <a type="button" className="add-x-btn primary-btn">
+        <a type="button" className="add-x-btn primary-btn" onClick={onAddClick}>
           <MdAddCircleOutline size={20} />
           <p>{priBtn}</p>
         </a>
