@@ -13,7 +13,7 @@ const StudentInfoFields = ({
 }) => {
   return (
     <div className="student-info-fields">
-      <div className={`student-info-field ${disableField? 'disabled-input': ''}`}>
+      <div className={`student-info-field`}>
         <label htmlFor="student-id">Student ID:</label>
         <div className="input-field-wrap">
           <input
@@ -25,7 +25,7 @@ const StudentInfoFields = ({
           />
         </div>
       </div>
-      <div className={`student-info-field ${disableField? 'disabled-input': ''}`}>
+      <div className={`student-info-field`}>
         <label htmlFor="student-email">Email:</label>
         <div className="input-field-wrap">
           <input
@@ -36,7 +36,7 @@ const StudentInfoFields = ({
           />
         </div>
       </div>
-      <div className={`student-info-field ${disableField? 'disabled-input': ''}`}>
+      <div className={`student-info-field`}>
         <label htmlFor="student-first-name">First Name:</label>
         <div className="input-field-wrap">
           <input
@@ -47,7 +47,7 @@ const StudentInfoFields = ({
           />
         </div>
       </div>
-      <div className={`student-info-field ${disableField? 'disabled-input': ''}`}>
+      <div className={`student-info-field`}>
         <label htmlFor="student-last-name">Last Name:</label>
         <div className="input-field-wrap">
           <input
