@@ -14,6 +14,8 @@ const cors = require('cors');
 // const studentProfile = require('./sampleProfile');
 const uri = process.env.ENV_URI;
 
+const Student = require('./models/student');
+
 
 
 // just a sample 
@@ -232,6 +234,33 @@ async function run() {
         console.log('user disconnected');
       });
     });
+
+
+
+
+    app.post("/addstudent", async (req, res) => {
+      try {
+        const { id, firstName, lastName, email, advisor, classification, major, phoneNo } = req.body;
+    
+        const newStudent = new Student({
+          firstName,
+          email,
+          id,
+          phoneNo,
+          major,
+          lastName,
+          advisor,
+        });
+    
+        await newStudent.save();
+        res.json({ message: "Added successfully" });
+        console.log('added')
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "error during adding" });
+      }
+    });
+
 
 
     // Start the server
