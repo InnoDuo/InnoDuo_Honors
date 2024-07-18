@@ -4,6 +4,7 @@ import StudentInfoFields from "../students/StudentInfoFields";
 import useInput from "./customhooks/useInput";
 import { MdAddCircleOutline } from "react-icons/md";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 // const baseUrl = "https://innoduo-honors.onrender.com"; // production
 const baseUrl = "http://localhost:3000"; // dev tests
 
@@ -11,6 +12,7 @@ Modal.setAppElement("#root");
 const AddContent = ({ title, message, onClose }) => {
   const [modalIsOpen, setModalIsOpen] = useState(true);
   //   const [courseCount, setCourseCount] = useState(1);
+  const history = useNavigate();
   const [courses, setCourses] = useState([
     {
       courseCode: "",
@@ -24,7 +26,7 @@ const AddContent = ({ title, message, onClose }) => {
   const [lastName, bindLastName, resetLastName] = useInput();
   const [email, bindEmail, resetEmail] = useInput();
   const [advisor, bindAdvisor, resetAdvisor] = useInput();
-  const [classification, bindClassification, resetClassification] = useInput();
+  const [gradYear, bindgradYear, resetgradYear] = useInput();
   const [major, bindMajor, resetMajor] = useInput();
   const [phoneNo, bindPhoneNo, resetPhoneNo] = useInput();
 
@@ -54,7 +56,7 @@ const AddContent = ({ title, message, onClose }) => {
     if (confirmation) {
       console.log("confirmed");
     }
-
+    const username = email.split('@')[0];
     try {
       const response = await fetch(baseUrl + "/addstudent", {
         method: "POST",
@@ -66,8 +68,9 @@ const AddContent = ({ title, message, onClose }) => {
           firstName,
           lastName,
           email,
+          username,
           advisor,
-          classification,
+          gradYear,
           major,
           phoneNo,
         }),
@@ -75,12 +78,13 @@ const AddContent = ({ title, message, onClose }) => {
       const data = await response.json();
       if (data.message === "Added successfully") {
         console.log("added to db");
-        history("/");
+        onClose();
       } else {
         console.log(data.message);
       }
     } catch (error) {
       console.log("An error occurred during adding.");
+      console.log(error);
     }
   };
 
@@ -126,7 +130,7 @@ const AddContent = ({ title, message, onClose }) => {
               bindLastName={bindLastName}
               bindEmail={bindEmail}
               bindAdvisor={bindAdvisor}
-              bindClassification={bindClassification}
+              bindgradYear={bindgradYear}
               bindMajor={bindMajor}
               bindPhoneNo={bindPhoneNo}
             />

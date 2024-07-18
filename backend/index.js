@@ -103,14 +103,14 @@ async function run() {
         const hashedPassword = await bcrypt.hash(password, 10);
         const authToken = crypto.randomBytes(64).toString('hex');
 
-        const result = await usersCollection.insertOne({ username:email, studentId:id, password: hashedPassword, authToken });
-        if (result.insertedCount === 0){ 
-          return res.status(400).send({message: 'User registration failed'});
+        const result = await usersCollection.insertOne({ username: email, studentId: id, password: hashedPassword, authToken });
+        if (result.insertedCount === 0) {
+          return res.status(400).send({ message: 'User registration failed' });
         } else {
-            // filtering out the password from the user object
-          usertobesent = await usersCollection.findOne({ username:email });
+          // filtering out the password from the user object
+          usertobesent = await usersCollection.findOne({ username: email });
           delete usertobesent.password;
-          return res.status(201).send({message: 'User registered successfully', user: usertobesent});
+          return res.status(201).send({ message: 'User registered successfully', user: usertobesent });
         }
       } catch (error) {
         res.status(500).send(error.message);
@@ -121,21 +121,21 @@ async function run() {
     app.post('/login', async (req, res) => {
       try {
         const { email, password } = req.body;
-        const user = await usersCollection.findOne({ username:email });
-        if (!user) return res.status(404).send({message:"User not found"});
-        
-        const validPassword = await bcrypt.compare(password, user.password);
-        if (!validPassword) return res.status(403).send({message:'Invalid password'});
+        const user = await usersCollection.findOne({ username: email });
+        if (!user) return res.status(404).send({ message: "User not found" });
 
-        
+        const validPassword = await bcrypt.compare(password, user.password);
+        if (!validPassword) return res.status(403).send({ message: 'Invalid password' });
+
+
         const authToken = crypto.randomBytes(64).toString('hex');
-        await usersCollection.updateOne({ username:email }, { $set: { authToken} });
+        await usersCollection.updateOne({ username: email }, { $set: { authToken } });
         // filtering out the password from the user object
         usertobesent = user;
         usertobesent.authToken = authToken;
         delete usertobesent.password;
 
-        res.send({message: 'Logged in successfully', user: usertobesent});
+        res.send({ message: 'Logged in successfully', user: usertobesent });
       } catch (error) {
         res.status(500).send(error.message);
       }
@@ -240,19 +240,21 @@ async function run() {
 
     app.post("/addstudent", async (req, res) => {
       try {
-        const { id, firstName, lastName, email, advisor, classification, major, phoneNo } = req.body;
-    
+        const { id, firstName, username, lastName, email, advisor, gradYear, major, phoneNo } = req.body;
         const newStudent = new Student({
           firstName,
+          lastName,
+          studentId: id,
           email,
-          id,
           phoneNo,
           major,
-          lastName,
           advisor,
+          gradYear,
+          username, 
         });
-    
-        await newStudent.save();
+        console.log(newStudent);
+        
+        await usersCollection.insertOne(newStudent);
         res.json({ message: "Added successfully" });
         console.log('added')
       } catch (error) {
