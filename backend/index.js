@@ -235,9 +235,6 @@ async function run() {
       });
     });
 
-
-
-
     app.post("/addstudent", async (req, res) => {
       try {
         const { id, firstName, username, lastName, email, advisor, gradYear, major, phoneNo } = req.body;
@@ -263,7 +260,25 @@ async function run() {
       }
     });
 
-
+    app.post('/addstudenttocourse', async (req, res) => {
+      const { courseCode, semester, section, studentId } = req.body;
+    
+      try {
+        const updateResult = await catalogCollection.updateOne(
+          { [`classes.$[].${courseCode}.semesters.${semester}.${section}`]: { $exists: true } },
+          { $addToSet: { [`classes.$[].${courseCode}.semesters.${semester}.${section}.students`]: studentId } }
+        );
+    
+        if (updateResult.nModified === 0) {
+          return res.status(404).json({ message: 'Course, semester, or section not found' });
+        }
+    
+        res.status(200).json({ message: 'Student added to course successfully' });
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+      }
+    });
 
     // Start the server
     app.listen(PORT, () => {
