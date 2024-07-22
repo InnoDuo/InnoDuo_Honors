@@ -91,7 +91,17 @@ const AddContent = ({ title, message, onClose }) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(course),
+        body: JSON.stringify({
+          firstName,
+          lastName,
+          email,
+          id,
+          phoneNo,
+          major,
+          advisor,
+          gradYear,
+          username,
+        }),
       });
       const data = await response.json();
       if (data.message === "Student added to course successfully") {
