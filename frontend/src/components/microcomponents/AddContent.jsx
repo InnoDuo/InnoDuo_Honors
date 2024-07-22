@@ -91,31 +91,21 @@ const AddContent = ({ title, message, onClose }) => {
         headers: {
           "Content-Type": "application/json",
         },
-<<<<<<< HEAD
         body: JSON.stringify({
-          
-  firstName,
-  lastName,
-  email,
-  id,
-  phoneNo,
-  major,
-  advisor,
-  gradYear,
+          firstName,
+          lastName,
+          email,
+          id,
+          phoneNo,
+          major,
+          advisor,
+          gradYear,
           username,
         }),
       });
       const data = await response.json();
-      if (data.message === "Added successfully") {
-        console.log("added to db");
-        // onClose();
-=======
-        body: JSON.stringify(course),
-      });
-      const data = await response.json();
       if (data.message === "Student added to course successfully") {
         toast.success("Student added to course successfully");
->>>>>>> 79df12e126e0b1763ed694526129f6b08e1218c8
       } else {
         console.log(data.message);
       }
@@ -211,8 +201,6 @@ const AddContent = ({ title, message, onClose }) => {
 
             <div className="add-course-section" style={{ marginTop: "20px" }}>
               <h3>Add Courses</h3>
-<<<<<<< HEAD
-=======
               {selectedCourses.map((course, index) => (
                 <div
                   className="course-wrapper"
@@ -333,7 +321,6 @@ const AddContent = ({ title, message, onClose }) => {
                   </button>
                 </div>
               ))}
->>>>>>> 79df12e126e0b1763ed694526129f6b08e1218c8
 
               <div
                 style={{
