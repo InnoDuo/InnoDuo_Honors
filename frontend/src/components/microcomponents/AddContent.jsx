@@ -64,21 +64,22 @@ const AddContent = ({ title, message, onClose }) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          id,
-          firstName,
-          lastName,
-          email,
+          
+  firstName,
+  lastName,
+  email,
+  id,
+  phoneNo,
+  major,
+  advisor,
+  gradYear,
           username,
-          advisor,
-          gradYear,
-          major,
-          phoneNo,
         }),
       });
       const data = await response.json();
       if (data.message === "Added successfully") {
         console.log("added to db");
-        onClose();
+        // onClose();
       } else {
         console.log(data.message);
       }
@@ -137,59 +138,6 @@ const AddContent = ({ title, message, onClose }) => {
 
             <div className="add-course-section" style={{ marginTop: "20px" }}>
               <h3>Add Courses</h3>
-              {/* <div className="course-wrapper" style={{display:'flex', justifyContent: 'start', alignItems:'center'}}>
-                <div className="course-info-fields">
-                  <div className="course-info-field">
-                    <label htmlFor="course-code">Course Code:</label>
-                    <div className="input-field-wrap">
-                      <input
-                        type="text"
-                        name="course-code"
-                        idß="course-code"
-                        {...bindCourseCode}
-                      />
-                    </div>
-                  </div>
-                  <div className="course-info-field">
-                    <label htmlFor="course-type">Course Type:</label>
-                    <div className="input-field-wrap">
-                      <input
-                        type="type"
-                        name="course-type"
-                        id="course-type"
-                        {...bindCourseType}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="course-info-field">
-                    <label htmlFor="course-category">Category:</label>
-                    <select
-                      className="input-field-wrap"
-                      name="course-category"
-                      id="course-category"
-                      {...bindCourseCategory}
-                    >
-                      <option value="not-selected" selected></option>
-                      <option value="Freshman Seminar">Freshman Seminar</option>
-                      <option value="Honors Core Classes">
-                        Honors Core Classes
-                      </option>
-                      <option value="Honors Seminar">Honors Seminar</option>
-                      <option value="Research Methodology">
-                        Research Methodology
-                      </option>
-                      <option value="CRACAD Presentation">
-                        CRACAD Presentation
-                      </option>
-                      <option value="Service Events">Service Events</option>
-                    </select>
-                  </div>
-                </div>
-                <button type="button" style={{marginLeft:'auto', marginRight:'50px'}} onClick={AddCourseField}>
-                    <MdAddCircleOutline size={30}/>
-                </button>
-              </div> */}
 
               <div
                 className="course-wrapper"
