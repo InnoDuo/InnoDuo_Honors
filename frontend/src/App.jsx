@@ -19,17 +19,28 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [user, setUser] = useState();
 
+  // useEffect(() => {
+  //   const storedUser = sessionStorage.getItem("user");
+  //   if (storedUser) {on
+  //     setUser(JSON.parse(storedUser));
+  //   }
+  // }, []);
+
+
   const login = (user) => {
-    setLoggedIn(true);
+    // setLoggedIn(true);
     setUser(user);
     localStorage.setItem("authToken", user.authToken);
     localStorage.setItem("user", JSON.stringify(user));
+    sessionStorage.setItem("user", JSON.stringify(user));
   };
 
   const logout = () => {
-    setLoggedIn(false);
+    // setLoggedIn(false);
     localStorage.removeItem("authToken");
     localStorage.removeItem("user");
+    sessionStorage.removeItem("user");
+
   };
 
   const darkTheme = () => {
@@ -55,7 +66,7 @@ function App() {
 
   return (
     <ThemeProvider value={{ defaultTheme, darkTheme, lightTheme }}>
-      <AuthProvider value={{ loggedIn, user, login, logout }}>
+      <AuthProvider value={{ loggedIn: !!user, login, logout, user }}>
         <Router>
           <Navbar />
 

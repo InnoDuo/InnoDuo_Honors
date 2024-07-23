@@ -223,13 +223,48 @@ async function run() {
 
 
     // for real time student profile 
-    app.post('/updateProfile', (req, res) => {
-      userProfile = { ...req.body };
-      // io.emit('profile updated', userProfile);
-      console.log(userProfile)
-      res.status(200).json({ message: 'profile updated successfully', userProfile });
-    });
+    app.post('/updateProfile', async (req, res) =>  {
+          
+    try {
+      const {
+        studentId,
+        firstName,
+        lastName,
+        username,
+        advisor,
+        classification,
+        major,
+        phoneNo,
+      } = req.body;
+      
+      console.log(studentId)
 
+      const user = await usersCollection.findOne({ studentId: studentId });
+  
+      if (user) {
+        await usersCollection.updateOne(
+          { studentId: studentId },
+          {
+            $set: {
+              firstName: firstName,
+              lastName: lastName,
+              username: username,
+              advisor: advisor,
+              classification: classification,
+              major: major,
+              phoneNo: phoneNo,
+            },
+          }
+        );
+        res.status(200).json({ message: 'profile updated successfully' });
+      } else {
+        res.status(404).json({ message: 'User not found' });
+      }
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      res.status(500).json({ message: 'error updating profile' });
+    }
+  });
 
     io.on('connection', (socket) => {
       console.log('user connected');
@@ -255,7 +290,7 @@ async function run() {
         console.log(newStudent);
         
         await usersCollection.insertOne(newStudent);
-        res.json({ message: "Added successfully", usersCollection });
+        res.json({ message: "Added successfully" });
         console.log('added')
       } catch (error) {
         console.error(error);
