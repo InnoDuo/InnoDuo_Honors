@@ -9,7 +9,7 @@ const StudentProfileCatalog = () => {
   const [studentClasses, setStudentClasses] = useState([]);
   // TASK 2: Use AuthContext to get StudentID
   const {user} = useContext(authContext);
-  const studentId = user.studentId || '00000';
+  const studentId = user.studentId || '400001';
   const authToken = localStorage.getItem("authToken");
 
   useEffect(() => {

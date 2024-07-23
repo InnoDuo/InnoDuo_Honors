@@ -5,9 +5,10 @@ import { toast } from "react-toastify";
 // const baseUrl = "https://innoduo-honors.onrender.com"; // production
 const baseUrl = "http://localhost:3000"; // dev tests
 
-
 Modal.setAppElement("#root");
 const AddCourse = ({ title, message, onClose }) => {
+  const semesters = ['FA24', 'SP25', 'FA25', 'SP26', 'FA26'];
+
   const [modalIsOpen, setModalIsOpen] = useState(true);
 
   const [courseCode, bindCourseCode, resetCourseCode] = useInput();
@@ -16,36 +17,36 @@ const AddCourse = ({ title, message, onClose }) => {
   const [courseInstructor, bindCourseInstructor, resetCourseInstructor] =
     useInput();
 
-
-    const AddCourseHandler = async (e)=>{
-      const confirmation = confirm(
-        "A course will be added to the system with the entered information. Do you agree?"
-      );
-      if (confirmation) {
-        // const username = email.split("@")[0];
-        try {
-          const response = await fetch(baseUrl + "/addcourse", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              courseCode,
-              courseType,
-              courseCategory,
-              courseInstructor,
-            }),
-          });
-          const data = await response.json();
-          if (data.message === "Course Added successfully") {
-            toast.success(data.message);
-          }
-        } catch (error) {
-          console.log("An error occurred during adding.");
-          console.log(error);
+  const AddCourseHandler = async (e) => {
+    const confirmation = confirm(
+      "A course will be added to the system with the entered information. Do you agree?"
+    );
+    if (confirmation) {
+      try {
+        const response = await fetch(baseUrl + "/addcourse", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            courseCode,
+            courseType,
+            courseCategory,
+            courseInstructor,
+          }),
+        });
+        const data = await response.json();
+        if (data.message === "Course added successfully") {
+          toast.success(data.message);
         }
+      } catch (error) {
+        console.log("An error occurred during adding.");
+        console.log(error);
       }
     }
+  };
+
+
 
   return (
     <Modal
@@ -82,31 +83,8 @@ const AddCourse = ({ title, message, onClose }) => {
         <p style={{ color: "#000000" }}>{message} </p>
 
         <div id="add-course-form-container">
-          <form className="course-info-form">
+          <form className="course-info-form" method="post">
             <div className="course-info-fields">
-              <div className="course-info-field">
-                <label htmlFor="course-code">Course Code:</label>
-                <div className="input-field-wrap">
-                  <input
-                    type="number"
-                    name="course-code"
-                    idß="course-code"
-                    {...bindCourseCode}
-                  />
-                </div>
-              </div>
-              <div className="course-info-field">
-                <label htmlFor="course-type">Course Type:</label>
-                <div className="input-field-wrap">
-                  <input
-                    type="type"
-                    name="course-type"
-                    id="course-type"
-                    {...bindCourseType}
-                  />
-                </div>
-              </div>
-
               <div className="course-info-field">
                 <label htmlFor="course-category">Category:</label>
                 <select
@@ -132,22 +110,43 @@ const AddCourse = ({ title, message, onClose }) => {
               </div>
 
               <div className="course-info-field">
+                <label htmlFor="course-code">Course Code:</label>
+                <div className="input-field-wrap">
+                  <input
+                    type="text"
+                    name="course-code"
+                    idß="course-code"
+                    {...bindCourseCode}
+                  />
+                </div>
+              </div>
+              <div className="course-info-field">
+                <label htmlFor="course-type">Course Name:</label>
+                <div className="input-field-wrap">
+                  <input
+                    type="type"
+                    name="course-type"
+                    id="course-type"
+                    {...bindCourseType}
+                  />
+                </div>
+              </div>
+
+              <div className="course-info-field">
                 <label htmlFor="course-instructor">Instructor:</label>
                 <div className="input-field-wrap">
                   <input
-                    type="instructor"
+                    type="text"
                     name="course-instructor"
                     id="course-instructor"
                     {...bindCourseInstructor}
                   />
                 </div>
               </div>
+
+              
             </div>
-            <a
-              type="button"
-              className="primary-btn"
-              onClick={AddCourseHandler}
-            >
+            <a type="button" className="primary-btn" onClick={AddCourseHandler}>
               <p>Add Course</p>
             </a>
           </form>
