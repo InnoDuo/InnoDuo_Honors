@@ -15,6 +15,7 @@ const cors = require('cors');
 const uri = process.env.ENV_URI;
 
 const Student = require('./models/student');
+const courseSchema = require('./models/course')
 
 
 
@@ -75,6 +76,8 @@ async function run() {
     const database = client.db('student-management');
     const usersCollection = database.collection('users');
     const catalogCollection = database.collection('catalog');
+
+
 
     // Middleware to check if user is authenticated
     const isAuthenticated = (req, res, next) => {
@@ -252,7 +255,7 @@ async function run() {
         console.log(newStudent);
         
         await usersCollection.insertOne(newStudent);
-        res.json({ message: "Added successfully" });
+        res.json({ message: "Added successfully", usersCollection });
         console.log('added')
       } catch (error) {
         console.error(error);
@@ -277,6 +280,31 @@ async function run() {
       } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
+      }
+    });
+
+
+    app.post("/addcourse", async (req, res) => {
+      try {
+        const { courseCode,
+          courseType,
+          courseCategory,
+          courseInstructor
+        } = req.body;
+        const newCourse = new courseSchema({
+          courseCode,
+          courseType,
+          courseCategory,
+          courseInstructor
+        });
+        console.log(newCourse);
+        
+        await usersCollection.insertOne(newCourse);
+        res.json({ message: "Course Added successfully" });
+        console.log('added')
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "error during adding" });
       }
     });
 

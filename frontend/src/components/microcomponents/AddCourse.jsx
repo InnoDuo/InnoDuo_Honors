@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
 import useInput from "./customhooks/useInput";
+import { toast } from "react-toastify";
+// const baseUrl = "https://innoduo-honors.onrender.com"; // production
+const baseUrl = "http://localhost:3000"; // dev tests
 
 
 Modal.setAppElement("#root");
@@ -12,6 +15,37 @@ const AddCourse = ({ title, message, onClose }) => {
   const [courseCategory, bindCourseCategory, resetCourseCategory] = useInput();
   const [courseInstructor, bindCourseInstructor, resetCourseInstructor] =
     useInput();
+
+
+    const AddCourseHandler = async (e)=>{
+      const confirmation = confirm(
+        "A course will be added to the system with the entered information. Do you agree?"
+      );
+      if (confirmation) {
+        // const username = email.split("@")[0];
+        try {
+          const response = await fetch(baseUrl + "/addcourse", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              courseCode,
+              courseType,
+              courseCategory,
+              courseInstructor,
+            }),
+          });
+          const data = await response.json();
+          if (data.message === "Course Added successfully") {
+            toast.success(data.message);
+          }
+        } catch (error) {
+          console.log("An error occurred during adding.");
+          console.log(error);
+        }
+      }
+    }
 
   return (
     <Modal
@@ -109,6 +143,13 @@ const AddCourse = ({ title, message, onClose }) => {
                 </div>
               </div>
             </div>
+            <a
+              type="button"
+              className="primary-btn"
+              onClick={AddCourseHandler}
+            >
+              <p>Add Course</p>
+            </a>
           </form>
         </div>
       </div>

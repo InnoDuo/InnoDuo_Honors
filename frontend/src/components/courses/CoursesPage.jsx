@@ -48,7 +48,7 @@ const CoursesPage = ({ tableData }) => {
       />
       {modalIsOpen && (
         <AddCourse
-          title="Add Student"
+          title="Add Courses"
           message="Fill in the details"
           onClose={onCloseModal}
         />
