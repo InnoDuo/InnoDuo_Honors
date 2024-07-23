@@ -5,11 +5,15 @@ import "../../assets/css/customtable.css";
 import { ThemeContext } from "../../context/theme";
 import SearchBar from "../microcomponents/SearchBar";
 import AddCourse from "../microcomponents/AddCourse";
+import { authContext } from "../../context/authContext";
 
 const CoursesPage = ({ tableData }) => {
   const { defaultTheme } = useContext(ThemeContext);
+  const {user} = useContext(authContext)
   const [search, setSearch] = useState("");
   const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  console.log(user)
 
   const handleSearchChange = (e) => {
     setSearch(e.target.value);
@@ -38,7 +42,7 @@ const CoursesPage = ({ tableData }) => {
       <CoursesTable
         cols={[
           "Course Code",
-          "Course Type",
+          "Course Name",
           "Course Category",
           "Instructor",
           "Students Count",
