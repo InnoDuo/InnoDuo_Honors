@@ -5,23 +5,14 @@ import StudentInfoFields from "./StudentInfoFields";
 import useInput from "../microcomponents/customhooks/useInput";
 import { ThemeContext } from "../../context/theme";
 import { authContext } from "../../context/authContext";
+import { ToastContainer, toast } from "react-toastify";
 const baseUrl = "http://localhost:3000"; // dev tests
 // const baseUrl = "https://innoduo-honors.onrender.com"; // prod
-import io from "socket.io-client";
-
-// const socket = io(baseUrl);
 
 const StudentProfile = () => {
   const { defaultTheme } = useContext(ThemeContext);
-  const [user, setUser] = useState({});
-
-  // useEffect(() => {
-  //   const storedUser = localStorage.getItem("user");
-  //   if (storedUser) {
-  //     setUser(JSON.parse(storedUser));
-  //   }
-  // }, []);
-
+  const {user} = useContext(authContext)
+  
   useEffect(() => {
     if (user) {
       resetId(user.studentId);
@@ -35,34 +26,23 @@ const StudentProfile = () => {
     }
   }, [user]);
 
-  // useEffect(() => {
-  //   socket.on("profileUpdated", (updatedProfile) => {
-  //     setUser(updatedProfile);
-  //     localStorage.setItem("user", JSON.stringify(updatedProfile));
-  //   });
-
-  //   return () => {
-  //     socket.off("profileUpdated");
-  //   };
-  // }, []);
-
   console.log("usususu", user);
 
-  const [id, bindId, resetId] = useInput(user.studentId);
-  const [firstName, bindFirstName, resetFirstName] = useInput(user.firstName);
-  const [lastName, bindLastName, resetLastName] = useInput(user.lastName);
-  const [email, bindEmail, resetEmail] = useInput(user.username, "@caldwell.edu");
-  const [advisor, bindAdvisor, resetAdvisor] = useInput(user.advisor);
-  const [classification, bindClassification, resetClassification] = useInput(user.classification);
-  const [major, bindMajor, resetMajor] = useInput(user.major);
-  const [phoneNo, bindPhoneNo, resetPhoneNo] = useInput(user.phoneNo);
+  const [id, bindId, resetId] = useInput(user?.studentId);
+  const [firstName, bindFirstName, resetFirstName] = useInput(user?.firstName);
+  const [lastName, bindLastName, resetLastName] = useInput(user?.lastName);
+  const [email, bindEmail, resetEmail] = useInput(user?.username + "@caldwell.edu");
+  const [advisor, bindAdvisor, resetAdvisor] = useInput(user?.advisor);
+  const [classification, bindClassification, resetClassification] = useInput(user?.classification);
+  const [major, bindMajor, resetMajor] = useInput(user?.major);
+  const [phoneNo, bindPhoneNo, resetPhoneNo] = useInput(user?.phoneNo);
 
   if (!user) {
     return <div>Loading...</div>;
   }
 
   const profileSubmitHandler = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
 
     const updatedProfile = {
       studentId: id,
@@ -82,11 +62,23 @@ const StudentProfile = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(updatedProfile),
-      });
+        body: JSON.stringify({
+          studentId: id,
+          firstName,
+          lastName,
+          username: email,
+          advisor,
+          classification,
+          major,
+          phoneNo,
+        }),
+      })
       const data = await response.json();
-      setUser(data.userProfile);
-      localStorage.setItem("user", JSON.stringify(data.userProfile));
+      if (data.message === "profile updated successfully") {
+        toast.success("profile updated")
+      } else {
+        toast.error(data.message);
+      }
     } catch (error) {
       console.error("error:", error);
     }
