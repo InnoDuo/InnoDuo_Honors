@@ -5,11 +5,11 @@ import "../../assets/css/navbar.css";
 import uniLogoTrans from "../../assets/images/uni-logo-trans.png";
 import ToggleSwitch from "../microcomponents/ToggleSwitch";
 import useAuth, { authContext } from "../../context/authContext";
+import { ToastContainer, toast } from "react-toastify";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const { loggedIn } = useContext(authContext);
-  const { logout } = useAuth();
+  const { loggedIn, logout, login } = useContext(authContext);
 
   const handleMenuToggle = () => {
     setMenuOpen(!menuOpen);
