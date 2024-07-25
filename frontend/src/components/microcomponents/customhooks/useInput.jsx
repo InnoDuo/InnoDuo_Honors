@@ -12,7 +12,11 @@ function useInput(initialValue) {
     setValue(initialValue);
   };
 
-  return [value, bind, reset];
+  const update = (newValue)=>{
+    setValue(newValue)
+  }
+
+  return [value, bind, reset, update];
 }
 
 export default useInput;
