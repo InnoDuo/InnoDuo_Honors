@@ -125,7 +125,7 @@ const SignUp = () => {
                 <div className="field-restrict">
                   <div od="fname-input-field" className="input-field-wrap">
                     <input
-                      type="number"
+                      type="text"
                       name="user-fname"
                       id="user-fname"
                       placeholder="John"
@@ -140,7 +140,7 @@ const SignUp = () => {
                 <div className="field-restrict">
                   <div id="lname-input-field" className="input-field-wrap">
                     <input
-                      type="number"
+                      type="text"
                       name="user-lname"
                       id="user-lname"
                       placeholder="Doe"

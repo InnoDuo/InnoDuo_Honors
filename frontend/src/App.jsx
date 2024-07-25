@@ -16,7 +16,7 @@ import { ToastContainer, toast } from "react-toastify";
 
 function App() {
   const [defaultTheme, setDefaultTheme] = useState("light");
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState();
   const [user, setUser] = useState();
 
   // useEffect(() => {
@@ -28,17 +28,15 @@ function App() {
 
 
   const login = (user) => {
-    // setLoggedIn(true);
+    setLoggedIn(true);
     setUser(user);
-    localStorage.setItem("authToken", user.authToken);
-    localStorage.setItem("user", JSON.stringify(user));
+    sessionStorage.setItem("authToken", user.authToken);
     sessionStorage.setItem("user", JSON.stringify(user));
   };
 
   const logout = () => {
-    // setLoggedIn(false);
-    localStorage.removeItem("authToken");
-    localStorage.removeItem("user");
+    setLoggedIn(false);
+    sessionStorage.removeItem("authToken");
     sessionStorage.removeItem("user");
 
   };
@@ -56,8 +54,8 @@ function App() {
   }, [defaultTheme]);
 
   useEffect(() => {
-    const authToken = localStorage.getItem("authToken");
-    const storedUser = localStorage.getItem("user");
+    const authToken = sessionStorage.getItem("authToken");
+    const storedUser = sessionStorage.getItem("user");
     if (authToken && storedUser) {
       setLoggedIn(true);
       setUser(JSON.parse(storedUser));

@@ -256,7 +256,11 @@ async function run() {
             },
           }
         );
-        res.status(200).json({ message: 'profile updated successfully' });
+        const newUser = await usersCollection.findOne({ studentId: studentId });
+  
+        res.status(200).json({ message: 'profile updated successfully', newUser: newUser });
+        // sessionStorage.setItem("user", JSON.stringify(user));
+
       } else {
         res.status(404).json({ message: 'User not found' });
       }

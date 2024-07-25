@@ -6,25 +6,13 @@ import useInput from "../microcomponents/customhooks/useInput";
 import { ThemeContext } from "../../context/theme";
 import { authContext } from "../../context/authContext";
 import { ToastContainer, toast } from "react-toastify";
+
 const baseUrl = "http://localhost:3000"; // dev tests
 // const baseUrl = "https://innoduo-honors.onrender.com"; // prod
 
 const StudentProfile = () => {
   const { defaultTheme } = useContext(ThemeContext);
   const { user } = useContext(authContext);
-
-  useEffect(() => {
-    if (user) {
-      resetId(user.studentId);
-      resetFirstName(user.firstName);
-      resetLastName(user.lastName);
-      resetEmail(user.username);
-      resetAdvisor(user.advisor);
-      resetClassification(user.gradYear);
-      resetMajor(user.major);
-      resetPhoneNo(user.phoneNo);
-    }
-  }, [user]);
 
   console.log("usususu", user);
 
@@ -52,12 +40,24 @@ const StudentProfile = () => {
     user?.phoneNo
   );
 
-  if (!user) {
-    return <div>Loading...</div>;
-  }
+
+  useEffect(() => {
+    if (user) {
+      updateId(user.studentId);
+      updateFirstName(user.firstName);
+      updateLastName(user.lastName);
+      updateEmail(user.username + "@caldwell.edu");
+      updateAdvisor(user.advisor);
+      updateClassification(user.gradYear);
+      updateMajor(user.major);
+      updatePhoneNo(user.phoneNo);
+    }
+  }, [user]);
+
+ 
 
   const profileSubmitHandler = async (e) => {
-    // e.preventDefault();
+    e.preventDefault();
 
     const updatedProfile = {
       studentId: id,
@@ -99,7 +99,10 @@ const StudentProfile = () => {
         updateClassification(data.newUser.gradYear);
         updateMajor(data.newUser.major);
         updatePhoneNo(data.newUser.phoneNo);
+        sessionStorage.setItem("user", JSON.stringify(data.newUser));
+
         toast.success("profile updated");
+
       } else {
         toast.error(data.message);
       }
@@ -107,6 +110,11 @@ const StudentProfile = () => {
       console.error("error:", error);
     }
   };
+
+   
+  if (!user) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div
