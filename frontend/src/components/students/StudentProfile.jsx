@@ -11,8 +11,8 @@ const baseUrl = "http://localhost:3000"; // dev tests
 
 const StudentProfile = () => {
   const { defaultTheme } = useContext(ThemeContext);
-  const {user} = useContext(authContext)
-  
+  const { user } = useContext(authContext);
+
   useEffect(() => {
     if (user) {
       resetId(user.studentId);
@@ -28,14 +28,29 @@ const StudentProfile = () => {
 
   console.log("usususu", user);
 
-  const [id, bindId, resetId] = useInput(user?.studentId);
-  const [firstName, bindFirstName, resetFirstName] = useInput(user?.firstName);
-  const [lastName, bindLastName, resetLastName] = useInput(user?.lastName);
-  const [email, bindEmail, resetEmail] = useInput(user?.username + "@caldwell.edu");
-  const [advisor, bindAdvisor, resetAdvisor] = useInput(user?.advisor);
-  const [classification, bindClassification, resetClassification] = useInput(user?.classification);
-  const [major, bindMajor, resetMajor] = useInput(user?.major);
-  const [phoneNo, bindPhoneNo, resetPhoneNo] = useInput(user?.phoneNo);
+  const [id, bindId, resetId, updateId] = useInput(user?.studentId);
+  const [firstName, bindFirstName, resetFirstName, updateFirstName] = useInput(
+    user?.firstName
+  );
+  const [lastName, bindLastName, resetLastName, updateLastName] = useInput(
+    user?.lastName
+  );
+  const [email, bindEmail, resetEmail, updateEmail] = useInput(
+    user?.username + "@caldwell.edu"
+  );
+  const [advisor, bindAdvisor, resetAdvisor, updateAdvisor] = useInput(
+    user?.advisor
+  );
+  const [
+    classification,
+    bindClassification,
+    resetClassification,
+    updateClassification,
+  ] = useInput(user?.classification);
+  const [major, bindMajor, resetMajor, updateMajor] = useInput(user?.major);
+  const [phoneNo, bindPhoneNo, resetPhoneNo, updatePhoneNo] = useInput(
+    user?.phoneNo
+  );
 
   if (!user) {
     return <div>Loading...</div>;
@@ -55,7 +70,7 @@ const StudentProfile = () => {
       phoneNo,
     };
 
-    console.log(updatedProfile)
+    console.log(updatedProfile);
     try {
       const response = await fetch(`${baseUrl}/updateProfile`, {
         method: "POST",
@@ -72,10 +87,19 @@ const StudentProfile = () => {
           major,
           phoneNo,
         }),
-      })
+      });
       const data = await response.json();
       if (data.message === "profile updated successfully") {
-        toast.success("profile updated")
+        console.log("wowowowow", data.newUser);
+        updateId(data.newUser.studentId);
+        updateFirstName(data.newUser.firstName);
+        updateLastName(data.newUser.lastName);
+        updateEmail(data.newUser.username);
+        updateAdvisor(data.newUser.advisor);
+        updateClassification(data.newUser.gradYear);
+        updateMajor(data.newUser.major);
+        updatePhoneNo(data.newUser.phoneNo);
+        toast.success("profile updated");
       } else {
         toast.error(data.message);
       }
@@ -85,13 +109,21 @@ const StudentProfile = () => {
   };
 
   return (
-    <div className={`page-container ${defaultTheme === "dark" ? "dark-container" : ""}`}>
+    <div
+      className={`page-container ${
+        defaultTheme === "dark" ? "dark-container" : ""
+      }`}
+    >
       <div className="student-info-container">
         <div className="student-name">
           <h2>Student Name</h2>
         </div>
         <div className="student-info-content">
-          <form className="student-info-form" onSubmit={profileSubmitHandler}>
+          <form
+            className="student-info-form"
+            onSubmit={profileSubmitHandler}
+            method="post"
+          >
             <StudentInfoFields
               bindId={bindId}
               bindFirstName={bindFirstName}
