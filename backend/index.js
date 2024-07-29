@@ -1,25 +1,23 @@
-require('dotenv').config({ path: "./.env" });
-const express = require('express');
-const socketIo = require('socket.io');
-const bodyParser = require('body-parser');
-const http = require('http');
-const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
-const session = require('express-session');
-const MongoDBStore = require('connect-mongodb-session')(session);
-const bcrypt = require('bcrypt');
-const crypto = require('crypto');
+require("dotenv").config({ path: "./.env" });
+const express = require("express");
+const socketIo = require("socket.io");
+const bodyParser = require("body-parser");
+const http = require("http");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
+const session = require("express-session");
+const MongoDBStore = require("connect-mongodb-session")(session);
+const bcrypt = require("bcrypt");
+const crypto = require("crypto");
 const app = express();
 const PORT = process.env.PORT || 3000;
-const cors = require('cors');
+const cors = require("cors");
 // const studentProfile = require('./sampleProfile');
 const uri = process.env.ENV_URI;
 
-const Student = require('./models/student');
-const courseSchema = require('./models/course')
+const Student = require("./models/student");
+const courseSchema = require("./models/course");
 
-
-
-// just a sample 
+// just a sample
 // const studentProfile = {
 //   _id: "668b1fb6ae08c03994df4bb9",
 //   username: "anujkhadka",
@@ -36,48 +34,45 @@ const courseSchema = require('./models/course')
 //   phoneNo: "9876543209",
 // };
 
-
-
 const client = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
     strict: true,
     deprecationErrors: true,
-  }
+  },
 });
 
 const store = new MongoDBStore({
   uri: uri,
-  collection: 'sessions'
+  collection: "sessions",
 });
-
 
 const server = http.createServer(app);
 const io = socketIo(server);
 
 app.use(express.json());
 app.use(cors());
-app.use(express.static('public'));
+app.use(express.static("public"));
 app.use(bodyParser.json());
 
-app.use(session({
-  secret: 'your_secret_key', // Replace with your own secret
-  resave: false,
-  saveUninitialized: false,
-  store: store,
-  cookie: { maxAge: 1000 * 60 * 60 * 24 } // 1 day
-}));
+app.use(
+  session({
+    secret: "your_secret_key", // Replace with your own secret
+    resave: false,
+    saveUninitialized: false,
+    store: store,
+    cookie: { maxAge: 1000 * 60 * 60 * 24 }, // 1 day
+  })
+);
 
 async function run() {
   try {
     await client.connect();
     console.log("Connected to MongoDB");
 
-    const database = client.db('student-management');
-    const usersCollection = database.collection('users');
-    const catalogCollection = database.collection('catalog');
-
-
+    const database = client.db("student-management");
+    const usersCollection = database.collection("users");
+    const catalogCollection = database.collection("catalog");
 
     // Middleware to check if user is authenticated
     const isAuthenticated = (req, res, next) => {
@@ -86,11 +81,11 @@ async function run() {
       if (user && user.authToken === authToken) {
         return next();
       }
-      res.status(401).send('Unauthorized');
+      res.status(401).send("Unauthorized");
     };
 
     // Total no of students for home page
-    app.get('/totalStudents', async (req, res) => {
+    app.get("/totalStudents", async (req, res) => {
       try {
         const totalStudents = await usersCollection.countDocuments();
         res.send({ totalStudents });
@@ -100,20 +95,30 @@ async function run() {
     });
 
     // User registration
-    app.post('/register', async (req, res) => {
+    app.post("/register", async (req, res) => {
       try {
         const { email, id, password } = req.body;
         const hashedPassword = await bcrypt.hash(password, 10);
-        const authToken = crypto.randomBytes(64).toString('hex');
+        const authToken = crypto.randomBytes(64).toString("hex");
 
-        const result = await usersCollection.insertOne({ username: email, studentId: id, password: hashedPassword, authToken });
+        const result = await usersCollection.insertOne({
+          username: email,
+          studentId: id,
+          password: hashedPassword,
+          authToken,
+        });
         if (result.insertedCount === 0) {
-          return res.status(400).send({ message: 'User registration failed' });
+          return res.status(400).send({ message: "User registration failed" });
         } else {
           // filtering out the password from the user object
           usertobesent = await usersCollection.findOne({ username: email });
           delete usertobesent.password;
-          return res.status(201).send({ message: 'User registered successfully', user: usertobesent });
+          return res
+            .status(201)
+            .send({
+              message: "User registered successfully",
+              user: usertobesent,
+            });
         }
       } catch (error) {
         res.status(500).send(error.message);
@@ -121,39 +126,46 @@ async function run() {
     });
 
     // User login
-    app.post('/login', async (req, res) => {
+    app.post("/login", async (req, res) => {
       try {
         const { email, password } = req.body;
-        const user = await usersCollection.findOne({ username: email });
+        console.log(email, password);
+        const user = await usersCollection.findOne({
+          username: email,
+        });
         if (!user) return res.status(404).send({ message: "User not found" });
 
         const validPassword = await bcrypt.compare(password, user.password);
-        if (!validPassword) return res.status(403).send({ message: 'Invalid password' });
+        if (!validPassword)
+          return res.status(403).send({ message: "Invalid password" });
 
+        const authToken = crypto.randomBytes(64).toString("hex");
+        await usersCollection.updateOne(
+          { username: email },
+          { $set: { authToken } }
+        );
 
-        const authToken = crypto.randomBytes(64).toString('hex');
-        await usersCollection.updateOne({ username: email }, { $set: { authToken } });
         // filtering out the password from the user object
         usertobesent = user;
         usertobesent.authToken = authToken;
         delete usertobesent.password;
 
-        res.send({ message: 'Logged in successfully', user: usertobesent });
+        res.send({ message: "Logged in successfully", user: usertobesent });
       } catch (error) {
         res.status(500).send(error.message);
       }
     });
 
     // User logout
-    app.post('/logout', (req, res) => {
-      req.session.destroy(err => {
-        if (err) return res.status(500).send('Could not log out.');
-        res.send('Logged out successfully');
+    app.post("/logout", (req, res) => {
+      req.session.destroy((err) => {
+        if (err) return res.status(500).send("Could not log out.");
+        res.send("Logged out successfully");
       });
     });
 
     // CRUD operations for students, protected by authentication
-    app.post('/students', isAuthenticated, async (req, res) => {
+    app.post("/students", isAuthenticated, async (req, res) => {
       try {
         const student = req.body;
         const result = await usersCollection.insertOne(student);
@@ -163,7 +175,7 @@ async function run() {
       }
     });
 
-    app.get('/students', isAuthenticated, async (req, res) => {
+    app.get("/students", isAuthenticated, async (req, res) => {
       try {
         const students = await usersCollection.find().toArray();
         res.send(students);
@@ -172,114 +184,134 @@ async function run() {
       }
     });
 
-    app.get('/catalog', isAuthenticated, async (req, res) => {
+    app.get("/catalog", isAuthenticated, async (req, res) => {
       try {
         const catalog = await catalogCollection.find().toArray();
         res.send(catalog[0]);
       } catch (error) {
-        console.log("error", error)
+        console.log("error", error);
         res.status(500).send(error.message);
       }
     });
 
-    app.get('/students/:id', isAuthenticated, async (req, res) => {
+    app.get("/students/:id", isAuthenticated, async (req, res) => {
       try {
-        const student = await usersCollection.findOne({ _id: new ObjectId(req.params.id) });
-        if (!student) return res.status(404).send('Student not found');
+        const student = await usersCollection.findOne({
+          _id: new ObjectId(req.params.id),
+        });
+        if (!student) return res.status(404).send("Student not found");
         res.send(student);
       } catch (error) {
         res.status(500).send(error.message);
       }
     });
 
-    app.put('/students/:studentId', isAuthenticated, async (req, res) => {
+    app.put("/students/:studentId", isAuthenticated, async (req, res) => {
       try {
         const updatedStudent = req.body;
         const result = await usersCollection.updateOne(
-          { studentId: (req.params.studentId) },
+          { studentId: req.params.studentId },
           { $set: updatedStudent }
         );
-        if (result.matchedCount === 0) return res.status(404).send('Student not found');
+        if (result.matchedCount === 0)
+          return res.status(404).send("Student not found");
         res.send(result);
       } catch (error) {
         res.status(500).send(error.message);
       }
     });
 
-    app.delete('/students/:id', isAuthenticated, async (req, res) => {
+    app.delete("/students/:id", isAuthenticated, async (req, res) => {
       try {
-        const result = await usersCollection.deleteOne({ _id: new ObjectId(req.params.id) });
-        if (result.deletedCount === 0) return res.status(404).send('Student not found');
+        const result = await usersCollection.deleteOne({
+          _id: new ObjectId(req.params.id),
+        });
+        if (result.deletedCount === 0)
+          return res.status(404).send("Student not found");
         res.send(result);
       } catch (error) {
         res.status(500).send(error.message);
       }
     });
 
-    app.get('/username', (req, res) => {
+    app.get("/username", (req, res) => {
       const username = req.session.username || null;
       res.json({ username });
     });
 
+    // for real time student profile
+    app.post("/updateProfile", async (req, res) => {
+      try {
+        const {
+          studentId,
+          firstName,
+          lastName,
+          username,
+          advisor,
+          classification,
+          major,
+          phoneNo,
+        } = req.body;
 
-    // for real time student profile 
-    app.post('/updateProfile', async (req, res) =>  {
-          
-    try {
-      const {
-        studentId,
-        firstName,
-        lastName,
-        username,
-        advisor,
-        classification,
-        major,
-        phoneNo,
-      } = req.body;
-      
-      console.log(studentId)
+        console.log(studentId);
 
-      const user = await usersCollection.findOne({ studentId: studentId });
-  
-      if (user) {
-        await usersCollection.updateOne(
-          { studentId: studentId },
-          {
-            $set: {
-              firstName: firstName,
-              lastName: lastName,
-              username: username,
-              advisor: advisor,
-              classification: classification,
-              major: major,
-              phoneNo: phoneNo,
-            },
-          }
-        );
-        const newUser = await usersCollection.findOne({ studentId: studentId });
-  
-        res.status(200).json({ message: 'profile updated successfully', newUser: newUser });
-        // sessionStorage.setItem("user", JSON.stringify(user));
+        const user = await usersCollection.findOne({ studentId: studentId });
 
-      } else {
-        res.status(404).json({ message: 'User not found' });
+        if (user) {
+          await usersCollection.updateOne(
+            { studentId: studentId },
+            {
+              $set: {
+                firstName: firstName,
+                lastName: lastName,
+                username: username,
+                advisor: advisor,
+                classification: classification,
+                major: major,
+                phoneNo: phoneNo,
+              },
+            }
+          );
+          const newUser = await usersCollection.findOne({
+            studentId: studentId,
+          });
+
+          res
+            .status(200)
+            .json({
+              message: "profile updated successfully",
+              newUser: newUser,
+            });
+          // sessionStorage.setItem("user", JSON.stringify(user));
+        } else {
+          res.status(404).json({ message: "User not found" });
+        }
+      } catch (error) {
+        console.error("Error updating profile:", error);
+        res.status(500).json({ message: "error updating profile" });
       }
-    } catch (error) {
-      console.error('Error updating profile:', error);
-      res.status(500).json({ message: 'error updating profile' });
-    }
-  });
+    });
 
-    io.on('connection', (socket) => {
-      console.log('user connected');
-      socket.on('disconnect', () => {
-        console.log('user disconnected');
+    io.on("connection", (socket) => {
+      console.log("user connected");
+      socket.on("disconnect", () => {
+        console.log("user disconnected");
       });
     });
 
     app.post("/addstudent", async (req, res) => {
       try {
-        const { id, firstName, username, lastName, email, advisor, gradYear, major, phoneNo } = req.body;
+        const {
+          id,
+          firstName,
+          username,
+          lastName,
+          email,
+          advisor,
+          gradYear,
+          major,
+          phoneNo,
+        } = req.body;
         const newStudent = new Student({
           firstName,
           lastName,
@@ -289,58 +321,67 @@ async function run() {
           major,
           advisor,
           gradYear,
-          username, 
+          username,
         });
         console.log(newStudent);
-        
+
         await usersCollection.insertOne(newStudent);
         res.json({ message: "Added successfully" });
-        console.log('added')
+        console.log("added");
       } catch (error) {
         console.error(error);
         res.status(500).json({ message: "error during adding" });
       }
     });
 
-    app.post('/addstudenttocourse', async (req, res) => {
+    app.post("/addstudenttocourse", async (req, res) => {
       const { courseCode, semester, section, studentId } = req.body;
-    
+
       try {
         const updateResult = await catalogCollection.updateOne(
-          { [`classes.$[].${courseCode}.semesters.${semester}.${section}`]: { $exists: true } },
-          { $addToSet: { [`classes.$[].${courseCode}.semesters.${semester}.${section}.students`]: studentId } }
+          {
+            [`classes.$[].${courseCode}.semesters.${semester}.${section}`]: {
+              $exists: true,
+            },
+          },
+          {
+            $addToSet: {
+              [`classes.$[].${courseCode}.semesters.${semester}.${section}.students`]:
+                studentId,
+            },
+          }
         );
-    
+
         if (updateResult.nModified === 0) {
-          return res.status(404).json({ message: 'Course, semester, or section not found' });
+          return res
+            .status(404)
+            .json({ message: "Course, semester, or section not found" });
         }
-    
-        res.status(200).json({ message: 'Student added to course successfully' });
+
+        res
+          .status(200)
+          .json({ message: "Student added to course successfully" });
       } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Internal server error' });
+        res.status(500).json({ message: "Internal server error" });
       }
     });
 
-
     app.post("/addcourse", async (req, res) => {
       try {
-        const { courseCode,
-          courseType,
-          courseCategory,
-          courseInstructor
-        } = req.body;
+        const { courseCode, courseType, courseCategory, courseInstructor } =
+          req.body;
         const newCourse = new courseSchema({
           courseCode,
           courseType,
           courseCategory,
-          courseInstructor
+          courseInstructor,
         });
         console.log(newCourse);
-        
+
         await usersCollection.insertOne(newCourse);
         res.json({ message: "Course Added successfully" });
-        console.log('added')
+        console.log("added");
       } catch (error) {
         console.error(error);
         res.status(500).json({ message: "error during adding" });
@@ -351,9 +392,8 @@ async function run() {
     app.listen(PORT, () => {
       console.log(`Server running on http://localhost:${PORT}`);
     });
-
   } catch (error) {
-    console.error('Failed to connect to MongoDB', error);
+    console.error("Failed to connect to MongoDB", error);
   }
 }
 

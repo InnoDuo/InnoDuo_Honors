@@ -7,15 +7,21 @@ const baseUrl = "http://localhost:3000"; // dev tests
 
 Modal.setAppElement("#root");
 const AddCourse = ({ title, message, onClose }) => {
-  const semesters = ['FA24', 'SP25', 'FA25', 'SP26', 'FA26'];
+  const semesters = ["FA24", "SP25", "FA25", "SP26", "FA26"];
 
   const [modalIsOpen, setModalIsOpen] = useState(true);
 
   const [courseCode, bindCourseCode, resetCourseCode] = useInput();
   const [courseType, bindCourseType, resetCourseType] = useInput();
   const [courseCategory, bindCourseCategory, resetCourseCategory] = useInput();
+  const [courseCredit, bindCourseCredit, resetCourseCredit] = useInput();
+  const [courseDescription, bindCourseDescription, resetCourseDescription] =
+    useInput();
   const [courseInstructor, bindCourseInstructor, resetCourseInstructor] =
     useInput();
+  const [coursePeriod, bindCoursePeriod, resetCoursePeriod] = useInput();
+  const [courseLocation, bindCourseLocation, resetCourseLocation] = useInput();
+  const [courseDuration, bindCourseDuration, resetCourseDuration] = useInput();
 
   const AddCourseHandler = async (e) => {
     const confirmation = confirm(
@@ -33,6 +39,11 @@ const AddCourse = ({ title, message, onClose }) => {
             courseType,
             courseCategory,
             courseInstructor,
+            courseCredit,
+            courseDescription,
+            coursePeriod,
+            courseDuration,
+            courseLocation,
           }),
         });
         const data = await response.json();
@@ -45,8 +56,6 @@ const AddCourse = ({ title, message, onClose }) => {
       }
     }
   };
-
-
 
   return (
     <Modal
@@ -144,7 +153,77 @@ const AddCourse = ({ title, message, onClose }) => {
                 </div>
               </div>
 
-              
+              <div className="course-info-field">
+                <label htmlFor="course-credit">Credit:</label>
+                <div className="input-field-wrap">
+                  <input
+                    type="number"
+                    name="course-credit"
+                    id="course-credit"
+                    {...bindCourseCredit}
+                  />
+                </div>
+              </div>
+
+              <div className="course-info-field">
+                <label htmlFor="course-description">Description:</label>
+                <div className="input-field-wrap">
+                  <input
+                    type="text"
+                    name="course-description"
+                    id="course-description"
+                    {...bindCourseDescription}
+                  />
+                </div>
+              </div>
+
+              <div className="course-info-field">
+                <label htmlFor="course-period">Period:</label>
+                <div className="input-field-wrap">
+                  <input
+                    type="text"
+                    name="course-period"
+                    id="course-period"
+                    placeholder="MWF 10:00-11:00"
+                    {...bindCoursePeriod}
+                  />
+                </div>
+              </div>
+
+              <div className="course-info-field">
+                <label htmlFor="course-duration">Duration:</label>
+                <div className="input-field-wrap">
+                  <input
+                    type="text"
+                    name="course-duration"
+                    id="course-duration"
+                    placeholder="08/30/2024 - 12/15/2024"
+                    {...bindCourseDuration}
+                  />
+                </div>
+              </div>
+
+              <div className="course-info-field">
+                <label htmlFor="course-location">Location:</label>
+                <div className="input-field-wrap">
+                  <input
+                    type="text"
+                    name="course-location"
+                    id="course-location"
+                    placeholder="Caldwell University, Albertus Magnus Hall, Room 123"
+                    {...bindCourseLocation}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="add-course-section" style={{ marginTop: "20px" }}>
+              <h3>Add Students</h3>
+              <div className="course-info-field">
+                <label htmlFor="student-email">Username:</label>
+                <div className="input-field-wrap">
+                  <input type="text" name="student-email" id="student-email" />
+                </div>
+              </div>
             </div>
             <a type="button" className="primary-btn" onClick={AddCourseHandler}>
               <p>Add Course</p>
