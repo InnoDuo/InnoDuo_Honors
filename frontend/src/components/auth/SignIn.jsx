@@ -42,7 +42,7 @@ const SignIn = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email: email + "@caldwell.edu", password }),
       });
       const data = await response.json();
       if (data.message === "Logged in successfully") {
