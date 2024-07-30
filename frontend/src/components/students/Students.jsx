@@ -13,7 +13,7 @@ const Students = () => {
   const [ loading, setLoading ] = useState(true);
 
   const getData = async () => {
-    const authToken = localStorage.getItem("authToken");
+    const authToken = sessionStorage.getItem("authToken");
     if (!authToken) {
       console.error("You are not authenticated.");
       return;

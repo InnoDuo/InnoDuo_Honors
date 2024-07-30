@@ -97,7 +97,7 @@ async function run() {
     // User registration
     app.post("/register", async (req, res) => {
       try {
-        const { email, id, password } = req.body;
+        const { email, id, password, role, firstName, lastName } = req.body;
         const hashedPassword = await bcrypt.hash(password, 10);
         const authToken = crypto.randomBytes(64).toString("hex");
 
@@ -106,6 +106,9 @@ async function run() {
           studentId: id,
           password: hashedPassword,
           authToken,
+          role,
+          firstName,
+          lastName,
         });
         if (result.insertedCount === 0) {
           return res.status(400).send({ message: "User registration failed" });

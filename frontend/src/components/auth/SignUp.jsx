@@ -19,6 +19,7 @@ const SignUp = () => {
   const [lastName, bindLastName, resetLastName] = useInput("");
   const [email, bindEmail, resetEmail] = useInput("");
   const [id, bindId, resetId] = useInput("");
+  const [role, bindRole, resetRole] = useInput("student");
   const [password, bindPassword, resetPassword] = useInput("");
   const [confirmPassword, bindConfirmPassword, resetConfirmPassword] =
     useInput("");
@@ -72,7 +73,7 @@ const SignUp = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ firstName, lastName, email, id, password }),
+        body: JSON.stringify({ firstName, lastName, email, id, password, role }),
       })
         .then((res) => res.json())
         .then((data) => {
@@ -119,6 +120,23 @@ const SignUp = () => {
             onSubmit={signUpHandler}
           >
             <div className="form-fields">
+
+              <div className="user-role-info input-field" style={{display:'none'}}>
+                <label htmlFor="user-role">User Role</label>
+                <div className="field-restrict">
+                  <div od="role-input-field" className="input-field-wrap">
+                    <input
+                      type="text"
+                      name="user-role"
+                      id="user-role"
+                      placeholder="student"
+                      value="student"
+                      required
+                      disabled
+                    />
+                  </div>
+                </div>
+              </div>
 
               <div className="user-fname-info input-field">
                 <label htmlFor="user-fname">First Name</label>
