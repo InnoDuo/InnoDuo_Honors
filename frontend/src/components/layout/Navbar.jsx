@@ -1,11 +1,18 @@
-import React, {useEffect} from "react";
-import { useState, useContext } from "react";
+// import from react
+import React, {useEffect, useState, useContext} from "react";
 import { NavLink } from "react-router-dom";
+import { toast } from "react-toastify";
+
+// import from components
+import ToggleSwitch from "../microcomponents/ToggleSwitch";
+
+// import from assets
 import "../../assets/css/navbar.css";
 import uniLogoTrans from "../../assets/images/uni-logo-trans.png";
-import ToggleSwitch from "../microcomponents/ToggleSwitch";
-import useAuth, { authContext } from "../../context/authContext";
-import { ToastContainer, toast } from "react-toastify";
+
+// import from context
+import { authContext } from "../../context/authContext";
+
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -20,10 +27,7 @@ const Navbar = () => {
     toast.success("You have been logged out!");
   }
 
-  console.log("user from nav", user);
-
   useEffect(() => {
-    console.log("user from nav", user);
   }, [loggedIn]);
 
   return (

@@ -1,5 +1,10 @@
+// import from react
 import React, {useContext} from "react";
+
+// import from assets
 import "../../assets/css/pagenotfound.css";
+
+// import from context
 import { ThemeContext } from "../../context/theme";
 
 

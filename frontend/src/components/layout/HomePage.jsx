@@ -1,10 +1,17 @@
+// import from react
 import React, {useState, useEffect, useContext} from "react";
+
+// import from components
+import AlertBanner from '../microcomponents/AlertBanner';
+import ModalBox from "../microcomponents/ModalBox";
+
+// import from assets
 import "../../assets/css/homepage.css";
 import honorsFrontImg from "../../assets/images/Honors-students-visit-the-UN.jpg";
-import AlertBanner from '../microcomponents/AlertBanner';
+
+// import from context
 import { ThemeContext } from "../../context/theme";
 import { authContext } from "../../context/authContext";
-import ModalBox from "../microcomponents/ModalBox";
 
 // const baseUrl = 'https://innoduo-honors.onrender.com/';
 const baseUrl = 'http://localhost:3000/';

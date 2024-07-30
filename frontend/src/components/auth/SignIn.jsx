@@ -1,14 +1,23 @@
+// import from react
 import React, { useState, useEffect, useContext } from "react";
-import "../../assets/css/signin.css";
-import { PiEyeBold, PiEyeClosedBold } from "react-icons/pi";
-import useInput from "../microcomponents/customhooks/useInput";
 import { NavLink, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import { PiEyeBold, PiEyeClosedBold } from "react-icons/pi";
+
+// import from assets
+import "../../assets/css/signin.css";
+
+// import from components
+import useInput from "../microcomponents/customhooks/useInput";
+
+// import from context
+import { ThemeContext } from "../../context/theme";
+import useAuth, { authContext } from "../../context/authContext";
+
+// url to connect to the backend
 // const baseUrl = "https://innoduo-honors.onrender.com"; // production
 const baseUrl = "http://localhost:3000"; // dev tests
 
-import { ThemeContext } from "../../context/theme";
-import useAuth, { authContext } from "../../context/authContext";
 
 const SignIn = () => {
   const history = useNavigate();
@@ -81,7 +90,6 @@ const SignIn = () => {
                   <div
                     id="email-input-field"
                     className="input-field-wrap"
-                    // style={wrapCondition}
                   >
                     <input
                       type="text"
@@ -90,7 +98,6 @@ const SignIn = () => {
                       placeholder="johndoe"
                       {...bindEmail}
                       required
-                      // style={fieldCondition}
                     />
                   </div>
                   <span> @ caldwell.edu</span>
@@ -102,7 +109,6 @@ const SignIn = () => {
                 <div className="field-restrict">
                   <div
                     className="input-field-wrap"
-                    // style={wrapCondition}
                   >
                     <input
                       type="password"
@@ -111,7 +117,6 @@ const SignIn = () => {
                       placeholder="***********"
                       {...bindPassword}
                       required
-                      // style={fieldCondition}
                     />
                     <div className="display-password" onClick={showPassHandler}>
                       <PiEyeBold
