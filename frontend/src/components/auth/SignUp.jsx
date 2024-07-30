@@ -1,12 +1,23 @@
+// Desc: Sign up page for the user to register a new account
+
+// React core
 import React, { useState, useContext } from "react";
-import "../../assets/css/signin.css";
-import useInput from "../microcomponents/customhooks/useInput";
 import { PiEyeBold, PiEyeClosedBold } from "react-icons/pi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { NavLink, useNavigate } from "react-router-dom";
+
+// import from components
+import useInput from "../microcomponents/customhooks/useInput";
+
+// import from assets
+import "../../assets/css/signin.css";
+
+// import from context
 import useAuth, { authContext } from "../../context/authContext";
 import { ThemeContext } from "../../context/theme";
+
+// url to connect to the backend
 const baseUrl = "http://localhost:3000"; // dev tests
 // const baseUrl = "https://innoduo-honors.onrender.com"; // prod
 
