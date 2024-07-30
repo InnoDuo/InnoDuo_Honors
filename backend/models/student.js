@@ -12,7 +12,8 @@ const studentSchema = new mongoose.Schema({
   classification: String,
   gradYear: Number,
   username: String,
-  password: String
+  password: String,
+  role: String,
   // THE FOLLOWING ARE COMMENTED BECAUSE WE ARE IMPLEMENTING THEM IN CATALOG (nta45)
   // contact: String,
   // honorsSeminarsTaken: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Course' }],

@@ -4,11 +4,14 @@ import SearchBar from "../microcomponents/SearchBar";
 import "../../assets/css/customtable.css";
 import { ThemeContext } from "../../context/theme";
 import AddContent from "../microcomponents/AddContent";
+import { authContext } from "../../context/authContext";
+import UnauthorizedAccess from "../microcomponents/UnauthorizedAccess";
 
 const StudentsPage = ({ tableData }) => {
   const { defaultTheme } = useContext(ThemeContext);
   const [search, setSearch] = useState("");
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const {user} = useContext(authContext);
 
   const handleSearchChange = (e) => {
     setSearch(e.target.value);
@@ -30,6 +33,12 @@ const StudentsPage = ({ tableData }) => {
       .toLowerCase()
       .includes(search.toLowerCase())
   );
+
+  if(user?.role !== "admin" && user?.role !== "superAdmin") {
+    return (
+      <UnauthorizedAccess />
+    )
+  }
 
   return (
     <div className={`${defaultTheme === "dark" ? "dark-container" : ""}`}>

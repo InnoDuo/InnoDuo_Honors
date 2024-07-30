@@ -3,15 +3,18 @@ import "../../assets/css/students.css";
 import { ThemeContext } from "../../context/theme";
 import { authContext } from "../../context/authContext";
 import CoursesPage from "./CoursesPage";
+import UnauthorizedAccess from "../microcomponents/UnauthorizedAccess";
 
 const Courses = () => {
   const { defaultTheme } = useContext(ThemeContext);
-  const { loggedIn } = useContext(authContext);
+  const { loggedIn, user } = useContext(authContext);
   const [tableData, setTableData] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  console.log("user from courses", user?.role);
+
   const getData = async () => {
-    const authToken = localStorage.getItem("authToken");
+    const authToken = sessionStorage.getItem("authToken");
     if (!authToken) {
       console.error("You are not authenticated.");
       return;
@@ -72,6 +75,12 @@ const Courses = () => {
 
     return allClasses;
   };
+
+  if(user?.role !== "admin" && user?.role !== "superAdmin") {
+    return (
+      <UnauthorizedAccess />
+    )
+  }
 
   return (
     <div
