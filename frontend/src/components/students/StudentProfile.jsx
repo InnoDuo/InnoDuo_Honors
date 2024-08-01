@@ -6,6 +6,7 @@ import useInput from "../microcomponents/customhooks/useInput";
 import { ThemeContext } from "../../context/theme";
 import { authContext } from "../../context/authContext";
 import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const baseUrl = "http://localhost:3000"; // dev tests
 // const baseUrl = "https://innoduo-honors.onrender.com"; // prod
@@ -30,11 +31,11 @@ const StudentProfile = () => {
     user?.advisor
   );
   const [
-    classification,
-    bindClassification,
-    resetClassification,
-    updateClassification,
-  ] = useInput(user?.classification);
+    gradYear,
+    bindGradYear,
+    resetGradYear,
+    updateGradYear,
+  ] = useInput(user?.gradYear);
   const [major, bindMajor, resetMajor, updateMajor] = useInput(user?.major);
   const [phoneNo, bindPhoneNo, resetPhoneNo, updatePhoneNo] = useInput(
     user?.phoneNo
@@ -46,9 +47,9 @@ const StudentProfile = () => {
       updateId(user.studentId);
       updateFirstName(user.firstName);
       updateLastName(user.lastName);
-      updateEmail(user.username + "@caldwell.edu");
+      updateEmail(user.username);
       updateAdvisor(user.advisor);
-      updateClassification(user.gradYear);
+      updateGradYear(user.gradYear);
       updateMajor(user.major);
       updatePhoneNo(user.phoneNo);
     }
@@ -65,7 +66,7 @@ const StudentProfile = () => {
       lastName,
       username: email,
       advisor,
-      classification,
+      gradYear,
       major,
       phoneNo,
     };
@@ -83,7 +84,7 @@ const StudentProfile = () => {
           lastName,
           username: email,
           advisor,
-          classification,
+          gradYear,
           major,
           phoneNo,
         }),
@@ -96,12 +97,16 @@ const StudentProfile = () => {
         updateLastName(data.newUser.lastName);
         updateEmail(data.newUser.username);
         updateAdvisor(data.newUser.advisor);
-        updateClassification(data.newUser.gradYear);
+        updateGradYear(data.newUser.gradYear);
         updateMajor(data.newUser.major);
         updatePhoneNo(data.newUser.phoneNo);
         sessionStorage.setItem("user", JSON.stringify(data.newUser));
 
-        toast.success("profile updated");
+        toast.success("profile updating");
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
+
 
       } else {
         toast.error(data.message);
@@ -138,7 +143,7 @@ const StudentProfile = () => {
               bindLastName={bindLastName}
               bindEmail={bindEmail}
               bindAdvisor={bindAdvisor}
-              bindClassification={bindClassification}
+              bindGradYear={bindGradYear}
               bindMajor={bindMajor}
               bindPhoneNo={bindPhoneNo}
               disableField={true}
@@ -152,6 +157,7 @@ const StudentProfile = () => {
       <div className="student-catalog-container">
         <StudentProfileCatalog />
       </div>
+      <ToastContainer />
     </div>
   );
 };

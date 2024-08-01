@@ -251,7 +251,7 @@ async function run() {
           lastName,
           username,
           advisor,
-          classification,
+          gradYear,
           major,
           phoneNo,
         } = req.body;
@@ -269,7 +269,7 @@ async function run() {
                 lastName: lastName,
                 username: username,
                 advisor: advisor,
-                classification: classification,
+                gradYear: gradYear,
                 major: major,
                 phoneNo: phoneNo,
               },
