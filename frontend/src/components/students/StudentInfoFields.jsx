@@ -9,7 +9,7 @@ const StudentInfoFields = ({
   bindLastName,
   bindEmail,
   bindAdvisor,
-  bindgradYear,
+  bindGradYear,
   bindMajor,
   bindPhoneNo,
   disableField,
@@ -203,7 +203,7 @@ const StudentInfoFields = ({
           className="input-field-wrap"
           name="student-gradYear"
           id="student-gradYear"
-          {...bindgradYear}
+          {...bindGradYear}
         >
           <option value="not-selected" selected></option>
           {nextFiveYears.map((year) => (
