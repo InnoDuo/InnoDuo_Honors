@@ -7,13 +7,14 @@ import { ThemeContext } from "../../context/theme";
 import { authContext } from "../../context/authContext";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import jsPDF from "jspdf";
 
 const baseUrl = "http://localhost:3000"; // dev tests
 // const baseUrl = "https://innoduo-honors.onrender.com"; // prod
 
 const StudentProfile = () => {
   const { defaultTheme } = useContext(ThemeContext);
-  const { user } = useContext(authContext);
+  const { loggedIn, user } = useContext(authContext);
 
   console.log("usususu", user);
 
@@ -40,6 +41,22 @@ const StudentProfile = () => {
   const [phoneNo, bindPhoneNo, resetPhoneNo, updatePhoneNo] = useInput(
     user?.phoneNo
   );
+
+
+  const printProfileHandler = async () => {
+    const doc = new jsPDF();
+
+    doc.text("Student Profile", 10, 10);
+    doc.text(`ID: ${id}`, 10, 20);
+    doc.text(`Name: ${firstName} ${lastName}`, 10, 30);
+    doc.text(`Email: ${email}`, 10, 40);
+    doc.text(`Advisor: ${advisor}`, 10, 50);
+    doc.text(`Graduation Year: ${gradYear}`, 10, 60);
+    doc.text(`Major: ${major}`, 10, 70);
+    doc.text(`Phone Number: ${phoneNo}`, 10, 80);
+
+    doc.save("student-profile.pdf");
+  };
 
 
   useEffect(() => {
@@ -103,10 +120,7 @@ const StudentProfile = () => {
         sessionStorage.setItem("user", JSON.stringify(data.newUser));
 
         toast.success("profile updating");
-        setTimeout(() => {
-          window.location.reload();
-        }, 3000);
-
+        
 
       } else {
         toast.error(data.message);
@@ -116,6 +130,10 @@ const StudentProfile = () => {
     }
   };
 
+  if(!loggedIn) {
+    return <div
+    style={{padding:"20px", height: '90vh'}}>User not logged in. First login to view the page.</div>
+  }
    
   if (!user) {
     return <div>Loading...</div>;
@@ -126,6 +144,7 @@ const StudentProfile = () => {
       className={`page-container ${
         defaultTheme === "dark" ? "dark-container" : ""
       }`}
+      id="student-profile"
     >
       <div className="student-info-container">
         <div className="student-name">
@@ -148,8 +167,14 @@ const StudentProfile = () => {
               bindPhoneNo={bindPhoneNo}
               disableField={true}
             />
+            <div className="btn-container">
+
             <div className="primary-btn student-info-update">
               <button type="submit">Update</button>
+            </div>
+            <div className="sign-in-btn auth-btn info-print-btn" onClick={printProfileHandler}>
+              <a>Print Profile</a>
+            </div>
             </div>
           </form>
         </div>
