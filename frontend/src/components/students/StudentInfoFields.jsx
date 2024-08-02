@@ -19,7 +19,7 @@ const StudentInfoFields = ({
       <div className={`student-info-field`}>
         <label htmlFor="student-id">Student ID:</label>
         <div className="input-field-wrap">
-          <input type="number" name="student-id" id="student-id" {...bindId} />
+          <input type="number" name="student-id" id="student-id" {...bindId} disabled={disableField}/>
         </div>
       </div>
       <div className={`student-info-field`}>
@@ -30,6 +30,7 @@ const StudentInfoFields = ({
             name="student-email"
             id="student-email"
             {...bindEmail}
+            disabled={disableField}
           />
         </div>
       </div>
@@ -41,6 +42,7 @@ const StudentInfoFields = ({
             name="student-first-name"
             id="student-first-name"
             {...bindFirstName}
+            disabled={disableField}
           />
         </div>
       </div>
@@ -52,6 +54,7 @@ const StudentInfoFields = ({
             name="student-last-name"
             id="student-last-name"
             {...bindLastName}
+            disabled={disableField}
           />
         </div>
       </div>

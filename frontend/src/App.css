@@ -170,8 +170,23 @@ input:focus{
   display: none;
 }
 
-.disabled-input{
+input:disabled{
   opacity: 0.5;
 }
 
 
+.info-print-btn{
+  background: transparent;
+  color: #8D2A2A;
+  border: solid 1px #8D2A2A;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 10px;
+  transition: all 0.2s ease-in-out;
+}
+
+.info-print-btn:hover{
+  background: #8D2A2A;
+  color: #fff;
+}

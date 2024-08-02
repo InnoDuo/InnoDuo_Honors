@@ -30,6 +30,7 @@ const Navbar = () => {
   useEffect(() => {}, [loggedIn]);
 
   return (
+    <>
       <div className="navbar">
         <div className="brand-logo">
           <NavLink to="/">
@@ -88,6 +89,8 @@ const Navbar = () => {
           &#9776;
         </div>
       </div>
+    </>
+
   );
 };
 
