@@ -79,6 +79,10 @@
   cursor: pointer;
 }
 
+.filter-btn{
+  margin-right: 15px;
+}
+
 .auth-btn:hover{
   background: transparent;
   outline: solid 1px #fff;
