@@ -14,6 +14,7 @@ const studentSchema = new mongoose.Schema({
   username: String,
   password: String,
   role: String,
+  verified: Boolean,
   // THE FOLLOWING ARE COMMENTED BECAUSE WE ARE IMPLEMENTING THEM IN CATALOG (nta45)
   // contact: String,
   // honorsSeminarsTaken: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Course' }],
