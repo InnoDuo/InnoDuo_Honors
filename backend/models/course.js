@@ -5,7 +5,7 @@ const courseSchema = new mongoose.Schema({
   courseCode: String,
   courseName: String,
   courseCategory: String,
-  courseInstructor: String,
+  courseDescription: String,
   credits: Number,
   studentsEnrolled: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Student' }]
 });

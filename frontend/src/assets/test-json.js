@@ -1,7 +1,7 @@
 const cat1 = "Honors Seminar";
 const cat2 = "Honors Core Classes";
 const cat3 = "Freshman Seminar";
-const cat4 = "Research Methodology";
+const cat4 = "Honors Project";
 const cat5 = "CRACAD Presentation";
 const cat6 = "Service Events";
 
