@@ -46,7 +46,7 @@ const Courses = () => {
     Cores: "Honors Core Classes",
     Events: "Service Events",
     Freshman: "Freshman Seminar",
-    Research: "Research Methodology",
+    Research: "Honors Project",
     Seminars: "Honors Seminars",
   };
 

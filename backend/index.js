@@ -387,9 +387,10 @@ async function run() {
         console.log("added");
       } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "error during adding" });
+        res.status(500).json({ message: "Error during adding course" });
       }
     });
+    
 
     // Start the server
     app.listen(PORT, () => {
