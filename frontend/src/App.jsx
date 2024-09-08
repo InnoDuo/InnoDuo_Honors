@@ -1,5 +1,5 @@
-// import from react 
-import { React, useState, useEffect } from "react";
+// import from react
+import { React, useState, useEffect, createContext } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
@@ -10,9 +10,12 @@ import Navbar from "./components/layout/Navbar";
 import SignIn from "./components/auth/SignIn";
 import SignUp from "./components/auth/SignUp";
 import Students from "./components/students/Students";
-import Courses from "./components//courses/Courses";
+import Courses from "./components/courses/Courses";
 import PageNotFound from "./components/layout/PageNotFound";
 import StudentProfile from "./components/students/StudentProfile";
+import Reset from "./components/auth/Reset";
+import OTPInput from "./components/auth/OTPInput";
+import Recovered from "./components/auth/Recovered";
 
 // import from assets
 import "./App.css";
@@ -21,8 +24,13 @@ import "./App.css";
 import { ThemeProvider } from "./context/theme";
 import { authContext, AuthProvider } from "./context/authContext";
 
+export const RecoveryContext = createContext();
 
 function App() {
+  const [page, setPage] = useState("login");
+  const [rEmail, setREmail] = useState();
+  const [otp, setOTP] = useState();
+
   const [defaultTheme, setDefaultTheme] = useState("light");
   const [loggedIn, setLoggedIn] = useState(false);
   const [user, setUser] = useState();
@@ -63,31 +71,41 @@ function App() {
     }
   }, []);
 
+  // function NavigateComponents() {
+  //   if (page === "login") return <SignIn />;
+  //   if (page === "otp") return <OTPInput />;
+  //   if (page === "reset") return <Reset />;
+
+  //   return <Recovered />;
+  // }
+
   return (
     <ThemeProvider value={{ defaultTheme, darkTheme, lightTheme }}>
       <AuthProvider value={{ loggedIn, login, logout, user }}>
+        <RecoveryContext.Provider
+          value={{ page, setPage, otp, setOTP, setREmail, rEmail }}
+        >
+          <Router>
+            <Navbar />
 
-        <Router>
+            {/* Adding Routes here  */}
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/signin" element={<SignIn />} />
+              <Route path="/signup" element={<SignUp />} />
+              <Route path="/students" element={<Students />} />
+              <Route path="/profile" element={<StudentProfile />} />
+              <Route path="/courses" element={<Courses />} />
+              <Route path="*" element={<PageNotFound />} />
+              <Route path="/reset" element={<Reset />} />
+              <Route path="/otp" element={<OTPInput />} />
+            </Routes>
 
-          <Navbar />
+            <ToastContainer />
 
-          {/* Adding Routes here  */}
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/signin" element={<SignIn />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/students" element={<Students />} />
-            <Route path="/profile" element={<StudentProfile />} />
-            <Route path="/courses" element={<Courses />} />
-            <Route path="*" element={<PageNotFound />} />
-          </Routes>
-
-          <ToastContainer />
-
-          <Footer />
-
-        </Router>
-
+            <Footer />
+          </Router>
+        </RecoveryContext.Provider>
       </AuthProvider>
     </ThemeProvider>
   );
