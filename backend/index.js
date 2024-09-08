@@ -13,6 +13,7 @@ const PORT = process.env.PORT || 3000;
 const cors = require("cors");
 // const studentProfile = require('./sampleProfile');
 const uri = process.env.ENV_URI;
+const nodemailer = require("nodemailer");
 
 const Student = require("./models/student");
 const courseSchema = require("./models/course");
@@ -65,6 +66,75 @@ app.use(
   })
 );
 
+console.log("AUTH_EMAIL:", process.env.AUTH_EMAIL);
+console.log("AUTH_PASSWORD:", process.env.AUTH_PASSWORD);
+
+function sendEmail({ recipient_email, OTP }) {
+  console.log("Using OTP:", OTP); // Log OTP
+  console.log("Sending email to:", recipient_email); // Log email
+
+  return new Promise((resolve, reject) => {
+    console.log("workig till here auth key");
+    let transporter = nodemailer.createTransport({
+      // service: "gmail",
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
+      logger: true,
+      debug: true,
+      auth: {
+        user: process.env.AUTH_EMAIL,
+        pass: process.env.AUTH_PASSWORD,
+      },
+    });
+
+    console.log("workig till here");
+    const mail_configs = {
+      from: process.env.AUTH_EMAIL,
+      to: recipient_email,
+      subject: "KODING 101 PASSWORD RECOVERY",
+      html: `<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - OTP Email Template</title>
+  
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<div style="font-family: Helvetica,Arial,sans-serif;min-width:1000px;overflow:auto;line-height:2">
+  <div style="margin:50px auto;width:70%;padding:20px 0">
+    <div style="border-bottom:1px solid #eee">
+      <a href="" style="font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600">Koding 101</a>
+    </div>
+    <p style="font-size:1.1em">Hi,</p>
+    <p>Thank you for choosing Koding 101. Use the following OTP to complete your Password Recovery Procedure. OTP is valid for 5 minutes</p>
+    <h2 style="background: #00466a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;">${OTP}</h2>
+    <p style="font-size:0.9em;">Regards,<br />Koding 101</p>
+    <hr style="border:none;border-top:1px solid #eee" />
+    <div style="float:right;padding:8px 0;color:#aaa;font-size:0.8em;line-height:1;font-weight:300">
+      <p>Koding 101 Inc</p>
+      <p>1600 Amphitheatre Parkway</p>
+      <p>California</p>
+    </div>
+  </div>
+</div>
+<!-- partial -->
+  
+</body>
+</html>`,
+    };
+    transporter.sendMail(mail_configs, function (error, info) {
+      if (error) {
+        console.log(error);
+        return reject({ message: `An error has occured` });
+      }
+      return resolve({ message: "Email sent succesfuly" });
+    });
+  });
+}
+
 async function run() {
   try {
     await client.connect();
@@ -116,12 +186,10 @@ async function run() {
           // filtering out the password from the user object
           usertobesent = await usersCollection.findOne({ username: email });
           delete usertobesent.password;
-          return res
-            .status(201)
-            .send({
-              message: "User registered successfully",
-              user: usertobesent,
-            });
+          return res.status(201).send({
+            message: "User registered successfully",
+            user: usertobesent,
+          });
         }
       } catch (error) {
         res.status(500).send(error.message);
@@ -279,12 +347,10 @@ async function run() {
             studentId: studentId,
           });
 
-          res
-            .status(200)
-            .json({
-              message: "profile updated successfully",
-              newUser: newUser,
-            });
+          res.status(200).json({
+            message: "profile updated successfully",
+            newUser: newUser,
+          });
           // sessionStorage.setItem("user", JSON.stringify(user));
         } else {
           res.status(404).json({ message: "User not found" });
@@ -390,6 +456,57 @@ async function run() {
         res.status(500).json({ message: "error during adding" });
       }
     });
+
+    app.post("/send_recovery_email", (req, res) => {
+      const { recipient_email, OTP } = req.body;
+
+      if (!recipient_email || !OTP) {
+        return res.status(400).send("Missing recipient email or OTP.");
+      }
+
+      sendEmail({ recipient_email, OTP })
+        .then((response) => res.send(response.message))
+        .catch((error) => {
+          console.error("Email sending error:", error);
+          res
+            .status(500)
+            .send("An error has occurred while sending the email.");
+        });
+    });
+
+    app.post("/reset-password", async (req, res) => {
+      const { email, resetPassword } = req.body;
+      console.log(email, resetPassword);
+      if (!email || !resetPassword) {
+        // return res.status(400).send("Missing email or password.");
+        return res.status(400).json({ message: "Missing email or password." });
+
+      }
+
+      try {
+        const hashedPassword = await bcrypt.hash(resetPassword, 10);
+        const result = await usersCollection.updateOne(
+          { username: email },
+          { $set: { password: hashedPassword } }
+        );
+
+        if (result.matchedCount === 0) {
+          // return res.status(404).send("User not found");
+          return res.status(404).send({message: "User not found"});
+
+        }
+
+        // res.send("Password reset successfully");
+        res.send({ message: "Password reset successfully" });
+      } catch (error) {
+        console.error("Error resetting password:", error);
+        // res.status(500).send("An error occurred while resetting the password.");
+        res.status(500).send({ message: "An error occurred while resetting the password." });
+        res.status(500).send(error.message);
+
+      }
+    }
+  );
 
     // Start the server
     app.listen(PORT, () => {
