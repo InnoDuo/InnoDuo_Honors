@@ -386,8 +386,8 @@ export default AddContent;
           Honors Core Classes
           </option>
           <option value="Honors Seminar">Honors Seminar</option>
-          <option value="Research Methodology">
-          Research Methodology
+          <option value="Honors Project">
+          Honors Project
           </option>
           <option value="CRACAD Presentation">
           CRACAD Presentation
@@ -514,8 +514,8 @@ export default AddContent;
             Honors Core Classes
           </option>
           <option value="Honors Seminar">Honors Seminar</option>
-          <option value="Research Methodology">
-            Research Methodology
+          <option value="Honors Project">
+            Honors Project
           </option>
           <option value="CRACAD Presentation">
             CRACAD Presentation

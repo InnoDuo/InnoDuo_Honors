@@ -108,7 +108,6 @@ const StudentProfile = () => {
       });
       const data = await response.json();
       if (data.message === "profile updated successfully") {
-        console.log("wowowowow", data.newUser);
         updateId(data.newUser.studentId);
         updateFirstName(data.newUser.firstName);
         updateLastName(data.newUser.lastName);
@@ -119,8 +118,7 @@ const StudentProfile = () => {
         updatePhoneNo(data.newUser.phoneNo);
         sessionStorage.setItem("user", JSON.stringify(data.newUser));
 
-        toast.success("profile updating");
-        
+        toast.success("Profile has been updated!");
 
       } else {
         toast.error(data.message);
