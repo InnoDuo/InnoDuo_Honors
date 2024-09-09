@@ -65,7 +65,7 @@ const AddContent = ({ title, message, onClose }) => {
         });
         const data = await response.json();
         if (data.message === "Added successfully") {
-          onClose();
+          // onClose();
           for (const course of selectedCourses) {
             await addStudentToCourse({
               courseCode: course.courseCode,
@@ -74,6 +74,10 @@ const AddContent = ({ title, message, onClose }) => {
               studentId: id,
             });
           }
+          toast.success("Student added successfully");
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
         } else {
           console.log(data.message);
         }
@@ -96,6 +100,9 @@ const AddContent = ({ title, message, onClose }) => {
       const data = await response.json();
       if (data.message === "Student added to course successfully") {
         toast.success("Student added to course successfully");
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
       } else {
         console.log(data.message);
       }
