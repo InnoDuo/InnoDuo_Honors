@@ -475,6 +475,21 @@ async function run() {
         });
     });
 
+    app.post("/delete-student", async (req, res) => {
+      const { studentId } = req.body;
+      console.log(studentId);
+      try {
+        const result = await usersCollection.deleteOne({ studentId });
+        if (result.deletedCount === 0) {
+          return res.status(404).send({ message: "Student not found" });
+        }
+        res.send({ message: "Student deleted successfully" });
+      } catch (error) {
+        console.error("Error deleting student:", error);
+        res.status(500).send({ message: "An error occurred while deleting student", error });
+      }
+    });
+
     app.post("/reset-password", async (req, res) => {
       const { email, resetPassword } = req.body;
       console.log(email, resetPassword);
