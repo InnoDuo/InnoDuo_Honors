@@ -4,8 +4,6 @@ import { ThemeContext } from "../../context/theme";
 import { authContext } from "../../context/authContext";
 import CoursesPage from "./CoursesPage";
 import UnauthorizedAccess from "../microcomponents/UnauthorizedAccess";
-const baseUrl = "http://localhost:3000";
-const productionUrl = "https://innoduo-honors.onrender.com";
 
 const Courses = () => {
   const { defaultTheme } = useContext(ThemeContext);
@@ -23,7 +21,7 @@ const Courses = () => {
     }
 
     try {
-      const response = await fetch(`${baseUrl}/catalog`, {
+      const response = await fetch("http://localhost:3000/catalog", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -34,7 +32,6 @@ const Courses = () => {
       const transformedData = transformData(data);
       setTableData(transformedData);
       setLoading(false);
-      console.log("Data fetched successfully:", transformedData);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -48,8 +45,7 @@ const Courses = () => {
     CRACAD: "CRACAD Presentation",
     Cores: "Honors Core Classes",
     Events: "Service Events",
-    FreshmanSeminar: "Freshman Seminar",
-    // Freshman: "Freshman Seminar",
+    Freshman: "Freshman Seminar",
     Research: "Honors Project",
     Seminars: "Honors Seminars",
   };
@@ -63,17 +59,15 @@ const Courses = () => {
         Object.keys(classInfo.semesters).forEach((semester) => {
           Object.keys(classInfo.semesters[semester]).forEach((section) => {
             const sectionInfo = classInfo.semesters[semester][section];
-            // if (sectionInfo.isComplete) {
+            if (sectionInfo.isComplete) {
               allClasses.push({
-                semester: semester,
                 courseCode: classInfo.courseCode,
                 courseName: classInfo.courseName,
-                sectionId: section,
                 courseCategory: categoryDisplayNames[category],
                 instructor: sectionInfo.instructor, // Replace with actual data if available
                 studentsCount: sectionInfo.students.length,
               });
-            // }
+            }
           });
         });
       });

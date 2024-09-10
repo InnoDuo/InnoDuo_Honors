@@ -19,17 +19,13 @@ const CoursesTable = ({ cols, tableData }) => {
           <tbody className="cust-tbody">
             {tableData.map((course, index) => (
               <tr key={index}>
-                <td>{course.semester}</td>
                 <td>{course.courseCode}</td>
-                <td>{course.sectionId}</td>
                 <td>{course.courseName}</td>
                 <td>{course.courseCategory}</td>
                 <td>{course.instructor}</td>
                 <td>{course.studentsCount}</td>
                 
                 <td key="action-items" id="action-items">
-                  <p>VIEW</p>
-                  <span className="action-item-divider">|</span>
                   <p>EDIT</p>
                   <span className="action-item-divider">|</span>
                   <p>DELETE</p>

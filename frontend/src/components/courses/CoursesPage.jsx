@@ -31,7 +31,7 @@ const CoursesPage = ({ tableData }) => {
   }
 
   const filteredCourses = tableData.filter((course) =>
-    `${course.courseCode} ${course.courseName} ${course.semester}`
+    `${course.courseCode} ${course.courseName}`
       .toLowerCase()
       .includes(search.toLowerCase())
   );
@@ -41,9 +41,7 @@ const CoursesPage = ({ tableData }) => {
       <SearchBar search={search} onSearchChange={handleSearchChange} inpPlaceHolder={'Course Code/Type'}  priBtn={'Add'} secBtn={'Filter'} onAddClick={handleAddClick}/>
       <CoursesTable
         cols={[
-          "Semester",
           "Course Code",
-          "Section",
           "Course Name",
           "Course Category",
           "Instructor",
