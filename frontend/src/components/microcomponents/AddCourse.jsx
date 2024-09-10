@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import useInput from "./customhooks/useInput";
 import { toast } from "react-toastify";
@@ -8,9 +8,27 @@ const baseUrl = "http://localhost:3000"; // dev tests
 
 Modal.setAppElement("#root");
 
-const AddCourse = ({ title, message, onClose }) => {
+const AddCourse = ({ title, message }) => {
+  const onClose = () => {
+    setModalIsOpen(false);
+  };
   const semesters = generateSemesters();
   const [modalIsOpen, setModalIsOpen] = useState(true);
+  // courses existing in the database, fetched
+  const [courses, setCourses] = useState([]);
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const response = await fetch(baseUrl + "/getCourses");
+        const data = await response.json();
+        setCourses(data.courses);
+        console.log("Courses fetched:", data.courses);
+      } catch (error) {
+        console.error("Error fetching courses:", error);
+      }
+    };
+    fetchCourses();
+  }, []);
 
   // State to toggle between adding a course or a section
   const [option, setOption] = useState("addCourse");
@@ -27,6 +45,7 @@ const AddCourse = ({ title, message, onClose }) => {
   // State for Add Section
   const [selectedCourse, bindSelectedCourse, resetSelectedCourse] = useInput();
   const [semester, bindSemester, resetSemester] = useInput();
+  const [sectionNumber, bindSectionNumber, resetSectionNumber] = useInput();
   const [sectionInstructor, bindSectionInstructor, resetSectionInstructor] =
     useInput();
   const [sectionDuration, bindSectionDuration, resetSectionDuration] =
@@ -82,27 +101,27 @@ const AddCourse = ({ title, message, onClose }) => {
 
   // Handler for adding/removing student fields
   const handleStudentChange = (index, value) => {
-  const newStudents = [...studentEmails];
-  newStudents[index] = value;
-  setStudentEmails(newStudents);
+    const newStudents = [...studentEmails];
+    newStudents[index] = value;
+    setStudentEmails(newStudents);
 
-  // Check if the input value matches any suggestion
-  const matches = emailSuggestions.some((suggestion) =>
-    suggestion.toLowerCase() === value.toLowerCase()
-  );
+    // Check if the input value matches any suggestion
+    const matches = emailSuggestions.some(
+      (suggestion) => suggestion.toLowerCase() === value.toLowerCase()
+    );
 
-  if (matches) {
-    setEmailSuggestions([]); // Clear suggestions if the input matches any suggestion
-  } else if (emailSuggestions.includes(value)) {
-    setEmailSuggestions([]); // Clear suggestions if the user selects a suggestion
-  } else if (!matches && value.length >= 4 ) {
-    setEmailSuggestions([]); // Clear suggestions if the user selects a suggestion}
-  } else {
-    // Fetch new suggestions only if the value is not already a suggestion and doesn't match
-    debouncedFetchEmailSuggestions(value);
-    setActiveInputIndex(index); // Set the active input index
-  }
-};
+    if (matches) {
+      setEmailSuggestions([]); // Clear suggestions if the input matches any suggestion
+    } else if (emailSuggestions.includes(value)) {
+      setEmailSuggestions([]); // Clear suggestions if the user selects a suggestion
+    } else if (!matches && value.length >= 4) {
+      setEmailSuggestions([]); // Clear suggestions if the user selects a suggestion}
+    } else {
+      // Fetch new suggestions only if the value is not already a suggestion and doesn't match
+      debouncedFetchEmailSuggestions(value);
+      setActiveInputIndex(index); // Set the active input index
+    }
+  };
 
   const addStudentField = () => {
     setStudentEmails([...studentEmails, ""]);
@@ -130,6 +149,7 @@ const AddCourse = ({ title, message, onClose }) => {
             courseCode,
             courseName,
             courseCategory,
+            semesters: {},
             courseDescription,
             courseCredit: courseCredit || 0, // default to 0 if not provided
             maxStudents: maxStudents || null, // optional
@@ -139,6 +159,7 @@ const AddCourse = ({ title, message, onClose }) => {
         if (data.message === "Course added successfully") {
           toast.success(data.message);
           resetAddCourseFields();
+          onClose();
         } else {
           toast.error(data.message || "Failed to add course.");
         }
@@ -166,6 +187,7 @@ const AddCourse = ({ title, message, onClose }) => {
           body: JSON.stringify({
             courseId: selectedCourse, // Assuming course ID is used
             semester,
+            sectionId: sectionNumber,
             instructor: sectionInstructor,
             duration: sectionDuration,
             period: sectionPeriod,
@@ -177,6 +199,7 @@ const AddCourse = ({ title, message, onClose }) => {
         if (data.message === "Section added successfully") {
           toast.success(data.message);
           resetAddSectionFields();
+          onClose();
         } else {
           toast.error(data.message || "Failed to add section.");
         }
@@ -200,6 +223,7 @@ const AddCourse = ({ title, message, onClose }) => {
   const resetAddSectionFields = () => {
     resetSelectedCourse();
     resetSemester();
+    resetSectionNumber();
     resetSectionInstructor();
     resetSectionDuration();
     resetSectionPeriod();
@@ -363,7 +387,7 @@ const AddCourse = ({ title, message, onClose }) => {
       ) : (
         <form className="course-info-form" onSubmit={addSectionHandler}>
           <section>
-            <h4 style={sectionHeaderStyle}>Add Section to Existing Course</h4>
+            <h4 style={sectionHeaderStyle}>Add a Section to an Existing Course</h4>
             <div className="course-info-fields" style={fieldsContainerStyle}>
               {/* Select Existing Course */}
               <div className="course-info-field" style={fieldStyle}>
@@ -377,14 +401,27 @@ const AddCourse = ({ title, message, onClose }) => {
                   required
                 >
                   <option value="">Select Course</option>
-                  {/* TODO: Replace with actual course list */}
-                  {/* Example options */}
-                  <option value="course1">
-                    COURSE101 - Introduction to Programming
-                  </option>
-                  <option value="course2">COURSE102 - Data Structures</option>
-                  {/* Add more courses as needed */}
+                  {courses.map((course, index) => (
+                    <option key={index} value={course.courseCode}>
+                      {course.courseCode} - {course.courseName}
+                    </option>
+                  ))}
                 </select>
+              </div>
+
+              {/* Section number */}
+              <div className="course-info-field" style={fieldStyle}>
+                <label htmlFor="section-number">Section Number:</label>
+                <input
+                  type="text"
+                  className="input-field-wrap"
+                  name="section-number"
+                  id="section-number"
+                  {...bindSectionNumber}
+                  style={inputStyle}
+                  placeholder="e.g., 001"
+                  required
+                />
               </div>
 
               {/* Semester */}
@@ -605,6 +642,7 @@ const buttonStyle = {
   cursor: "pointer",
   marginTop: "20px",
   alignSelf: "center",
+  marginRight: "20px",
 };
 
 const addButtonStyle = {

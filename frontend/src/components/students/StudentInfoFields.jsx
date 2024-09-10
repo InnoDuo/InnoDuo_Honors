@@ -19,7 +19,14 @@ const StudentInfoFields = ({
       <div className={`student-info-field`}>
         <label htmlFor="student-id">Student ID:</label>
         <div className="input-field-wrap">
-          <input type="number" name="student-id" id="student-id" {...bindId} disabled={disableField}/>
+          <input
+            type="number"
+            name="student-id"
+            id="student-id"
+            {...bindId}
+            disabled={disableField}
+            required
+          />
         </div>
       </div>
       <div className={`student-info-field`}>
@@ -31,6 +38,7 @@ const StudentInfoFields = ({
             id="student-email"
             {...bindEmail}
             disabled={disableField}
+            required
           />
         </div>
       </div>
@@ -62,12 +70,13 @@ const StudentInfoFields = ({
         <label htmlFor="student-major">Major:</label>
         <select
           className="input-field-wrap"
+          defaultValue={"not-selected"}
           type="text"
           name="student-major"
           id="student-major"
           {...bindMajor}
         >
-          <option value="not-selected" selected></option>
+          <option value="not-selected"></option>
           <option value="Combined B.S. in Psychology / M.A. in Applied Behavior Analysis">
             Combined B.S. in Psychology / M.A. in Applied Behavior Analysis
           </option>
@@ -203,12 +212,13 @@ const StudentInfoFields = ({
       <div className="student-info-field">
         <label htmlFor="student-gradYear">Graduation Year:</label>
         <select
+          defaultValue={"not-selected"}
           className="input-field-wrap"
           name="student-gradYear"
           id="student-gradYear"
           {...bindGradYear}
         >
-          <option value="not-selected" selected></option>
+          <option value="not-selected"></option>
           {nextFiveYears.map((year) => (
             <option key={year} value={year}>
               {year}
