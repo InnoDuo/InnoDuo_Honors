@@ -139,7 +139,7 @@ async function run() {
   try {
     await client.connect();
     console.log("Connected to MongoDB");
-
+    const { ObjectId } = require('mongodb');
     const database = client.db("student-management");
     const usersCollection = database.collection("users");
     const catalogCollection = database.collection("catalog");
@@ -265,6 +265,29 @@ async function run() {
       }
     });
 
+    app.get('/getCourses', isAuthenticated, async (req, res) => {
+      try {
+        // Fetch all courses. Adjust projection as needed based on your schema.
+        const courses = await catalogCollection.aggregate([
+          { $match: { _id: new ObjectId("6697300758ff41efb445cb50") } }, // Ensure you are querying the correct document
+          { $project: { classes: { $objectToArray: "$classes" } } },
+          { $unwind: "$classes" },
+          { $unwind: "$classes.v" },
+          { $replaceRoot: { newRoot: "$classes.v" } },
+          { $project: { _id: 0, courseCode: 1, courseName: 1 } } // Adjust the projection as needed
+        ]).toArray();
+
+        if (courses.length === 0) {
+          return res.status(404).json({ message: 'No courses found' });
+        }
+
+        res.json({ courses });
+      } catch (error) {
+        console.error('Error retrieving courses:', error);
+        res.status(500).json({ message: 'Failed to retrieve courses' });
+      }
+    });
+
     app.get("/students/:id", isAuthenticated, async (req, res) => {
       try {
         const student = await usersCollection.findOne({
@@ -297,11 +320,42 @@ async function run() {
         const result = await usersCollection.deleteOne({
           _id: new ObjectId(req.params.id),
         });
-        if (result.deletedCount === 0)
-          return res.status(404).send("Student not found");
-        res.send(result);
+        if (result.deletedCount === 0) {
+          return res.status(404).json({ message: "Student not found." });
+        }
+        res.send({ message: "Student deleted successfully" });
       } catch (error) {
         res.status(500).send(error.message);
+      }
+    });
+
+    app.delete("/course/:category/:courseCode/:semester/:sectionId", isAuthenticated, async (req, res) => {
+      const { category, courseCode, semester, sectionId } = req.params;
+      console.log("Updating document with ID:", "6697300758ff41efb445cb50");
+      console.log("Path to unset:", `classes.${category}.${courseCode}.semesters.${semester}.${sectionId}`);
+
+      try {
+        // Define the MongoDB query and update paths
+        const query = {
+          "_id": new ObjectId("6697300758ff41efb445cb50"),
+          [`classes.${category}.courseCode`]: courseCode
+        };
+        const update = {
+          $unset: { [`classes.${category}.$.semesters.${semester}.${sectionId}`]: "" }
+        };
+
+        // Perform the MongoDB update operation
+        const updateResult = await catalogCollection.updateOne(query, update);
+        console.log("Update result:", updateResult);
+
+        if (updateResult.modifiedCount === 0) {
+          return res.status(404).json({ message: "Section not found or no changes made." });
+        }
+
+        res.json({ message: "Section deleted successfully" });
+      } catch (error) {
+        console.error('Failed to delete section:', error);
+        res.status(500).json({ message: error.message });
       }
     });
 
@@ -373,9 +427,9 @@ async function run() {
         const {
           id,
           firstName,
-          username,
           lastName,
           email,
+          username,
           advisor,
           gradYear,
           major,
@@ -392,7 +446,11 @@ async function run() {
           gradYear,
           username,
         });
+        // TODO: Remove this console.log statement
         console.log(newStudent);
+        if (!id || !firstName || !lastName || !email || !advisor || !gradYear || !major || !phoneNo) {
+          return res.status(400).json({ message: "All fields are required" });
+        }
 
         await usersCollection.insertOne(newStudent);
         res.json({ message: "Added successfully" });
@@ -403,60 +461,76 @@ async function run() {
       }
     });
 
-    app.post("/addstudenttocourse", async (req, res) => {
-      const { courseCode, semester, section, studentId } = req.body;
-
-      try {
-        const updateResult = await catalogCollection.updateOne(
-          {
-            [`classes.$[].${courseCode}.semesters.${semester}.${section}`]: {
-              $exists: true,
-            },
-          },
-          {
-            $addToSet: {
-              [`classes.$[].${courseCode}.semesters.${semester}.${section}.students`]:
-                studentId,
-            },
-          }
-        );
-
-        if (updateResult.nModified === 0) {
-          return res
-            .status(404)
-            .json({ message: "Course, semester, or section not found" });
-        }
-
-        res
-          .status(200)
-          .json({ message: "Student added to course successfully" });
-      } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Internal server error" });
-      }
-    });
-
     app.post("/addcourse", async (req, res) => {
       try {
-        const { courseCode, courseType, courseCategory, courseInstructor } =
-          req.body;
-        const newCourse = new courseSchema({
-          courseCode,
-          courseType,
-          courseCategory,
-          courseInstructor,
-        });
-        console.log(newCourse);
+        const { courseCode, courseName, courseCategory, semesters, courseDescription, courseCredit, maxStudents } = req.body;
 
-        await usersCollection.insertOne(newCourse);
-        res.json({ message: "Course Added successfully" });
-        console.log("added");
+        const newCourse = {
+          courseCode,
+          courseName,
+          semesters: {},
+          courseDescription,
+          courseCredit,
+          maxStudents
+        };
+
+        const updateResult = await catalogCollection.updateOne(
+          { "_id": new ObjectId("6697300758ff41efb445cb50") }, // Use 'new' keyword to correctly create an ObjectId instance
+          { $push: { [`classes.${courseCategory}`]: newCourse } } // Use the $push operator to add the new course to the array
+        );
+
+        if (updateResult.modifiedCount === 1) {
+          console.log("Course added successfully");
+          res.json({ message: "Course added successfully" });
+        } else {
+          throw new Error("No document found or nothing was updated.");
+        }
       } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Error during adding course" });
+        console.error("Error adding course:", error);
+        res.status(500).json({ message: "Error adding course" });
       }
     });
-    
+
+    app.post("/addsection", async (req, res) => {
+      try {
+        const { courseId, semester, sectionId, instructor, duration, period, location, students } = req.body;
+        const categories = ["CRACAD", "Cores", "Events", "Freshman", "Research", "Seminars", "Freshman Seminar"]; // Example categories
+
+        console.log([
+          courseId, semester, sectionId, instructor, duration, period, location, students
+        ]);
+        let updateResult;
+        for (let category of categories) {
+          const sectionPath = `classes.${category}.$[course].semesters.${semester}.${sectionId}`;
+          updateResult = await catalogCollection.updateOne(
+            {
+              "_id": new ObjectId("6697300758ff41efb445cb50"),
+              [`classes.${category}.courseCode`]: courseId
+            },
+            {
+              $set: { [sectionPath]: { instructor, duration, period, location, students, isComplete: false } }
+            },
+            {
+              arrayFilters: [{ "course.courseCode": courseId }]
+            }
+          );
+
+          if (updateResult.modifiedCount > 0) {
+            break; // Stop if the update was successful
+          }
+        }
+
+        if (!updateResult || updateResult.modifiedCount === 0) {
+          res.status(404).json({ message: "Course not found or no changes made." });
+        } else {
+          res.json({ message: "Section added successfully" });
+          console.log("Section added successfully");
+        }
+      } catch (error) {
+        console.error("Error during adding section:", error);
+        res.status(500).json({ message: "Error during adding section" });
+      }
+    });
 
     app.post("/send_recovery_email", (req, res) => {
       const { recipient_email, OTP } = req.body;
@@ -508,7 +582,7 @@ async function run() {
 
         if (result.matchedCount === 0) {
           // return res.status(404).send("User not found");
-          return res.status(404).send({message: "User not found"});
+          return res.status(404).send({ message: "User not found" });
 
         }
 
@@ -522,7 +596,7 @@ async function run() {
 
       }
     }
-  );
+    );
 
     // Start the server
     app.listen(PORT, () => {

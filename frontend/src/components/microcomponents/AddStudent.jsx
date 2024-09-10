@@ -9,40 +9,68 @@ import { useNavigate } from "react-router-dom";
 const baseUrl = "http://localhost:3000"; // dev tests
 
 Modal.setAppElement("#root");
-const AddContent = ({ title, message, onClose }) => {
+const AddStudent = ({ title, message }) => {
+  const onClose = () => {
+    setModalIsOpen(false); // Directly set the state to close the modal
+  };
   const [modalIsOpen, setModalIsOpen] = useState(true);
-  const [courses, setCourses] = useState([]);
-  const [selectedCourses, setSelectedCourses] = useState([
-    { courseCode: "", semester: "", section: "" },
-  ]);
   const [id, bindId, resetId] = useInput();
   const [firstName, bindFirstName, resetFirstName] = useInput();
   const [lastName, bindLastName, resetLastName] = useInput();
   const [email, bindEmail, resetEmail] = useInput();
   const [advisor, bindAdvisor, resetAdvisor] = useInput();
-  const [gradYear, bindgradYear, resetgradYear] = useInput();
+  const [gradYear, bindGradYear, resetgradYear] = useInput();
   const [major, bindMajor, resetMajor] = useInput();
   const [phoneNo, bindPhoneNo, resetPhoneNo] = useInput();
 
-  useEffect(() => {
-    const fetchCourses = async () => {
-      try {
-        const response = await fetch(baseUrl + "/catalog");
-        const data = await response.json();
-        setCourses(data.classes);
-      } catch (error) {
-        console.error("Error fetching courses:", error);
-      }
-    };
-    fetchCourses();
-    console.log(selectedCourses);
-  }, []);
+  const resetAllFields = () => {
+    resetId();
+    resetFirstName();
+    resetLastName();
+    resetEmail();
+    resetAdvisor();
+    resetgradYear();
+    resetMajor();
+    resetPhoneNo();
+  };
+
+  const validateStudentInfo = () => {
+    // List all required fields
+    const requiredFields = [
+      { value: id, name: "ID" },
+      { value: firstName, name: "First Name" },
+      { value: lastName, name: "Last Name" },
+      { value: email, name: "Email" },
+      { value: advisor, name: "Advisor" },
+      { value: gradYear, name: "Graduation Year" },
+      { value: major, name: "Major" },
+      { value: phoneNo, name: "Phone Number" },
+    ];
+
+    // Check for missing fields and collect the names
+
+    const missingFields = requiredFields
+      .filter((field) => !field.value)
+      .map((field) => field.name);
+
+    if (missingFields.length > 0) {
+      toast.error(
+        `Please fill in all required fields: ${missingFields.join(", ")}.`
+      );
+      return false; // Return false indicating validation failed
+    }
+    return true; // All fields are filled
+  };
 
   const AddStudentHandler = async (e) => {
     e.preventDefault();
-    const confirmation = confirm(
-      "A student will be added to the system with the entered information. Do you agree?"
+    const confirmation = window.confirm(
+      "Are you sure you want to add this student?"
     );
+
+    if (!validateStudentInfo()) {
+      return; // Stop submission if validation fails
+    }
     if (confirmation) {
       const username = email.split("@")[0];
       try {
@@ -65,20 +93,14 @@ const AddContent = ({ title, message, onClose }) => {
         });
         const data = await response.json();
         if (data.message === "Added successfully") {
-          // onClose();
-          for (const course of selectedCourses) {
-            await addStudentToCourse({
-              courseCode: course.courseCode,
-              semester: course.semester,
-              section: course.section,
-              studentId: id,
-            });
-          }
+          //onClose();
           toast.success("Student added successfully");
+          resetAllFields();
           setTimeout(() => {
             window.location.reload();
           }, 2000);
         } else {
+          toast.error("An error occurred during adding: ", data.message);
           console.log(data.message);
         }
       } catch (error) {
@@ -88,67 +110,6 @@ const AddContent = ({ title, message, onClose }) => {
     }
   };
 
-  const addStudentToCourse = async (course) => {
-    try {
-      const response = await fetch(baseUrl + "/addstudenttocourse", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(course),
-      });
-      const data = await response.json();
-      if (data.message === "Student added to course successfully") {
-        toast.success("Student added to course successfully");
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
-      } else {
-        console.log(data.message);
-      }
-    } catch (error) {
-      console.log("An error occurred while adding the student to the course.");
-    }
-  };
-
-  const handleCourseChange = (index, field, value) => {
-    const updatedCourses = [...selectedCourses];
-    updatedCourses[index][field] = value;
-    if (field === "courseCode") {
-      updatedCourses[index]["semester"] = "";
-      updatedCourses[index]["section"] = "";
-    }
-    setSelectedCourses(updatedCourses);
-  };
-
-  const addCourse = () => {
-    setSelectedCourses([
-      ...selectedCourses,
-      { courseCode: "", semester: "", section: "" },
-    ]);
-  };
-
-  const removeCourse = (index) => {
-    const updatedCourses = [...selectedCourses];
-    updatedCourses.splice(index, 1);
-    setSelectedCourses(updatedCourses);
-  };
-
-  const getSemesters = (courseCode) => {
-    if (!courseCode) return [];
-    const course = Object.values(courses)
-      .flat()
-      .find((course) => course.courseCode === courseCode);
-    return Object.keys(course?.semesters || {});
-  };
-
-  const getSections = (courseCode, semester) => {
-    if (!courseCode || !semester) return [];
-    const course = Object.values(courses)
-      .flat()
-      .find((course) => course.courseCode === courseCode);
-    return Object.keys(course?.semesters[semester] || {});
-  };
   return (
     <Modal
       isOpen={modalIsOpen}
@@ -191,152 +152,10 @@ const AddContent = ({ title, message, onClose }) => {
               bindLastName={bindLastName}
               bindEmail={bindEmail}
               bindAdvisor={bindAdvisor}
-              bindgradYear={bindgradYear}
+              bindGradYear={bindGradYear}
               bindMajor={bindMajor}
               bindPhoneNo={bindPhoneNo}
             />
-
-            <div className="add-course-section" style={{ marginTop: "20px" }}>
-              <h3>Add Courses</h3>
-              {selectedCourses.map((course, index) => (
-                <div
-                  className="course-wrapper"
-                  style={{
-                    display: "flex",
-                    marginBottom: "10px",
-                    alignItems: "center",
-                  }}
-                  key={index}
-                >
-                  <div
-                    className="course-info-field"
-                    style={{ marginRight: "10px" }}
-                  >
-                    <label htmlFor={`course-code-${index}`}>Course Code:</label>
-                    <select
-                      className="input-field-wrap"
-                      name={`course-code-${index}`}
-                      id={`course-code-${index}`}
-                      value={course.courseCode}
-                      onChange={(e) =>
-                        handleCourseChange(index, "courseCode", e.target.value)
-                      }
-                    >
-                      <option value="">Select a course</option>
-                      {Object.values(courses)
-                        .flat()
-                        .map((course) => (
-                          <option
-                            key={course.courseCode}
-                            value={course.courseCode}
-                          >
-                            {course.courseCode}
-                          </option>
-                        ))}
-                    </select>
-                  </div>
-
-                  {course.courseCode && (
-                    <div
-                      className="course-info-field"
-                      style={{ marginRight: "10px" }}
-                    >
-                      <label>Course Name:</label>
-                      <p>
-                        {
-                          Object.values(courses)
-                            .flat()
-                            .find((c) => c.courseCode === course.courseCode)
-                            .courseName
-                        }
-                      </p>
-                    </div>
-                  )}
-
-                  {course.courseCode && (
-                    <div
-                      className="course-info-field"
-                      style={{ marginRight: "10px" }}
-                    >
-                      <label htmlFor={`semester-${index}`}>Semester:</label>
-                      <select
-                        className="input-field-wrap"
-                        name={`semester-${index}`}
-                        id={`semester-${index}`}
-                        value={course.semester}
-                        onChange={(e) =>
-                          handleCourseChange(index, "semester", e.target.value)
-                        }
-                      >
-                        <option value="">Select a semester</option>
-                        {getSemesters(course.courseCode).map((semester) => (
-                          <option key={semester} value={semester}>
-                            {semester}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  )}
-
-                  {course.courseCode && course.semester && (
-                    <div
-                      className="course-info-field"
-                      style={{ marginRight: "10px" }}
-                    >
-                      <label htmlFor={`section-${index}`}>Section:</label>
-                      <select
-                        className="input-field-wrap"
-                        name={`section-${index}`}
-                        id={`section-${index}`}
-                        value={course.section}
-                        onChange={(e) =>
-                          handleCourseChange(index, "section", e.target.value)
-                        }
-                      >
-                        <option value="">Select a section</option>
-                        {getSections(course.courseCode, course.semester).map(
-                          (section) => (
-                            <option key={section} value={section}>
-                              {section}
-                            </option>
-                          )
-                        )}
-                      </select>
-                    </div>
-                  )}
-
-                  <button
-                    type="button"
-                    style={{
-                      marginRight: "10px",
-                      display: "flex",
-                      alignItems: "center",
-                    }}
-                    onClick={() => removeCourse(index)}
-                  >
-                    <MdRemoveCircleOutline size={30} />
-                  </button>
-                </div>
-              ))}
-
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "flex-end",
-                  alignItems: "center",
-                }}
-              >
-                <button
-                  type="button"
-                  onClick={addCourse}
-                  className="primary-btn"
-                  style={{ display: "flex", alignItems: "center" }}
-                >
-                  <MdAddCircleOutline size={30} /> Add Course
-                </button>
-              </div>
-            </div>
-
             <a
               type="button"
               className="primary-btn"
@@ -351,7 +170,7 @@ const AddContent = ({ title, message, onClose }) => {
   );
 };
 
-export default AddContent;
+export default AddStudent;
 
 {
   /* <div className="course-wrapper" style={{display:'flex', justifyContent: 'start', alignItems:'center'}}>

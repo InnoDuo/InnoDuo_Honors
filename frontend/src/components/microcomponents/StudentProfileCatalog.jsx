@@ -5,11 +5,11 @@ import "../../assets/css/studentprofilecatalog.css";
 const apiURL = "http://localhost:3000";
 // const apiURL = "https://innoduo-honors.onrender.com";
 
-const StudentProfileCatalog = () => {
+const StudentProfileCatalog = (studentIdg) => {
   const [studentClasses, setStudentClasses] = useState([]);
   // TASK 2: Use AuthContext to get StudentID
   const {user} = useContext(authContext);
-  const studentId = user.studentId || '40001';
+  const studentId = studentIdg || '40001';
   const authToken = localStorage.getItem("authToken");
 
   useEffect(() => {
