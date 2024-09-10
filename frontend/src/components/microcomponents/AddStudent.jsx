@@ -9,7 +9,11 @@ import { useNavigate } from "react-router-dom";
 const baseUrl = "http://localhost:3000"; // dev tests
 
 Modal.setAppElement("#root");
-const AddContent = ({ title, message, onClose }) => {
+const AddStudent = ({ title, message }) => {
+  const onClose = () => {
+    setModalIsOpen(false); // Directly set the state to close the modal
+  };
+
   const [modalIsOpen, setModalIsOpen] = useState(true);
   const [courses, setCourses] = useState([]);
   const [selectedCourses, setSelectedCourses] = useState([
@@ -20,7 +24,7 @@ const AddContent = ({ title, message, onClose }) => {
   const [lastName, bindLastName, resetLastName] = useInput();
   const [email, bindEmail, resetEmail] = useInput();
   const [advisor, bindAdvisor, resetAdvisor] = useInput();
-  const [gradYear, bindgradYear, resetgradYear] = useInput();
+  const [gradYear, bindGradYear, resetgradYear] = useInput();
   const [major, bindMajor, resetMajor] = useInput();
   const [phoneNo, bindPhoneNo, resetPhoneNo] = useInput();
 
@@ -38,8 +42,51 @@ const AddContent = ({ title, message, onClose }) => {
     console.log(selectedCourses);
   }, []);
 
+  const resetAllFields = () => {
+    resetId();
+    resetFirstName();
+    resetLastName();
+    resetEmail();
+    resetAdvisor();
+    resetgradYear();
+    resetMajor();
+    resetPhoneNo();
+    setSelectedCourses([{ courseCode: "", semester: "", section: "" }]);
+  };
+
+  const validateStudentInfo = () => {
+    // List all required fields
+    const requiredFields = [
+      { value: id, name: "ID" },
+      { value: firstName, name: "First Name" },
+      { value: lastName, name: "Last Name" },
+      { value: email, name: "Email" },
+      { value: advisor, name: "Advisor" },
+      { value: gradYear, name: "Graduation Year" },
+      { value: major, name: "Major" },
+      { value: phoneNo, name: "Phone Number" },
+    ];
+
+    // Check for missing fields and collect the names
+    const missingFields = requiredFields
+      .filter((field) => !field.value)
+      .map((field) => field.name);
+
+    if (missingFields.length > 0) {
+      toast.error(
+        `Please fill in all required fields: ${missingFields.join(", ")}.`
+      );
+      return false; // Return false indicating validation failed
+    }
+    return true; // All fields are filled
+  };
+
   const AddStudentHandler = async (e) => {
     e.preventDefault();
+    // if any of the fields are empty, return
+    if (!validateStudentInfo()) {
+      return; // Stop submission if validation fails
+    }
     const confirmation = confirm(
       "A student will be added to the system with the entered information. Do you agree?"
     );
@@ -65,16 +112,22 @@ const AddContent = ({ title, message, onClose }) => {
         });
         const data = await response.json();
         if (data.message === "Added successfully") {
+          toast.success("Student added successfully");
           onClose();
-          for (const course of selectedCourses) {
-            await addStudentToCourse({
-              courseCode: course.courseCode,
-              semester: course.semester,
-              section: course.section,
-              studentId: id,
-            });
+          if (selectedCourses.length != 0) {
+            for (const course of selectedCourses) {
+              await addStudentToCourse({
+                courseCode: course.courseCode,
+                semester: course.semester,
+                section: course.section,
+                studentId: id,
+              });
+            }
           }
+          resetAllFields();
+          window.location.reload();
         } else {
+          toast.error("An error occurred during adding: ", data.message);
           console.log(data.message);
         }
       } catch (error) {
@@ -184,7 +237,7 @@ const AddContent = ({ title, message, onClose }) => {
               bindLastName={bindLastName}
               bindEmail={bindEmail}
               bindAdvisor={bindAdvisor}
-              bindgradYear={bindgradYear}
+              bindGradYear={bindGradYear}
               bindMajor={bindMajor}
               bindPhoneNo={bindPhoneNo}
             />
@@ -344,7 +397,7 @@ const AddContent = ({ title, message, onClose }) => {
   );
 };
 
-export default AddContent;
+export default AddStudent;
 
 {
   /* <div className="course-wrapper" style={{display:'flex', justifyContent: 'start', alignItems:'center'}}>
