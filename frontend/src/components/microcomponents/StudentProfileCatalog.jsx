@@ -9,7 +9,7 @@ const StudentProfileCatalog = (studentIdg) => {
   const [studentClasses, setStudentClasses] = useState([]);
   // TASK 2: Use AuthContext to get StudentID
   const {user} = useContext(authContext);
-  const studentId = studentIdg || '40001';
+  const studentId = studentIdg || '400001';
   const authToken = localStorage.getItem("authToken");
 
   useEffect(() => {
@@ -42,7 +42,7 @@ const StudentProfileCatalog = (studentIdg) => {
     CRACAD: "CRACAD Presentation",
     Cores: "Honors Core Classes",
     Events: "Service Events",
-    Freshman: "Freshman Seminar",
+    FreshmanSeminar: "Freshman Seminar",
     Research: "Honors Project",
     Seminars: "Honors Seminars",
   };
@@ -52,7 +52,8 @@ const StudentProfileCatalog = (studentIdg) => {
     for (const semester in semesters) {
       for (const section in semesters[semester]) {
         const sectionData = semesters[semester][section];
-        if (sectionData.students.includes(studentId.toString())) {
+        // TODO: Change this to check if student is in class (not just this student)
+        if (sectionData.students.includes('400001')) {
           takenSemesters.push({
             semester,
             section,
