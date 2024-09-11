@@ -1,51 +1,72 @@
+<<<<<<< HEAD
 import  React, {useContext, useState } from "react";
+=======
+import React, { useState, useContext } from 'react';
+import Modal from './customhooks/Modal'; // Make sure the path to the Modal component is correct
+>>>>>>> d26fe8a7e6f2752ec6d7540d4c7342ba539d6248
 import "../../assets/css/customtable.css";
 import { ThemeContext } from "../../context/theme";
-import { ToastContainer, toast } from "react-toastify";
-
-// url to connect to the backend
-// const baseUrl = "https://innoduo-honors.onrender.com"; // production
+import { toast } from "react-toastify";
+import StudentProfileCatalog from './StudentProfileCatalog';
 const baseUrl = "http://localhost:3000"; // dev tests
+// const baseUrl = "https://innoduo-honors.onrender.com"; // prod
 
 const StudentsTable = ({ cols, tableData }) => {
   const { defaultTheme } = useContext(ThemeContext);
+<<<<<<< HEAD
   const [isVisible, setIsVisible] = useState(false);
   const [hoveredStudentId, setHoveredStudentId] = useState(null);
+=======
+  const [modalStudent, setModalStudent] = useState(null);
+>>>>>>> d26fe8a7e6f2752ec6d7540d4c7342ba539d6248
 
   const deleteHandler = async (student) => {
     const confirmation = confirm(
-      "Do you want to delete the student from your record? This action cannot be UNDONE!"
+      "Do you want to delete the student from your record? This action cannot be undone!"
     );
 
-    if (confirmation) {
-      try {
-        const response = await fetch(baseUrl + "/delete-student", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ studentId: student.studentId }),
-        });
-        const data = await response.json();
-        if (data.message === "Student deleted successfully") {
-          toast.success("Student deleted successfully");
-          setTimeout(() => {
-            window.location.reload();
-          }, 2000);
-        } else {
-          toast.error("An error occurred while deleting student");
-        }
-      } catch (error) {
-        toast.error("An error occurred while deleting student");
+    if (!confirmation) return;
+
+    try {
+      const response = await fetch(`${baseUrl}/students/${student._id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      });
+      const data = await response.json();
+      if (response.ok) {
+        toast.success(data.message);
+        window.location.reload(); // Consider fetching and updating state instead of reloading
+      } else {
+        toast.error(data.message);
       }
+    } catch (err) {
+      console.log(err.message);
+      toast.error(
+        "An error occurred while deleting the student. Please try again later"
+      );
     }
   };
+
   return (
-    <div
-      className={`table-container ${
-        defaultTheme === "dark" ? "dark-container" : ""
-      }`}
-    >
+    <div className={`table-container ${defaultTheme === "dark" ? "dark-container" : ""}`}>
+      <Modal isOpen={!!modalStudent} onClose={() => setModalStudent(null)}>
+        <div>
+          <h2>Student Details</h2>
+          {/* Render detailed information about the student */}
+          {modalStudent && (
+            <div>
+              <p>Name: {modalStudent.firstName} {modalStudent.lastName}</p>
+              <p>Student ID: {modalStudent.studentId}</p>
+              <p>Major: {modalStudent.major}</p>
+              <br></br>
+              <StudentProfileCatalog studentIdg={modalStudent.studentId} />
+            </div>
+          )}
+        </div>
+      </Modal>
       <div className="table-content">
         <table className="cust-table">
           <thead className="cust-thead">
@@ -53,10 +74,9 @@ const StudentsTable = ({ cols, tableData }) => {
               {cols.map((col, index) => (
                 <th key={index}>{col}</th>
               ))}
-              <th key="actions">Actions</th>
+              <th>Actions</th>
             </tr>
           </thead>
-
           <tbody className="cust-tbody">
             {tableData.map((student) => (
               <tr key={student._id}>
@@ -67,6 +87,7 @@ const StudentsTable = ({ cols, tableData }) => {
                 <td>{student.advisor}</td>
                 <td>{student.gradYear}</td>
                 <td key="action-items" id="action-items">
+<<<<<<< HEAD
                   <div 
                   className="stat-preview-container"
                   onMouseEnter={() => {
@@ -85,6 +106,9 @@ const StudentsTable = ({ cols, tableData }) => {
                         )}
                     </div>
                   </div>
+=======
+                  <p onClick={() => setModalStudent(student)}>STATUS</p>
+>>>>>>> d26fe8a7e6f2752ec6d7540d4c7342ba539d6248
                   <span className="action-item-divider">|</span>
                   <p>EDIT</p>
                   <span className="action-item-divider">|</span>

@@ -4,14 +4,14 @@ import { ThemeContext } from "../../context/theme";
 import { authContext } from "../../context/authContext";
 import CoursesPage from "./CoursesPage";
 import UnauthorizedAccess from "../microcomponents/UnauthorizedAccess";
+const baseUrl = "http://localhost:3000";
+const productionUrl = "https://innoduo-honors.onrender.com";
 
 const Courses = () => {
   const { defaultTheme } = useContext(ThemeContext);
   const { loggedIn, user } = useContext(authContext);
   const [tableData, setTableData] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  console.log("user from courses", user?.role);
 
   const getData = async () => {
     const authToken = sessionStorage.getItem("authToken");
@@ -21,7 +21,7 @@ const Courses = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:3000/catalog", {
+      const response = await fetch(`${baseUrl}/catalog`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -45,7 +45,7 @@ const Courses = () => {
     CRACAD: "CRACAD Presentation",
     Cores: "Honors Core Classes",
     Events: "Service Events",
-    Freshman: "Freshman Seminar",
+    FreshmanSeminar: "Freshman Seminar",
     Research: "Honors Project",
     Seminars: "Honors Seminars",
   };
@@ -59,15 +59,17 @@ const Courses = () => {
         Object.keys(classInfo.semesters).forEach((semester) => {
           Object.keys(classInfo.semesters[semester]).forEach((section) => {
             const sectionInfo = classInfo.semesters[semester][section];
-            if (sectionInfo.isComplete) {
+            // if (sectionInfo.isComplete) {
               allClasses.push({
                 courseCode: classInfo.courseCode,
+                semester: semester,
+                sectionId: section,
                 courseName: classInfo.courseName,
                 courseCategory: categoryDisplayNames[category],
                 instructor: sectionInfo.instructor, // Replace with actual data if available
                 studentsCount: sectionInfo.students.length,
               });
-            }
+            // }
           });
         });
       });

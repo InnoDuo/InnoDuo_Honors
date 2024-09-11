@@ -3,7 +3,7 @@ import StudentsTable from "../microcomponents/StudentsTable";
 import SearchBar from "../microcomponents/SearchBar";
 import "../../assets/css/customtable.css";
 import { ThemeContext } from "../../context/theme";
-import AddContent from "../microcomponents/AddContent";
+import AddStudent from "../microcomponents/AddStudent";
 import { authContext } from "../../context/authContext";
 import UnauthorizedAccess from "../microcomponents/UnauthorizedAccess";
 
@@ -62,7 +62,7 @@ const StudentsPage = ({ tableData }) => {
         tableData={filteredStudents}
       />
       {modalIsOpen && (
-        <AddContent
+        <AddStudent
           title="Add Student"
           message="Fill in the details"
           onClose={onCloseModal}

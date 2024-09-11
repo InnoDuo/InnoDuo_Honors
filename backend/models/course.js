@@ -6,8 +6,9 @@ const courseSchema = new mongoose.Schema({
   courseName: String,
   courseCategory: String,
   courseDescription: String,
-  credits: Number,
-  studentsEnrolled: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Student' }]
+  courseCredit: Number,
+  maxStudents: Number,
+  // studentsEnrolled: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Student' }]
 });
 
 module.exports = mongoose.model('Course', courseSchema);
