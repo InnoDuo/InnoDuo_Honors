@@ -92,7 +92,7 @@ function sendEmail({ recipient_email, OTP }) {
     const mail_configs = {
       from: process.env.AUTH_EMAIL,
       to: recipient_email,
-      subject: "KODING 101 PASSWORD RECOVERY",
+      subject: "HONORS PASSWORD RECOVERY",
       html: `<!DOCTYPE html>
 <html lang="en" >
 <head>
@@ -502,7 +502,7 @@ async function run() {
       try {
         const hashedPassword = await bcrypt.hash(resetPassword, 10);
         const result = await usersCollection.updateOne(
-          { username: email },
+          { email: email },
           { $set: { password: hashedPassword } }
         );
 

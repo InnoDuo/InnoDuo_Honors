@@ -1,3 +1,19 @@
 .students-container h2{
     margin-bottom: 15px;
 }
+
+.stat-preview-container{
+    cursor: pointer;
+}
+
+.stat-preview{
+    position: absolute;
+    display: flex;
+    overflow: visible;
+}
+
+.stat-preview-content{
+    height: 100px;
+    width: 100px;
+    background-color: red;
+}

@@ -1,4 +1,4 @@
-import { React, useContext } from "react";
+import  React, {useContext, useState } from "react";
 import "../../assets/css/customtable.css";
 import { ThemeContext } from "../../context/theme";
 import { ToastContainer, toast } from "react-toastify";
@@ -9,6 +9,8 @@ const baseUrl = "http://localhost:3000"; // dev tests
 
 const StudentsTable = ({ cols, tableData }) => {
   const { defaultTheme } = useContext(ThemeContext);
+  const [isVisible, setIsVisible] = useState(false);
+  const [hoveredStudentId, setHoveredStudentId] = useState(null);
 
   const deleteHandler = async (student) => {
     const confirmation = confirm(
@@ -65,7 +67,24 @@ const StudentsTable = ({ cols, tableData }) => {
                 <td>{student.advisor}</td>
                 <td>{student.gradYear}</td>
                 <td key="action-items" id="action-items">
-                  <p>STATUS</p>
+                  <div 
+                  className="stat-preview-container"
+                  onMouseEnter={() => {
+                    setHoveredStudentId(student._id);
+                  }}
+                  onMouseLeave={() => {
+                    setHoveredStudentId(null);
+                  }}>
+                    <p>STATUS</p>
+                    <div
+                      className="stat-preview"
+                    >
+                      {
+                        hoveredStudentId === student._id && (
+                          <StudentStatusPreview student={student} />
+                        )}
+                    </div>
+                  </div>
                   <span className="action-item-divider">|</span>
                   <p>EDIT</p>
                   <span className="action-item-divider">|</span>
@@ -79,5 +98,15 @@ const StudentsTable = ({ cols, tableData }) => {
     </div>
   );
 };
+
+const StudentStatusPreview = React.memo(({ student }) => {
+  console.log("student");
+
+  return(
+    <div className="stat-preview-content">
+      <p>Student Status for {student.firstName} {student.lastName}</p>
+      </div>
+  )
+});
 
 export default StudentsTable;
