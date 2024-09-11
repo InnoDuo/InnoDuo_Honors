@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-import  React, {useContext, useState } from "react";
-=======
 import React, { useState, useContext } from 'react';
 import Modal from './customhooks/Modal'; // Make sure the path to the Modal component is correct
->>>>>>> d26fe8a7e6f2752ec6d7540d4c7342ba539d6248
 import "../../assets/css/customtable.css";
 import { ThemeContext } from "../../context/theme";
 import { toast } from "react-toastify";
@@ -13,12 +9,9 @@ const baseUrl = "http://localhost:3000"; // dev tests
 
 const StudentsTable = ({ cols, tableData }) => {
   const { defaultTheme } = useContext(ThemeContext);
-<<<<<<< HEAD
   const [isVisible, setIsVisible] = useState(false);
   const [hoveredStudentId, setHoveredStudentId] = useState(null);
-=======
   const [modalStudent, setModalStudent] = useState(null);
->>>>>>> d26fe8a7e6f2752ec6d7540d4c7342ba539d6248
 
   const deleteHandler = async (student) => {
     const confirmation = confirm(
@@ -87,8 +80,7 @@ const StudentsTable = ({ cols, tableData }) => {
                 <td>{student.advisor}</td>
                 <td>{student.gradYear}</td>
                 <td key="action-items" id="action-items">
-<<<<<<< HEAD
-                  <div 
+                  {/* <div 
                   className="stat-preview-container"
                   onMouseEnter={() => {
                     setHoveredStudentId(student._id);
@@ -105,10 +97,8 @@ const StudentsTable = ({ cols, tableData }) => {
                           <StudentStatusPreview student={student} />
                         )}
                     </div>
-                  </div>
-=======
+                  </div> */}
                   <p onClick={() => setModalStudent(student)}>STATUS</p>
->>>>>>> d26fe8a7e6f2752ec6d7540d4c7342ba539d6248
                   <span className="action-item-divider">|</span>
                   <p>EDIT</p>
                   <span className="action-item-divider">|</span>
