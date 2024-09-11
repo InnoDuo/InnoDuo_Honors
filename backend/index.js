@@ -578,7 +578,7 @@ async function run() {
       try {
         const hashedPassword = await bcrypt.hash(resetPassword, 10);
         const result = await usersCollection.updateOne(
-          { username: email },
+          { email: email },
           { $set: { password: hashedPassword } }
         );
 
