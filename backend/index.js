@@ -494,14 +494,16 @@ async function run() {
     app.post("/addsection", async (req, res) => {
       try {
         const { courseId, semester, sectionId, instructor, duration, period, location, students } = req.body;
-        const categories = ["CRACAD", "Cores", "Events", "Freshman", "Research", "Seminars", "Freshman Seminar"]; // Example categories
+        const categories = ["CRACAD", "Cores", "Events", "Freshman", "Research", "Seminars", "FreshmanSeminar"]; // Example categories
 
         console.log([
           courseId, semester, sectionId, instructor, duration, period, location, students
         ]);
         let updateResult;
+        
         for (let category of categories) {
           const sectionPath = `classes.${category}.$[course].semesters.${semester}.${sectionId}`;
+          console.log("Section path:", sectionPath);
           updateResult = await catalogCollection.updateOne(
             {
               "_id": new ObjectId("6697300758ff41efb445cb50"),
