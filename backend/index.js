@@ -92,7 +92,7 @@ function sendEmail({ recipient_email, OTP }) {
     const mail_configs = {
       from: process.env.AUTH_EMAIL,
       to: recipient_email,
-      subject: "KODING 101 PASSWORD RECOVERY",
+      subject: "HONORS PASSWORD RECOVERY",
       html: `<!DOCTYPE html>
 <html lang="en" >
 <head>

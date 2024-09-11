@@ -9,6 +9,8 @@ const baseUrl = "http://localhost:3000"; // dev tests
 
 const StudentsTable = ({ cols, tableData }) => {
   const { defaultTheme } = useContext(ThemeContext);
+  const [isVisible, setIsVisible] = useState(false);
+  const [hoveredStudentId, setHoveredStudentId] = useState(null);
   const [modalStudent, setModalStudent] = useState(null);
 
   const deleteHandler = async (student) => {
@@ -78,6 +80,24 @@ const StudentsTable = ({ cols, tableData }) => {
                 <td>{student.advisor}</td>
                 <td>{student.gradYear}</td>
                 <td key="action-items" id="action-items">
+                  {/* <div 
+                  className="stat-preview-container"
+                  onMouseEnter={() => {
+                    setHoveredStudentId(student._id);
+                  }}
+                  onMouseLeave={() => {
+                    setHoveredStudentId(null);
+                  }}>
+                    <p>STATUS</p>
+                    <div
+                      className="stat-preview"
+                    >
+                      {
+                        hoveredStudentId === student._id && (
+                          <StudentStatusPreview student={student} />
+                        )}
+                    </div>
+                  </div> */}
                   <p onClick={() => setModalStudent(student)}>STATUS</p>
                   <span className="action-item-divider">|</span>
                   <p>EDIT</p>
@@ -92,5 +112,15 @@ const StudentsTable = ({ cols, tableData }) => {
     </div>
   );
 };
+
+const StudentStatusPreview = React.memo(({ student }) => {
+  console.log("student");
+
+  return(
+    <div className="stat-preview-content">
+      <p>Student Status for {student.firstName} {student.lastName}</p>
+      </div>
+  )
+});
 
 export default StudentsTable;
