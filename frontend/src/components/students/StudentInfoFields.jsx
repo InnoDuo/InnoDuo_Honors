@@ -4,19 +4,19 @@ const currentYear = new Date().getFullYear();
 const nextFiveYears = Array.from({ length: 5 }, (_, i) => currentYear + i);
 
 const StudentInfoFields = ({
-  bindId,
-  bindFirstName,
-  bindLastName,
-  bindEmail,
-  bindAdvisor,
-  bindGradYear,
-  bindMajor,
-  bindPhoneNo,
-  disableField,
+  bindId = { value: "", onChange: () => {} },
+  bindFirstName = { value: "", onChange: () => {} },
+  bindLastName = { value: "", onChange: () => {} },
+  bindEmail = { value: "", onChange: () => {} },
+  bindAdvisor = { value: "", onChange: () => {} },
+  bindGradYear = { value: "", onChange: () => {} },
+  bindMajor = { value: "", onChange: () => {} },
+  bindPhoneNo = { value: "", onChange: () => {} },
+  disableField = false,
 }) => {
   return (
     <div className="student-info-fields">
-      <div className={`student-info-field`}>
+      <div className="student-info-field">
         <label htmlFor="student-id">Student ID:</label>
         <div className="input-field-wrap">
           <input
@@ -29,7 +29,7 @@ const StudentInfoFields = ({
           />
         </div>
       </div>
-      <div className={`student-info-field`}>
+      <div className="student-info-field">
         <label htmlFor="student-email">Email:</label>
         <div className="input-field-wrap">
           <input
@@ -42,7 +42,7 @@ const StudentInfoFields = ({
           />
         </div>
       </div>
-      <div className={`student-info-field`}>
+      <div className="student-info-field">
         <label htmlFor="student-first-name">First Name:</label>
         <div className="input-field-wrap">
           <input
@@ -54,7 +54,7 @@ const StudentInfoFields = ({
           />
         </div>
       </div>
-      <div className={`student-info-field`}>
+      <div className="student-info-field">
         <label htmlFor="student-last-name">Last Name:</label>
         <div className="input-field-wrap">
           <input

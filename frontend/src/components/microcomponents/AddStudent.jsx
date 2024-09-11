@@ -93,7 +93,6 @@ const AddStudent = ({ title, message }) => {
         });
         const data = await response.json();
         if (data.message === "Added successfully") {
-          //onClose();
           toast.success("Student added successfully");
           resetAllFields();
           setTimeout(() => {
